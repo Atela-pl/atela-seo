@@ -101,7 +101,7 @@ class Atela_SEO_Admin {
         }
 
         // Checkboxy / toggle
-        $sanitized['global_noindex'] = isset( $input['global_noindex'] ) ? 1 : 0;
+        $sanitized['noindex'] = isset( $input['noindex'] ) ? 1 : 0;
         $sanitized['sitemap_enabled'] = isset( $input['sitemap_enabled'] ) ? 1 : 0;
         
         // Numeryczne (ID obrazka)
