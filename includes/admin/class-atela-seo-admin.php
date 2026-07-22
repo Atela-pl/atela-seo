@@ -27,6 +27,8 @@ class Atela_SEO_Admin {
 			return;
 		}
 
+		wp_enqueue_media();
+
 		wp_enqueue_style(
 			'atela-seo-admin-preview',
 			ALPHA_SEO_URL . 'assets/css/admin-preview.css',
