@@ -3,13 +3,13 @@ Contributors: atelapl
 Donate link: https://atela.pl
 Tags: seo, sitemap, meta, redirects, breadcrumbs
 Requires at least: 5.9
-Tested up to: 6.4
+Tested up to: 7.0
 Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Professional, advanced SEO plugin for WordPress with integrated Elementor support, dynamic live previews, and automatic social media image letterboxing.
+Professional SEO plugin with Elementor support, live previews, XML sitemaps, redirects, Schema.org, and automatic social media image letterboxing.
 
 == Description ==
 

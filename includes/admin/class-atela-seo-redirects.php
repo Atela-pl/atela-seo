@@ -105,6 +105,7 @@ class Atela_SEO_Redirects {
 		echo '<h1 class="wp-heading-inline">🔀 Menedżer Przekierowań</h1>';
 
 		if ( $action === 'edit' && $edit_id ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$redirect = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}atela_seo_redirects WHERE id = %d", $edit_id ) );
 			if ( $redirect ) {
 				$this->render_form( $redirect );
@@ -193,6 +194,7 @@ class Atela_SEO_Redirects {
 	private function render_list() {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$redirects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}atela_seo_redirects ORDER BY id DESC" );
 		$count     = count( $redirects );
 		?>
@@ -280,13 +282,14 @@ class Atela_SEO_Redirects {
 		}
 		$target   = isset( $_POST['target_url'] ) ? sanitize_text_field( wp_unslash( $_POST['target_url'] ) ) : '';
 		
-		$type_raw = isset( $_POST['redirect_type'] ) ? wp_unslash( $_POST['redirect_type'] ) : '301';
+		$type_raw = isset( $_POST['redirect_type'] ) ? sanitize_text_field( wp_unslash( $_POST['redirect_type'] ) ) : '301';
 		$type     = in_array( (int) $type_raw, array( 301, 302 ), true ) ? (int) $type_raw : 301;
 
 		$redirect_id = isset( $_POST['redirect_id'] ) ? absint( wp_unslash( $_POST['redirect_id'] ) ) : 0;
 
 		if ( $redirect_id ) {
 			// Aktualizacja istniejącego
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->update(
 				$this->table,
 				array( 'source_url' => $source, 'target_url' => $target, 'redirect_type' => $type ),
@@ -297,10 +300,12 @@ class Atela_SEO_Redirects {
 			$notice = 'saved';
 		} else {
 			// Sprawdź duplikaty
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$exists = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}atela_seo_redirects WHERE source_url = %s LIMIT 1", $source ) );
 			if ( $exists ) {
 				$notice = 'exists';
 			} else {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$wpdb->insert(
 					$this->table,
 					array( 'source_url' => $source, 'target_url' => $target, 'redirect_type' => $type ),
@@ -327,6 +332,7 @@ class Atela_SEO_Redirects {
 		}
 
 		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->delete( $this->table, array( 'id' => $id ), array( '%d' ) );
 
 		wp_safe_redirect( admin_url( 'admin.php?page=atela-seo-redirects&notice=deleted' ) );
@@ -370,8 +376,10 @@ class Atela_SEO_Redirects {
 				$type   = isset( $row[2] ) && in_array( (int) $row[2], array( 301, 302 ) ) ? (int) $row[2] : 301;
 
 				// Pomijamy istniejące
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 				$exists = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}atela_seo_redirects WHERE source_url = %s", $source ) );
 				if ( ! $exists && $source !== '/' && $target ) {
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 					$wpdb->insert(
 						$this->table,
 						array( 'source_url' => $source, 'target_url' => $target, 'redirect_type' => $type ),
@@ -410,6 +418,7 @@ class Atela_SEO_Redirects {
 			$request = '/' . ltrim( substr( $request, strlen( $base ) ), '/' );
 		}
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$redirect = $wpdb->get_row(
 			$wpdb->prepare( "SELECT * FROM {$wpdb->prefix}atela_seo_redirects WHERE source_url = %s LIMIT 1", $request )
 		);
@@ -419,6 +428,7 @@ class Atela_SEO_Redirects {
 		}
 
 		// Zwiększ licznik trafień
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}atela_seo_redirects SET hits = hits + 1 WHERE id = %d", $redirect->id ) );
 
 		$target = $redirect->target_url;
