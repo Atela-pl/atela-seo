@@ -96,7 +96,7 @@ class Atela_SEO_Elementor {
 			wp_send_json_error( 'Brak uprawnień.' );
 		}
 
-		$post_id = intval( $_POST['post_id'] ?? 0 );
+		$post_id = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
 
 		if ( ! $post_id ) {
 			wp_send_json_error( 'Nieprawidłowy post_id.' );
@@ -121,17 +121,22 @@ class Atela_SEO_Elementor {
 			wp_send_json_error( 'Brak uprawnień.' );
 		}
 
-		$post_id = intval( $_POST['post_id'] ?? 0 );
-
-		if ( ! $post_id || ! get_post( $post_id ) ) {
-			wp_send_json_error( 'Nieprawidłowy post.' );
+		$post_id = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
+		if ( ! $post_id || ! current_user_can( 'edit_post', $post_id ) ) {
+			wp_send_json_error();
 		}
 
-		update_post_meta( $post_id, '_atela_seo_title',         sanitize_text_field( wp_unslash( $_POST['title'] ?? '' ) ) );
-		update_post_meta( $post_id, '_atela_seo_description',   sanitize_textarea_field( wp_unslash( $_POST['description'] ?? '' ) ) );
-		update_post_meta( $post_id, '_atela_seo_noindex',       intval( $_POST['noindex'] ?? 0 ) );
-		update_post_meta( $post_id, '_atela_seo_canonical',     esc_url_raw( wp_unslash( $_POST['canonical'] ?? '' ) ) );
-		update_post_meta( $post_id, '_atela_seo_focus_keyword', sanitize_text_field( wp_unslash( $_POST['focus_keyword'] ?? '' ) ) );
+		$title         = isset( $_POST['title'] ) ? sanitize_text_field( wp_unslash( $_POST['title'] ) ) : '';
+		$description   = isset( $_POST['description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['description'] ) ) : '';
+		$noindex       = isset( $_POST['noindex'] ) ? absint( wp_unslash( $_POST['noindex'] ) ) : 0;
+		$canonical     = isset( $_POST['canonical'] ) ? esc_url_raw( wp_unslash( $_POST['canonical'] ) ) : '';
+		$focus_keyword = isset( $_POST['focus_keyword'] ) ? sanitize_text_field( wp_unslash( $_POST['focus_keyword'] ) ) : '';
+
+		update_post_meta( $post_id, '_atela_seo_title',         $title );
+		update_post_meta( $post_id, '_atela_seo_description',   $description );
+		update_post_meta( $post_id, '_atela_seo_noindex',       $noindex );
+		update_post_meta( $post_id, '_atela_seo_canonical',     $canonical );
+		update_post_meta( $post_id, '_atela_seo_focus_keyword', $focus_keyword );
 
 		wp_send_json_success( array( 'message' => 'Dane SEO zapisane.' ) );
 	}

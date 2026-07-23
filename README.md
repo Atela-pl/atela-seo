@@ -167,6 +167,8 @@ atela-seo/
 │   │   └── breadcrumbs.css                  # Style nawigacji okruszkowej
 │   └── js/
 │       ├── admin-preview.js                 # Logika podglądów Live + Toggle
+│       ├── admin-settings.js                # Skrypt głównej strony ustawień
+│       ├── admin-taxonomy.js                # Liczniki znaków dla taksonomii
 │       ├── atela-seo-editor.js              # Logika panelu Elementora
 │       └── content-analysis.js              # Analiza treści (w rozwoju)
 └── README.md

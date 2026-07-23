@@ -841,7 +841,7 @@ class Atela_SEO_Admin {
 			update_post_meta( $post_id, '_atela_seo_og_description', sanitize_textarea_field( wp_unslash( $_POST['atela_seo_og_description'] ) ) );
 		}
 		if ( isset( $_POST['atela_seo_og_image_id'] ) ) {
-			update_post_meta( $post_id, '_atela_seo_og_image_id', absint( $_POST['atela_seo_og_image_id'] ) );
+			update_post_meta( $post_id, '_atela_seo_og_image_id', absint( wp_unslash( $_POST['atela_seo_og_image_id'] ) ) );
 		}
 	}
 }
