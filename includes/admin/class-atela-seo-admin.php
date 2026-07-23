@@ -63,6 +63,7 @@ class Atela_SEO_Admin {
 			'home_desc' => $options['home_description'] ?? '',
 		) );
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$post_id_get = isset( $_GET['post'] ) ? absint( wp_unslash( $_GET['post'] ) ) : 0;
 		wp_localize_script( 'atela-seo-admin-settings', 'alphaAdminSettings', array(
 			'ping_nonce'         => wp_create_nonce( 'atela_seo_ping' ),
@@ -175,6 +176,7 @@ class Atela_SEO_Admin {
 
     public function render_admin_page() {
         $options = get_option( 'atela_seo_options', array() );
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         $active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'general';
         ?>
         <div class="wrap">

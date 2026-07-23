@@ -186,7 +186,7 @@ class Atela_SEO_Taxonomy {
 		}
 
 		$nonce_action = isset( $_POST['tag_ID'] )
-			? 'atela_seo_term_meta_' . (int) wp_unslash( $_POST['tag_ID'] )
+			? 'atela_seo_term_meta_' . absint( wp_unslash( $_POST['tag_ID'] ) )
 			: 'atela_seo_term_meta_new';
 
 		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['atela_seo_term_nonce'] ) ), $nonce_action ) ) {
