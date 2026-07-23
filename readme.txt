@@ -9,32 +9,32 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Profesjonalna, zaawansowana wtyczka SEO dla WordPress ze zintegrowanym wsparciem dla Elementora, dynamicznymi podglądami na żywo i automatycznym letterboxingiem obrazów social media.
+Professional, advanced SEO plugin for WordPress with integrated Elementor support, dynamic live previews, and automatic social media image letterboxing.
 
 == Description ==
 
-Atela SEO to autorska wtyczka SEO stworzona z myślą o pełnej kontroli nad optymalizacją stron WordPress. Oferuje dedykowaną zakładkę bezpośrednio w edytorze Elementora, zaawansowane podglądy wyników wyszukiwania (Google, Facebook, Twitter/X) z przełącznikiem Mobile/Desktop, a także potężny menedżer przekierowań, mapy witryny i dane strukturalne Schema.org.
+Atela SEO is a custom SEO plugin designed for full control over WordPress website optimization. It offers a dedicated tab directly within the Elementor editor, advanced search results live previews (Google, Facebook, Twitter/X) with a Mobile/Desktop toggle, as well as a powerful redirects manager, XML sitemaps, and Schema.org structural data.
 
-### Zaimplementowane funkcje:
+### Features:
 
-* **SEO on-page:** SEO Title, Meta Description, Canonical URL, Robots meta, Fraza kluczowa, Separator tytułu.
-* **SEO dla Kategorii i Tagów:** Dedykowane pola dla archiwów i taksonomii.
-* **Menedżer Przekierowań (301, 302):** Błyskawiczne zarządzanie ruchem.
-* **XML Sitemaps:** Automatyczne generowanie map i pingowanie wyszukiwarek.
-* **Schema.org (JSON-LD):** Automatyczne dane ustrukturyzowane (WebSite, Organization, Article, WebPage).
-* **Okruszki (Breadcrumbs):** System nawigacji okruszkowej.
-* **Podglądy Live:** Google SERP, Facebook Open Graph, Twitter/X Card (Mobile/Desktop).
-* **Automatyczny Letterboxing Obrazów:** Automatyczne tło dla niepasujących obrazków social media.
-* **Integracja z Elementorem:** Dedykowana zakładka "Atela SEO" w panelu edytora.
-* **Integracja z Gutenberg / Classic Editor:** Meta box z podglądami aktualizowanymi na żywo.
+* **On-page SEO:** SEO Title, Meta Description, Canonical URL, Robots meta, Focus Keyword, Title separator.
+* **Category and Tag SEO:** Dedicated fields for archives and taxonomies.
+* **Redirect Manager (301, 302):** Instant traffic management and redirection.
+* **XML Sitemaps:** Automatic sitemap generation and search engine pinging.
+* **Schema.org (JSON-LD):** Automated structured data (WebSite, Organization, Article, WebPage).
+* **Breadcrumbs:** Complete breadcrumb navigation system.
+* **Live Previews:** Google SERP, Facebook Open Graph, Twitter/X Card (Mobile/Desktop views).
+* **Automatic Image Letterboxing:** Automatically generates white borders for non-fitting social media images to avoid cropping.
+* **Elementor Integration:** Dedicated "Atela SEO" tab directly in the page builder panel.
+* **Gutenberg / Classic Editor Integration:** Meta box with live-updating previews.
 
 == Installation ==
 
-1. Pobierz plik ZIP wtyczki.
-2. Zaloguj się do panelu administratora WordPressa i przejdź do zakładki **Wtyczki > Dodaj nową**.
-3. Kliknij przycisk **Wyślij wtyczkę** i wskaż pobrany plik ZIP.
-4. Kliknij **Zainstaluj teraz**, a po poprawnej instalacji kliknij **Włącz wtyczkę**.
-5. W menu głównym WordPressa pojawi się nowa pozycja konfiguracyjna **Atela SEO**.
+1. Download the plugin ZIP file.
+2. Log in to your WordPress admin panel and navigate to **Plugins > Add New**.
+3. Click on the **Upload Plugin** button and choose the downloaded ZIP file.
+4. Click **Install Now**, and once installed successfully, click **Activate Plugin**.
+5. A new configuration menu item, **Atela SEO**, will appear in your WordPress main menu.
 
 == External services ==
 
@@ -44,9 +44,9 @@ This plugin connects to external APIs to ping search engines about sitemap updat
 
 == Frequently Asked Questions ==
 
-= Czy wtyczka wymaga zainstalowania kreatora Elementor? =
+= Does the plugin require Elementor to work? =
 
-Nie. Elementor nie jest wymagany do działania wtyczki. Wtyczka wspiera zarówno klasyczny edytor wpisów (Classic Editor), domyślny edytor blokowy (Gutenberg), jak i kreator Elementor w celu ułatwienia pracy.
+No. Elementor is not required. The plugin fully supports the Classic Editor, the default block editor (Gutenberg), as well as the Elementor page builder.
 
 == Changelog ==
 

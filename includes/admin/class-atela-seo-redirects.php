@@ -102,7 +102,8 @@ class Atela_SEO_Redirects {
 		echo '<h1 class="wp-heading-inline">🔀 Menedżer Przekierowań</h1>';
 
 		if ( $action === 'edit' && $edit_id ) {
-			$redirect = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$this->table} WHERE id = %d", $edit_id ) );
+			$query = "SELECT * FROM " . $this->table . " WHERE id = %d";
+			$redirect = $wpdb->get_row( $wpdb->prepare( $query, $edit_id ) );
 			if ( $redirect ) {
 				$this->render_form( $redirect );
 			} else {
@@ -190,10 +191,11 @@ class Atela_SEO_Redirects {
 	private function render_list() {
 		global $wpdb;
 
-		$redirects = $wpdb->get_results( "SELECT * FROM {$this->table} ORDER BY id DESC" );
+		$query = "SELECT * FROM " . $this->table . " ORDER BY id DESC";
+		$redirects = $wpdb->get_results( $query );
 		$count     = count( $redirects );
 		?>
-		<p style="color:#666;margin-top:12px;">Łącznie: <strong><?php echo $count; ?></strong> przekierowań</p>
+		<p style="color:#666;margin-top:12px;">Łącznie: <strong><?php echo esc_html( $count ); ?></strong> przekierowań</p>
 		<?php if ( empty( $redirects ) ) : ?>
 			<div style="background:#fff;border:1px solid #e0e0e0;padding:40px;text-align:center;margin-top:16px;border-radius:4px;">
 				<p style="font-size:16px;color:#666;">Brak przekierowań. Kliknij <strong>"+ Dodaj nowe"</strong>, aby zacząć.</p>
@@ -270,14 +272,14 @@ class Atela_SEO_Redirects {
 
 		global $wpdb;
 
-		$source = '/' . ltrim( sanitize_text_field( $_POST['source_url'] ), '/' );
+		$source = '/' . ltrim( sanitize_text_field( wp_unslash( $_POST['source_url'] ) ), '/' );
 		if ( strlen( $source ) > 1 ) {
 			$source = rtrim( $source, '/' );
 		}
-		$target = sanitize_text_field( $_POST['target_url'] );
-		$type   = in_array( (int) $_POST['redirect_type'], array( 301, 302 ) ) ? (int) $_POST['redirect_type'] : 301;
+		$target = sanitize_text_field( wp_unslash( $_POST['target_url'] ) );
+		$type   = in_array( (int) wp_unslash( $_POST['redirect_type'] ), array( 301, 302 ) ) ? (int) wp_unslash( $_POST['redirect_type'] ) : 301;
 
-		$redirect_id = isset( $_POST['redirect_id'] ) ? (int) $_POST['redirect_id'] : 0;
+		$redirect_id = isset( $_POST['redirect_id'] ) ? (int) wp_unslash( $_POST['redirect_id'] ) : 0;
 
 		if ( $redirect_id ) {
 			// Aktualizacja istniejącego
@@ -291,7 +293,8 @@ class Atela_SEO_Redirects {
 			$notice = 'saved';
 		} else {
 			// Sprawdź duplikaty
-			$exists = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$this->table} WHERE source_url = %s LIMIT 1", $source ) );
+			$query = "SELECT id FROM " . $this->table . " WHERE source_url = %s LIMIT 1";
+			$exists = $wpdb->get_var( $wpdb->prepare( $query, $source ) );
 			if ( $exists ) {
 				$notice = 'exists';
 			} else {
@@ -304,7 +307,7 @@ class Atela_SEO_Redirects {
 			}
 		}
 
-		wp_redirect( admin_url( 'admin.php?page=atela-seo-redirects&notice=' . $notice ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=atela-seo-redirects&notice=' . $notice ) );
 		exit;
 	}
 
@@ -323,7 +326,7 @@ class Atela_SEO_Redirects {
 		global $wpdb;
 		$wpdb->delete( $this->table, array( 'id' => $id ), array( '%d' ) );
 
-		wp_redirect( admin_url( 'admin.php?page=atela-seo-redirects&notice=deleted' ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=atela-seo-redirects&notice=deleted' ) );
 		exit;
 	}
 
@@ -339,37 +342,45 @@ class Atela_SEO_Redirects {
 		}
 
 		if ( empty( $_FILES['csv_file']['tmp_name'] ) ) {
-			wp_redirect( admin_url( 'admin.php?page=atela-seo-redirects' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=atela-seo-redirects' ) );
 			exit;
 		}
 
 		global $wpdb;
-		$file    = fopen( $_FILES['csv_file']['tmp_name'], 'r' );
+		WP_Filesystem();
+		global $wp_filesystem;
+
+		$tmp_name = sanitize_text_field( wp_unslash( $_FILES['csv_file']['tmp_name'] ) );
+		$file_content = $wp_filesystem->get_contents( $tmp_name );
 		$imported = 0;
 
-		while ( ( $row = fgetcsv( $file ) ) !== false ) {
-			if ( count( $row ) < 2 ) continue;
-			$source = '/' . ltrim( sanitize_text_field( $row[0] ), '/' );
-			if ( strlen( $source ) > 1 ) {
-				$source = rtrim( $source, '/' );
-			}
-			$target = sanitize_text_field( $row[1] );
-			$type   = isset( $row[2] ) && in_array( (int) $row[2], array( 301, 302 ) ) ? (int) $row[2] : 301;
+		if ( $file_content ) {
+			$lines = explode( "\n", $file_content );
+			foreach ( $lines as $line ) {
+				$row = str_getcsv( trim( $line ) );
+				if ( count( $row ) < 2 ) continue;
+				$source = '/' . ltrim( sanitize_text_field( $row[0] ), '/' );
+				if ( strlen( $source ) > 1 ) {
+					$source = rtrim( $source, '/' );
+				}
+				$target = sanitize_text_field( $row[1] );
+				$type   = isset( $row[2] ) && in_array( (int) $row[2], array( 301, 302 ) ) ? (int) $row[2] : 301;
 
-			// Pomijamy istniejące
-			$exists = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$this->table} WHERE source_url = %s", $source ) );
-			if ( ! $exists && $source !== '/' && $target ) {
-				$wpdb->insert(
-					$this->table,
-					array( 'source_url' => $source, 'target_url' => $target, 'redirect_type' => $type ),
-					array( '%s', '%s', '%d' )
-				);
-				$imported++;
+				// Pomijamy istniejące
+				$query = "SELECT id FROM " . $this->table . " WHERE source_url = %s";
+				$exists = $wpdb->get_var( $wpdb->prepare( $query, $source ) );
+				if ( ! $exists && $source !== '/' && $target ) {
+					$wpdb->insert(
+						$this->table,
+						array( 'source_url' => $source, 'target_url' => $target, 'redirect_type' => $type ),
+						array( '%s', '%s', '%d' )
+					);
+					$imported++;
+				}
 			}
 		}
-		fclose( $file );
 
-		wp_redirect( admin_url( 'admin.php?page=atela-seo-redirects&notice=imported' ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=atela-seo-redirects&notice=imported' ) );
 		exit;
 	}
 
@@ -379,7 +390,8 @@ class Atela_SEO_Redirects {
 	public function handle_redirect() {
 		global $wpdb;
 
-		$request = isset( $_SERVER['REQUEST_URI'] ) ? parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) : '';
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+		$request = $request_uri ? wp_parse_url( $request_uri, PHP_URL_PATH ) : '';
 		if ( ! $request ) {
 			return;
 		}
@@ -391,13 +403,14 @@ class Atela_SEO_Redirects {
 		}
 
 		// Usuń prefix subdirectory
-		$base = rtrim( parse_url( home_url(), PHP_URL_PATH ) ?? '', '/' );
+		$base = rtrim( wp_parse_url( home_url(), PHP_URL_PATH ) ?? '', '/' );
 		if ( $base && strpos( $request, $base ) === 0 ) {
 			$request = '/' . ltrim( substr( $request, strlen( $base ) ), '/' );
 		}
 
+		$query = "SELECT * FROM " . $this->table . " WHERE source_url = %s LIMIT 1";
 		$redirect = $wpdb->get_row(
-			$wpdb->prepare( "SELECT * FROM {$this->table} WHERE source_url = %s LIMIT 1", $request )
+			$wpdb->prepare( $query, $request )
 		);
 
 		if ( ! $redirect ) {
@@ -405,7 +418,8 @@ class Atela_SEO_Redirects {
 		}
 
 		// Zwiększ licznik trafień
-		$wpdb->query( $wpdb->prepare( "UPDATE {$this->table} SET hits = hits + 1 WHERE id = %d", $redirect->id ) );
+		$update_query = "UPDATE " . $this->table . " SET hits = hits + 1 WHERE id = %d";
+		$wpdb->query( $wpdb->prepare( $update_query, $redirect->id ) );
 
 		$target = $redirect->target_url;
 		// Jeśli URL względny, dopełnij do pełnego
@@ -413,7 +427,7 @@ class Atela_SEO_Redirects {
 			$target = home_url( $target );
 		}
 
-		wp_redirect( $target, (int) $redirect->redirect_type );
+		wp_safe_redirect( $target, (int) $redirect->redirect_type );
 		exit;
 	}
 }

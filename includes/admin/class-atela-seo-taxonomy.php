@@ -186,10 +186,10 @@ class Atela_SEO_Taxonomy {
 		}
 
 		$nonce_action = isset( $_POST['tag_ID'] )
-			? 'atela_seo_term_meta_' . (int) $_POST['tag_ID']
+			? 'atela_seo_term_meta_' . (int) wp_unslash( $_POST['tag_ID'] )
 			: 'atela_seo_term_meta_new';
 
-		if ( ! wp_verify_nonce( $_POST['atela_seo_term_nonce'], $nonce_action ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['atela_seo_term_nonce'] ) ), $nonce_action ) ) {
 			return;
 		}
 
@@ -197,8 +197,8 @@ class Atela_SEO_Taxonomy {
 			return;
 		}
 
-		$title       = isset( $_POST['atela_seo_tax_title'] )       ? sanitize_text_field( $_POST['atela_seo_tax_title'] )       : '';
-		$description = isset( $_POST['atela_seo_tax_description'] ) ? sanitize_textarea_field( $_POST['atela_seo_tax_description'] ) : '';
+		$title       = isset( $_POST['atela_seo_tax_title'] )       ? sanitize_text_field( wp_unslash( $_POST['atela_seo_tax_title'] ) )       : '';
+		$description = isset( $_POST['atela_seo_tax_description'] ) ? sanitize_textarea_field( wp_unslash( $_POST['atela_seo_tax_description'] ) ) : '';
 		$noindex     = isset( $_POST['atela_seo_tax_noindex'] )     ? 1 : 0;
 
 		update_term_meta( $term_id, '_atela_seo_title',       $title );

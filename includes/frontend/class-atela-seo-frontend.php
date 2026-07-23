@@ -54,7 +54,11 @@ class Atela_SEO_Frontend {
 		// Obsługa paginacji (%page%)
 		global $page, $paged;
 		$current_page = max( 1, get_query_var( 'paged' ), get_query_var( 'page' ) );
-		$replacements['%page%'] = $current_page > 1 ? sprintf( __( 'Strona %d', 'atela-seo' ), $current_page ) : '';
+		$replacements['%page%'] = $current_page > 1 ? sprintf( 
+			/* translators: %d: page number */
+			__( 'Strona %d', 'atela-seo' ), 
+			$current_page 
+		) : '';
 
 		// Wykonaj podmianę
 		$string = str_replace( array_keys( $replacements ), array_values( $replacements ), $string );
@@ -70,14 +74,12 @@ class Atela_SEO_Frontend {
 	 * Renderowanie <meta name="robots">
 	 */
 	private function render_robots() {
-		$options = get_option( 'atela_seo_options', array() );
-		
-		$robots = array( 'index', 'follow' );
-		
-		// Globalny Noindex z ustawień
-		if ( isset( $options['noindex'] ) && $options['noindex'] == 1 ) {
-			$robots = array( 'noindex', 'nofollow' );
+		// Jeśli globalnie w WP wyłączone, nie dublujemy (WP sam wyrzuci <meta name='robots' content='noindex, nofollow' />)
+		if ( get_option( 'blog_public' ) == '0' ) {
+			return;
 		}
+
+		$robots = array( 'index', 'follow' );
 		
 		// Indywidualne ustawienia posta nadpisują globalne
 		if ( is_singular() ) {

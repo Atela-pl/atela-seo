@@ -6,6 +6,8 @@
  * Author:            Atela
  * Author URI:        https://atela.pl
  * Text Domain:       atela-seo
+ * License:           GPLv2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,13 +21,13 @@ define( 'ALPHA_SEO_URL', plugin_dir_url( __FILE__ ) );
 require_once ALPHA_SEO_DIR . 'includes/class-atela-seo-autoloader.php';
 
 // Inicjalizacja głównej klasy wtyczki.
-if ( ! function_exists( 'run_atela_seo' ) ) {
-	function run_atela_seo() {
+if ( ! function_exists( 'atela_seo_run' ) ) {
+	function atela_seo_run() {
 		$plugin = new Atela_SEO_Core();
 		$plugin->run();
 	}
 }
-add_action( 'plugins_loaded', 'run_atela_seo' );
+add_action( 'plugins_loaded', 'atela_seo_run' );
 
 /**
  * Globalna funkcja pomocnicza do wyświetlania okruszków w motywie.
@@ -34,7 +36,7 @@ add_action( 'plugins_loaded', 'run_atela_seo' );
 if ( ! function_exists( 'atela_seo_breadcrumbs' ) ) {
 	function atela_seo_breadcrumbs() {
 		if ( class_exists( 'Atela_SEO_Breadcrumbs' ) ) {
-			echo Atela_SEO_Breadcrumbs::render();
+			echo wp_kses_post( Atela_SEO_Breadcrumbs::render() );
 		}
 	}
 }

@@ -20,11 +20,12 @@ class Atela_SEO_Sitemap {
 	 * Przechwycenie żądania do sitemap.xml / sitemap_index.xml
 	 * ---------------------------------------------------------------------- */
 	public function intercept_sitemap_request() {
-		$request = isset( $_SERVER['REQUEST_URI'] ) ? parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) : '';
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+		$request = $request_uri ? wp_parse_url( $request_uri, PHP_URL_PATH ) : '';
 		$request = rtrim( ltrim( $request, '/' ), '/' );
 
 		// Usuń prefix bazowy (np. /bc/ jeśli WP jest w podfolderze)
-		$base = rtrim( ltrim( parse_url( home_url(), PHP_URL_PATH ) ?? '', '/' ), '/' );
+		$base = rtrim( ltrim( wp_parse_url( home_url(), PHP_URL_PATH ) ?? '', '/' ), '/' );
 		if ( $base && strpos( $request, $base ) === 0 ) {
 			$request = ltrim( substr( $request, strlen( $base ) ), '/' );
 		}
@@ -52,7 +53,7 @@ class Atela_SEO_Sitemap {
 			$this->serve_xml( $this->generate_sitemap_xml( $m[1] ) );
 		} elseif ( $is_single_sitemap ) {
 			if ( $mode === 'index' ) {
-				wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
+				wp_safe_redirect( home_url( '/sitemap_index.xml' ), 301 );
 				exit;
 			}
 			$this->serve_xml( $this->generate_sitemap_xml() );
@@ -65,6 +66,7 @@ class Atela_SEO_Sitemap {
 	private function serve_xml( $xml ) {
 		header( 'Content-Type: text/xml; charset=UTF-8' );
 		header( 'X-Robots-Tag: noindex, follow', true );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $xml;
 		exit;
 	}

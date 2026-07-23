@@ -63,9 +63,10 @@ class Atela_SEO_Admin {
 			'home_desc' => $options['home_description'] ?? '',
 		) );
 
+		$post_id_get = isset( $_GET['post'] ) ? absint( wp_unslash( $_GET['post'] ) ) : 0;
 		wp_localize_script( 'atela-seo-admin-settings', 'alphaAdminSettings', array(
 			'ping_nonce'         => wp_create_nonce( 'atela_seo_ping' ),
-			'post_thumbnail_url' => ( isset( $_GET['post'] ) && has_post_thumbnail( $_GET['post'] ) ) ? esc_url( Atela_SEO_Core::get_letterboxed_image_url( get_post_thumbnail_id( $_GET['post'] ) ) ) : '',
+			'post_thumbnail_url' => ( $post_id_get && has_post_thumbnail( $post_id_get ) ) ? esc_url( Atela_SEO_Core::get_letterboxed_image_url( get_post_thumbnail_id( $post_id_get ) ) ) : '',
 		) );
 	}
 
@@ -117,6 +118,7 @@ class Atela_SEO_Admin {
 
         // Checkboxy / toggle
         $sanitized['noindex'] = isset( $input['noindex'] ) ? 1 : 0;
+        update_option( 'blog_public', $sanitized['noindex'] ? 0 : 1 );
         $sanitized['sitemap_enabled'] = isset( $input['sitemap_enabled'] ) ? 1 : 0;
         $sanitized['breadcrumbs_enabled'] = isset( $input['breadcrumbs_enabled'] ) ? 1 : 0;
         $sanitized['breadcrumbs_show_home'] = isset( $input['breadcrumbs_show_home'] ) ? 1 : 0;
@@ -173,7 +175,7 @@ class Atela_SEO_Admin {
 
     public function render_admin_page() {
         $options = get_option( 'atela_seo_options', array() );
-        $active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'general';
+        $active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'general';
         ?>
         <div class="wrap">
             <h1>🌟 Atela SEO - Ustawienia</h1>
@@ -195,7 +197,7 @@ class Atela_SEO_Admin {
                         <th scope="row">Ustawienia Indeksowania</th>
                         <td>
                             <label>
-                                <input type="checkbox" name="atela_seo_options[noindex]" value="1" <?php checked( 1, isset($options['noindex']) ? $options['noindex'] : 0, true ); ?> />
+                                <input type="checkbox" name="atela_seo_options[noindex]" value="1" <?php checked( 0, (int) get_option( 'blog_public', 1 ), true ); ?> />
                                 Zablokuj indeksowanie całej witryny (Noindex) - przydatne podczas budowy strony.
                             </label>
                         </td>
@@ -242,7 +244,7 @@ class Atela_SEO_Admin {
                     <div id="atela-seo-serp-preview" class="aseo-serp">
                         <div class="aseo-serp__url">
                             <span class="aseo-serp__url-favicon"><?php echo esc_html( substr( get_bloginfo('name'), 0, 1 ) ); ?></span>
-                            <span class="aseo-serp__url-text"><?php echo esc_html( parse_url( home_url(), PHP_URL_HOST ) ); ?></span>
+                            <span class="aseo-serp__url-text"><?php echo esc_html( wp_parse_url( home_url(), PHP_URL_HOST ) ); ?></span>
                         </div>
                         <a href="#" class="aseo-serp__title" onclick="return false;"><?php echo esc_html( $options['home_title'] ?? get_bloginfo('name') ); ?></a>
                         <div class="aseo-serp__meta"><?php echo esc_html( date_i18n( 'd M Y' ) ); ?></div>
@@ -321,7 +323,7 @@ class Atela_SEO_Admin {
                             <?php endif; ?>
                         </div>
                         <div class="aseo-fb__body">
-                            <div class="aseo-fb__domain"><?php echo esc_html( parse_url( home_url(), PHP_URL_HOST ) ); ?></div>
+                            <div class="aseo-fb__domain"><?php echo esc_html( wp_parse_url( home_url(), PHP_URL_HOST ) ); ?></div>
                             <div class="aseo-fb__title"><?php echo esc_html( $options['home_title'] ?? get_bloginfo('name') ); ?></div>
                             <div class="aseo-fb__desc"><?php echo esc_html( $options['home_description'] ?? '' ); ?></div>
                         </div>
@@ -341,7 +343,7 @@ class Atela_SEO_Admin {
                         <div class="aseo-tw__body">
                             <div class="aseo-tw__title"><?php echo esc_html( $options['home_title'] ?? get_bloginfo('name') ); ?></div>
                             <div class="aseo-tw__desc"><?php echo esc_html( $options['home_description'] ?? '' ); ?></div>
-                            <div class="aseo-tw__domain"><?php echo esc_html( parse_url( home_url(), PHP_URL_HOST ) ); ?></div>
+                            <div class="aseo-tw__domain"><?php echo esc_html( wp_parse_url( home_url(), PHP_URL_HOST ) ); ?></div>
                         </div>
                     </div>
                 </div>
@@ -698,7 +700,7 @@ class Atela_SEO_Admin {
 		// ---- LIVE PREVIEW ----
 		$preview_title = $title ?: get_the_title( $post->ID );
 		$preview_desc  = $description;
-		$site_host     = parse_url( home_url(), PHP_URL_HOST );
+		$site_host     = wp_parse_url( home_url(), PHP_URL_HOST );
 		$og_img_large  = $og_image_id ? Atela_SEO_Core::get_letterboxed_image_url( $og_image_id ) : '';
 		$featured_img  = has_post_thumbnail( $post->ID ) ? Atela_SEO_Core::get_letterboxed_image_url( get_post_thumbnail_id( $post->ID ) ) : '';
 		if ( ! $og_img_large && $featured_img ) {
@@ -802,7 +804,7 @@ class Atela_SEO_Admin {
 			return;
 		}
 
-		if ( ! wp_verify_nonce( $_POST['atela_seo_meta_box_nonce'], 'atela_seo_save_data' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['atela_seo_meta_box_nonce'] ) ), 'atela_seo_save_data' ) ) {
 			return;
 		}
 

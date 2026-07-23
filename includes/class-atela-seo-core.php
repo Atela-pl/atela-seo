@@ -113,7 +113,7 @@ class Atela_SEO_Core {
 		}
 
 		if ( ! $fg_img ) {
-			@unlink( $fg_path );
+			wp_delete_file( $fg_path );
 			return $original_url;
 		}
 
@@ -139,7 +139,7 @@ class Atela_SEO_Core {
 
 		imagedestroy( $fg_img );
 		imagedestroy( $canvas );
-		@unlink( $fg_path );
+		wp_delete_file( $fg_path );
 
 		return $padded_url;
 	}
