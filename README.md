@@ -1,4 +1,7 @@
-# 🌟 Atela SEO Premium
+# 🌟 Atela SEO
+
+Contributors: atelapl
+Donate link: https://atela.pl
 
 > Profesjonalna, zaawansowana wtyczka SEO dla WordPress ze zintegrowanym wsparciem dla Elementora, dynamicznymi podglądami na żywo i automatycznym letterboxingiem obrazów social media.
 
@@ -201,3 +204,11 @@ atela-seo/
 ## 📄 Licencja
 
 [GPL v2 lub nowsza](https://www.gnu.org/licenses/gpl-2.0.html) — zgodnie z wymaganiami ekosystemu WordPress.
+
+---
+
+## 🌍 External services (Usługi Zewnętrzne)
+
+This plugin connects to external APIs to ping search engines about sitemap updates.
+- **Google:** Pings `https://www.google.com/ping?sitemap=...` to notify Google of new or updated sitemaps. [Google Terms of Service](https://policies.google.com/terms) | [Google Privacy Policy](https://policies.google.com/privacy)
+- **Bing:** Pings `https://www.bing.com/ping?sitemap=...` to notify Bing. [Microsoft Terms of Use](https://www.microsoft.com/en-us/legal/terms-of-use) | [Microsoft Privacy Statement](https://privacy.microsoft.com/en-us/privacystatement)

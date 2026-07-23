@@ -26,6 +26,9 @@ class Atela_SEO_Taxonomy {
 		add_action( 'edited_term',  array( $this, 'save_term_meta' ), 10, 3 );
 		add_action( 'created_term', array( $this, 'save_term_meta' ), 10, 3 );
 
+		// Enqueue JS
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_taxonomy_assets' ) );
+
 		// Renderowanie tagów meta we front-endzie
 		add_action( 'wp_head', array( $this, 'render_taxonomy_meta' ), 2 );
 	}
@@ -38,6 +41,20 @@ class Atela_SEO_Taxonomy {
 		// Pomijamy taksonomie Elementora
 		$exclude = array( 'elementor_library_type', 'elementor_library_category' );
 		$this->taxonomies = array_values( array_diff( $public_taxons, $exclude ) );
+	}
+
+	public function enqueue_taxonomy_assets( $hook ) {
+		if ( $hook !== 'term.php' && $hook !== 'edit-tags.php' ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'atela-seo-admin-taxonomy',
+			ALPHA_SEO_URL . 'assets/js/admin-taxonomy.js',
+			array( 'jquery' ),
+			filemtime( ALPHA_SEO_DIR . 'assets/js/admin-taxonomy.js' ),
+			true
+		);
 	}
 
 	/* -------------------------------------------------------------------------
@@ -118,7 +135,6 @@ class Atela_SEO_Taxonomy {
 				<p class="description">Przydatne dla kategorii "Bez kategorii" lub tymczasowych tagów.</p>
 			</td>
 		</tr>
-		<?php $this->render_counter_script(); ?>
 		<?php
 	}
 
@@ -224,24 +240,5 @@ class Atela_SEO_Taxonomy {
 		if ( $description ) {
 			echo '<meta property="og:description" content="' . esc_attr( $description ) . '" />' . "\n";
 		}
-	}
-
-	/* -------------------------------------------------------------------------
-	 * Liczniki znaków (JS)
-	 * ---------------------------------------------------------------------- */
-	private function render_counter_script() {
-		?>
-		<script>
-		jQuery(function($){
-			function updateCount(inputId, countId, min, max) {
-				var len = $(inputId).val().length;
-				var color = len === 0 ? '#999' : (len >= min && len <= max ? '#0a6b0a' : (len < min ? '#92400e' : '#c00'));
-				$(countId).html('<span style="color:' + color + ';font-weight:600;">' + len + '</span> znaków' + (len > 0 ? ' (' + min + '–' + max + ' zalecane)' : ''));
-			}
-			$('#atela_seo_tax_title').on('input', function(){ updateCount('#atela_seo_tax_title', '#atela_seo_tax_title_count', 50, 60); }).trigger('input');
-			$('#atela_seo_tax_description').on('input', function(){ updateCount('#atela_seo_tax_description', '#atela_seo_tax_desc_count', 150, 160); }).trigger('input');
-		});
-		</script>
-		<?php
 	}
 }

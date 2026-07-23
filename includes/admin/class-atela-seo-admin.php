@@ -44,6 +44,14 @@ class Atela_SEO_Admin {
 			true
 		);
 
+		wp_enqueue_script(
+			'atela-seo-admin-settings',
+			ALPHA_SEO_URL . 'assets/js/admin-settings.js',
+			array( 'jquery' ),
+			filemtime( ALPHA_SEO_DIR . 'assets/js/admin-settings.js' ),
+			true
+		);
+
 		$options = get_option( 'atela_seo_options', array() );
 
 		wp_localize_script( 'atela-seo-admin-preview', 'alphaAdminPreview', array(
@@ -53,6 +61,11 @@ class Atela_SEO_Admin {
 			'separator' => $options['separator'] ?? '-',
 			'home_title'=> $options['home_title'] ?? '%site_name% %sep% %site_desc%',
 			'home_desc' => $options['home_description'] ?? '',
+		) );
+
+		wp_localize_script( 'atela-seo-admin-settings', 'alphaAdminSettings', array(
+			'ping_nonce'         => wp_create_nonce( 'atela_seo_ping' ),
+			'post_thumbnail_url' => ( isset( $_GET['post'] ) && has_post_thumbnail( $_GET['post'] ) ) ? esc_url( Atela_SEO_Core::get_letterboxed_image_url( get_post_thumbnail_id( $_GET['post'] ) ) ) : '',
 		) );
 	}
 
@@ -105,6 +118,24 @@ class Atela_SEO_Admin {
         // Checkboxy / toggle
         $sanitized['noindex'] = isset( $input['noindex'] ) ? 1 : 0;
         $sanitized['sitemap_enabled'] = isset( $input['sitemap_enabled'] ) ? 1 : 0;
+        $sanitized['breadcrumbs_enabled'] = isset( $input['breadcrumbs_enabled'] ) ? 1 : 0;
+        $sanitized['breadcrumbs_show_home'] = isset( $input['breadcrumbs_show_home'] ) ? 1 : 0;
+        $sanitized['breadcrumbs_show_current'] = isset( $input['breadcrumbs_show_current'] ) ? 1 : 0;
+        $sanitized['breadcrumbs_show_blog'] = isset( $input['breadcrumbs_show_blog'] ) ? 1 : 0;
+
+        $sanitized['sitemap_include_posts'] = isset( $input['sitemap_include_posts'] ) ? 1 : 0;
+        $sanitized['sitemap_include_pages'] = isset( $input['sitemap_include_pages'] ) ? 1 : 0;
+        $sanitized['sitemap_include_categories'] = isset( $input['sitemap_include_categories'] ) ? 1 : 0;
+        $sanitized['sitemap_include_images'] = isset( $input['sitemap_include_images'] ) ? 1 : 0;
+        $sanitized['sitemap_exclude_noindex'] = isset( $input['sitemap_exclude_noindex'] ) ? 1 : 0;
+        
+        // Radio / select dla sitemapy
+        if ( isset( $input['sitemap_mode'] ) ) {
+            $sanitized['sitemap_mode'] = sanitize_text_field( $input['sitemap_mode'] );
+        }
+        if ( isset( $input['sitemap_changefreq'] ) ) {
+            $sanitized['sitemap_changefreq'] = sanitize_text_field( $input['sitemap_changefreq'] );
+        }
         
         // Numeryczne (ID obrazka)
         if ( isset( $input['og_default_image_id'] ) ) {
@@ -245,27 +276,6 @@ class Atela_SEO_Admin {
                             <button type="button" class="button" id="atela_seo_og_image_clear">Usuń</button>
                             <?php endif; ?>
                             <p class="description">Obraz fallback OG (1200×630px) jeśli strona nie ma featured image ani własnego OG image.</p>
-                            <script>
-                            jQuery(function($){
-                                var frame;
-                                $('#atela_seo_og_image_btn').on('click', function(){
-                                    if(frame){frame.open();return;}
-                                    frame = wp.media({ title: 'Wybierz obraz OG', button:{text:'Wybierz'}, multiple:false });
-                                    frame.on('select', function(){
-                                        var a = frame.state().get('selection').first().toJSON();
-                                        $('#atela_seo_og_default_image_id').val(a.id);
-                                        $('#atela_seo_og_default_image_preview').html('<img src="'+a.url+'" style="max-width:200px;display:block;margin-bottom:8px;" />');
-                                        $(document).trigger('atela_seo_global_image_changed', [a.url]);
-                                    });
-                                    frame.open();
-                                });
-                                $('#atela_seo_og_image_clear').on('click', function(){
-                                    $('#atela_seo_og_default_image_id').val('');
-                                    $('#atela_seo_og_default_image_preview').html('');
-                                    $(document).trigger('atela_seo_global_image_changed', ['']);
-                                });
-                            });
-                            </script>
                         </td>
                     </tr>
                     <tr valign="top">
@@ -414,35 +424,6 @@ class Atela_SEO_Admin {
                         <span style="font-weight:bold;color:#111;" id="aseo_bc_current_preview">Przykładowy wpis</span>
                     </nav>
                 </div>
-                
-                <script>
-                jQuery(function($){
-                    function updateBcPreview() {
-                        var sep = $('input[name="atela_seo_options[breadcrumbs_separator]"]').val() || '›';
-                        var homeText = $('input[name="atela_seo_options[breadcrumbs_home_text]"]').val() || 'Strona Główna';
-                        var blogText = $('input[name="atela_seo_options[breadcrumbs_blog_text]"]').val() || 'Blog';
-                        
-                        var showHome = $('input[name="atela_seo_options[breadcrumbs_show_home]"]').is(':checked');
-                        var showCurrent = $('input[name="atela_seo_options[breadcrumbs_show_current]"]').is(':checked');
-                        var showBlog = $('input[name="atela_seo_options[breadcrumbs_show_blog]"]').is(':checked');
-
-                        $('.aseo-bc-sep').text(sep);
-                        $('#aseo_bc_home_preview').text(homeText);
-                        $('#aseo_bc_blog_preview').text(blogText);
-
-                        $('#aseo_bc_home_preview').parent().toggle(showHome);
-                        $('#aseo_bc_home_preview').parent().next('.aseo-bc-sep').toggle(showHome && (showBlog || showCurrent));
-                        
-                        $('#aseo_bc_blog_preview').parent().toggle(showBlog);
-                        $('#aseo_bc_blog_preview').parent().next('.aseo-bc-sep').toggle(showBlog && showCurrent);
-                        
-                        $('#aseo_bc_current_preview').toggle(showCurrent);
-                    }
-                    
-                    $('input[name^="atela_seo_options[breadcrumbs"]').on('input change', updateBcPreview);
-                    updateBcPreview();
-                });
-                </script>
                 <?php endif; ?>
 
                 <?php if ( $active_tab == 'sitemap' ) : ?>
@@ -552,25 +533,6 @@ class Atela_SEO_Admin {
                     <?php endif; ?>
                     <button type="button" id="aseo_ping_btn" class="button button-secondary">🔔 Pinguj Google i Bing</button>
                     <span id="aseo_ping_result" style="margin-left:10px; font-size:13px;"></span>
-                    <script>
-                    jQuery(function($){
-                        $('#aseo_ping_btn').on('click', function(){
-                            var $btn = $(this);
-                            $btn.prop('disabled', true).text('Pingowanie...');
-                            $.post(ajaxurl, {
-                                action: 'atela_seo_ping_search_engines',
-                                nonce: '<?php echo wp_create_nonce('atela_seo_ping'); ?>'
-                            }, function(resp){
-                                $btn.prop('disabled', false).text('🔔 Pinguj Google i Bing');
-                                if(resp.success){
-                                    $('#aseo_ping_result').css('color','#0a6b0a').text('✓ ' + resp.data);
-                                } else {
-                                    $('#aseo_ping_result').css('color','#c00').text('✗ ' + resp.data);
-                                }
-                            });
-                        });
-                    });
-                    </script>
                 </div>
                 <?php endif; ?>
 
@@ -640,18 +602,6 @@ class Atela_SEO_Admin {
                         </td>
                     </tr>
                 </table>
-                <script>
-                jQuery(function($){
-                    $('#aseo_schema_logo_btn').on('click', function(){
-                        var frame = wp.media({ title: 'Wybierz logo', button: { text: 'Użyj' }, multiple: false });
-                        frame.on('select', function(){
-                            var url = frame.state().get('selection').first().toJSON().url;
-                            $('#aseo_schema_logo').val(url);
-                        });
-                        frame.open();
-                    });
-                });
-                </script>
                 <?php endif; ?>
 
                 <?php submit_button(); ?>
@@ -744,33 +694,6 @@ class Atela_SEO_Admin {
 		echo '<p class="description">Adres URL obrazu (1200x630px). Zostaw puste – użyje featured image strony.</p>';
 		echo '<p class="description" style="color:#0071a1;">💡 <strong>Automatyczne marginesy:</strong> System automatycznie utworzy tło dla niepasujących obrazków, dzięki czemu żadne elementy (np. logo czy napisy) nie zostaną ucięte po udostępnieniu na FB/Twitterze.</p>';
 		echo '</div>';
-
-		// JS do media pickera OG Image w meta boxie
-		?>
-		<script>
-		var alphaOgFrame;
-		jQuery(function($){
-			$('#atela_seo_og_image_btn').on('click', function(){
-				if(alphaOgFrame){alphaOgFrame.open();return;}
-				alphaOgFrame = wp.media({title:'Wybierz obraz OG',button:{text:'Wybierz'},multiple:false});
-				alphaOgFrame.on('select',function(){
-					var a=alphaOgFrame.state().get('selection').first().toJSON();
-					$('#atela_seo_og_image_id').val(a.id);
-					$('#atela_seo_og_image_preview').html('<img src="'+a.url+'" style="max-width:200px;display:block;margin-bottom:8px;border:1px solid #ddd;padding:2px;" />');
-					$('#atela_seo_og_image_clear').show();
-					$(document).trigger('atela_seo_og_image_changed', [a.url]);
-				});
-				alphaOgFrame.open();
-			});
-			$('#atela_seo_og_image_clear').on('click',function(){
-				$('#atela_seo_og_image_id').val('');
-				$('#atela_seo_og_image_preview').html('');
-				$(this).hide();
-				$(document).trigger('atela_seo_og_image_changed', ['<?php echo has_post_thumbnail( $post->ID ) ? esc_url( Atela_SEO_Core::get_letterboxed_image_url( get_post_thumbnail_id( $post->ID ) ) ) : ""; ?>']);
-			});
-		});
-		</script>
-		<?php
 
 		// ---- LIVE PREVIEW ----
 		$preview_title = $title ?: get_the_title( $post->ID );
