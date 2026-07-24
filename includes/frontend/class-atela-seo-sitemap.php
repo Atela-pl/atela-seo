@@ -10,8 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Atela_SEO_Sitemap {
 
 	public function __construct() {
-		// parse_request fires po ustaleniu query, ale przed zapytaniem do DB – idealne do przejęcia sitemapy
-		add_action( 'parse_request',     array( $this, 'intercept_sitemap_request' ) );
+		// Używamy init by przejąć żądanie szybciej niż parse_request i uniknąć konfliktów z regułami rewrite
+		add_action( 'init',              array( $this, 'intercept_sitemap_request' ), 1 );
 		add_filter( 'robots_txt',        array( $this, 'add_to_robots_txt' ), 10, 2 );
 		add_action( 'wp_ajax_atela_seo_ping_search_engines', array( $this, 'ajax_ping_search_engines' ) );
 	}
@@ -21,26 +21,30 @@ class Atela_SEO_Sitemap {
 	 * ---------------------------------------------------------------------- */
 	public function intercept_sitemap_request() {
 		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
-		$request = $request_uri ? wp_parse_url( $request_uri, PHP_URL_PATH ) : '';
-		$request = rtrim( ltrim( $request, '/' ), '/' );
-
-		// Usuń prefix bazowy (np. /bc/ jeśli WP jest w podfolderze)
-		$base = rtrim( ltrim( wp_parse_url( home_url(), PHP_URL_PATH ) ?? '', '/' ), '/' );
-		if ( $base && strpos( $request, $base ) === 0 ) {
-			$request = ltrim( substr( $request, strlen( $base ) ), '/' );
+		$path = wp_parse_url( $request_uri, PHP_URL_PATH ) ?? '';
+		
+		if ( empty( $path ) ) {
+			return;
 		}
 
-		// Sprawdź czy to żądanie sitemapy
-		$is_single_sitemap = ( $request === 'sitemap.xml' );
-		$is_index_sitemap  = ( $request === 'sitemap_index.xml' );
-		$is_sub_sitemap    = preg_match( '/^sitemap-([a-z0-9_-]+)\.xml$/', $request, $m );
+		$filename = basename( rtrim( $path, '/' ) );
+
+		$is_single_sitemap = ( $filename === 'sitemap.xml' );
+		$is_index_sitemap  = ( $filename === 'sitemap_index.xml' );
+		$is_sub_sitemap    = preg_match( '/^sitemap-([a-z0-9_-]+)\.xml$/', $filename, $m );
 
 		if ( ! $is_single_sitemap && ! $is_index_sitemap && ! $is_sub_sitemap ) {
 			return; // Nie dotyczy nas
 		}
 
+		// Usuwamy restrykcyjne sprawdzanie ścieżki (base_home), 
+		// bo jeśli żądanie trafiło do WP i plik to sitemap.xml, 
+		// po prostu go serwujemy, niezależnie od konfiguracji proxy/podkatalogów.
+
 		$options = get_option( 'atela_seo_options', array() );
-		if ( empty( $options['sitemap_enabled'] ) ) {
+		$is_enabled = isset( $options['sitemap_enabled'] ) ? $options['sitemap_enabled'] : 1;
+		
+		if ( empty( $is_enabled ) ) {
 			// Sitemap wyłączona – pozwól WP obsłużyć (pokaże 404)
 			return;
 		}
