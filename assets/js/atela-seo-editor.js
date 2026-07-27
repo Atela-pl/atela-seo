@@ -100,7 +100,7 @@
 			onSave: function() {
 				var self = this;
 				var $btn = $( '#atela-seo-save-btn' );
-				$btn.text( 'Zapisuję...' ).prop( 'disabled', true );
+				$btn.text( 'Saving...' ).prop( 'disabled', true );
 
 				$.ajax( {
 					url:  alphaSeoPanelData.ajax_url,
@@ -117,16 +117,16 @@
 					},
 					success: function( response ) {
 						if ( response.success ) {
-							$btn.text( '✅ Zapisano!' );
+							$btn.text( '✅ Saved!' );
 						} else {
-							$btn.text( '❌ Błąd zapisu' );
+							$btn.text( '❌ Save error' );
 						}
 						setTimeout( function() {
-							$btn.text( 'Zapisz ustawienia SEO' ).prop( 'disabled', false );
+							$btn.text( 'Save SEO settings' ).prop( 'disabled', false );
 						}, 2000 );
 					},
 					error: function() {
-						$btn.text( '❌ Błąd połączenia' ).prop( 'disabled', false );
+						$btn.text( '❌ Connection error' ).prop( 'disabled', false );
 					},
 				} );
 			},
@@ -231,30 +231,30 @@
 				'  </div>' +
 				'  <div class="atela-seo-section">' +
 				'    <label class="atela-seo-label">SEO Title</label>' +
-				'    <input type="text" id="atela-seo-title" class="atela-seo-input" maxlength="100" placeholder="Tytuł strony dla wyszukiwarek..." />' +
+				'    <input type="text" id="atela-seo-title" class="atela-seo-input" maxlength="100" placeholder="Page title for search engines..." />' +
 				'    <span id="atela-seo-title-count" class="atela-seo-count">0 / 60</span>' +
 				'  </div>' +
 				'  <div class="atela-seo-section">' +
 				'    <label class="atela-seo-label">Meta Description</label>' +
-				'    <textarea id="atela-seo-description" class="atela-seo-textarea" rows="4" maxlength="300" placeholder="Opis strony wyświetlany w wynikach Google..."></textarea>' +
+				'    <textarea id="atela-seo-description" class="atela-seo-textarea" rows="4" maxlength="300" placeholder="Page description displayed in Google results..."></textarea>' +
 				'    <span id="atela-seo-desc-count" class="atela-seo-count">0 / 160</span>' +
 				'  </div>' +
 				'  <div class="atela-seo-section atela-seo-section--row">' +
-				'    <label class="atela-seo-label-inline">Noindex (blokuj indeksowanie)</label>' +
+				'    <label class="atela-seo-label-inline">Noindex (discourage indexing)</label>' +
 				'    <label class="atela-seo-toggle">' +
 				'      <input type="checkbox" id="atela-seo-noindex" />' +
 				'      <span class="atela-seo-toggle-slider"></span>' +
 				'    </label>' +
 				'  </div>' +
 				'  <div class="atela-seo-section">' +
-				'    <label class="atela-seo-label">Adres kanoniczny (Canonical URL)</label>' +
-				'    <input type="text" id="atela-seo-canonical" class="atela-seo-input" placeholder="Pozostaw puste dla domyślnego..." />' +
+				'    <label class="atela-seo-label">Canonical URL</label>' +
+				'    <input type="text" id="atela-seo-canonical" class="atela-seo-input" placeholder="Leave empty for default..." />' +
 				'  </div>' +
 				'  <div class="atela-seo-section">' +
-				'    <label class="atela-seo-label">Fraza kluczowa (Focus Keyword)</label>' +
-				'    <input type="text" id="atela-seo-focus_keyword" class="atela-seo-input" placeholder="Główna fraza do analizy..." />' +
+				'    <label class="atela-seo-label">Focus Keyword</label>' +
+				'    <input type="text" id="atela-seo-focus_keyword" class="atela-seo-input" placeholder="Main keyword for analysis..." />' +
 				'  </div>' +
-				'  <button id="atela-seo-save-btn" class="atela-seo-btn">Zapisz ustawienia SEO</button>' +
+				'  <button id="atela-seo-save-btn" class="atela-seo-btn">Save SEO settings</button>' +
 				'</div>';
 
 			$( '#atela-seo-panel-placeholder' ).html( panelHtml );
@@ -303,7 +303,7 @@
 			// Zapis
 			$( document ).on( 'click', '#atela-seo-save-btn', function() {
 				var $btn = $( this );
-				$btn.text( 'Zapisuję...' ).prop( 'disabled', true );
+				$btn.text( 'Saving...' ).prop( 'disabled', true );
 
 				$.ajax( {
 					url:  alphaSeoPanelData.ajax_url,
@@ -319,13 +319,13 @@
 						focus_keyword: $( '#atela-seo-focus_keyword' ).val(),
 					},
 					success: function( response ) {
-						$btn.text( response.success ? '✅ Zapisano!' : '❌ Błąd zapisu' );
+						$btn.text( response.success ? '✅ Saved!' : '❌ Save error' );
 						setTimeout( function() {
-							$btn.text( 'Zapisz ustawienia SEO' ).prop( 'disabled', false );
+							$btn.text( 'Save SEO settings' ).prop( 'disabled', false );
 						}, 2500 );
 					},
 					error: function() {
-						$btn.text( '❌ Błąd połączenia' ).prop( 'disabled', false );
+						$btn.text( '❌ Connection error' ).prop( 'disabled', false );
 					},
 				} );
 			} );

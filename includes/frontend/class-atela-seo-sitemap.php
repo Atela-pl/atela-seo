@@ -29,6 +29,9 @@ class Atela_SEO_Sitemap {
 
 		$filename = basename( rtrim( $path, '/' ) );
 
+		// Usunięto wirtualne serwowanie XSL, używamy bezpośredniego adresu fizycznego,
+		// aby uniknąć problemów z serwerami Nginx, które omijają PHP dla plików .xsl.
+
 		$is_single_sitemap = ( $filename === 'sitemap.xml' );
 		$is_index_sitemap  = ( $filename === 'sitemap_index.xml' );
 		$is_sub_sitemap    = preg_match( '/^sitemap-([a-z0-9_-]+)\.xml$/', $filename, $m );
@@ -57,8 +60,12 @@ class Atela_SEO_Sitemap {
 			$this->serve_xml( $this->generate_sitemap_xml( $m[1] ) );
 		} elseif ( $is_single_sitemap ) {
 			if ( $mode === 'index' ) {
-				wp_safe_redirect( home_url( '/sitemap_index.xml' ), 301 );
-				exit;
+				// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+				if ( wp_redirect( home_url( '/sitemap_index.xml' ), 301 ) ) {
+					exit;
+				}
+				// W przypadku błędu przekierowania (np. wysłane nagłówki), wyświetl indeks.
+				$this->serve_xml( $this->generate_index_xml() );
 			}
 			$this->serve_xml( $this->generate_sitemap_xml() );
 		}
@@ -68,6 +75,10 @@ class Atela_SEO_Sitemap {
 	 * Serwowanie XML
 	 * ---------------------------------------------------------------------- */
 	private function serve_xml( $xml ) {
+		// Wstrzykujemy deklarację XSL zaraz po tagu XML (wskazujemy na fizyczny plik we wtyczce)
+		$stylesheet = '<?xml-stylesheet type="text/xsl" href="' . esc_url( ALPHA_SEO_URL . 'assets/css/sitemap.xsl' ) . '"?>' . "\n";
+		$xml = str_replace( '<?xml version="1.0" encoding="UTF-8"?>' . "\n", '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . $stylesheet, $xml );
+
 		header( 'Content-Type: text/xml; charset=UTF-8' );
 		header( 'X-Robots-Tag: noindex, follow', true );
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -324,7 +335,7 @@ class Atela_SEO_Sitemap {
 	public function ajax_ping_search_engines() {
 		check_ajax_referer( 'atela_seo_ping', 'nonce' );
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( 'Brak uprawnień.' );
+			wp_send_json_error( __( 'No permissions.', 'atela-seo' ) );
 		}
 
 		$options     = get_option( 'atela_seo_options', array() );
@@ -348,7 +359,8 @@ class Atela_SEO_Sitemap {
 
 		if ( empty( $errors ) ) {
 			update_option( 'atela_seo_last_ping', current_time( 'Y-m-d H:i:s' ) );
-			wp_send_json_success( 'Google i Bing zostały powiadomione! (' . current_time( 'Y-m-d H:i:s' ) . ')' );
+			/* translators: %s: date and time of ping */
+			wp_send_json_success( sprintf( __( 'Google and Bing have been notified! (%s)', 'atela-seo' ), current_time( 'Y-m-d H:i:s' ) ) );
 		} else {
 			wp_send_json_error( implode( ' | ', $errors ) );
 		}

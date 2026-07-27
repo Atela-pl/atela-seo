@@ -1,0 +1,576 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Atela SEO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pl_PL\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+msgid "\"Blog\" text"
+msgstr "Tekst \"Blog\""
+
+msgid "\"Home\" text"
+msgstr "Tekst \"Strona główna\""
+
+msgid "(1200×630px, default: featured image)"
+msgstr "(1200×630px, domyślnie: obrazek wyróżniający)"
+
+msgid "(default: Meta Description)"
+msgstr "(domyślnie: Opis Meta)"
+
+msgid "(default: SEO Title)"
+msgstr "(domyślnie: Tytuł SEO)"
+
+msgid "(optional)"
+msgstr "(opcjonalnie)"
+
+msgid "(to be inserted in Gutenberg or classic editor)."
+msgstr "(do wstawienia w edytorze Gutenberg lub klasycznym)."
+
+msgid "301 - Permanent redirect (recommended for SEO)"
+msgstr "301 - Trwałe przekierowanie (zalecane dla SEO)"
+
+msgid "301 Redirects"
+msgstr "Przekierowania 301"
+
+msgid "302 - Temporary redirect"
+msgstr "302 - Tymczasowe przekierowanie"
+
+msgid "404 text"
+msgstr "Tekst błędu 404"
+
+msgid "Actions"
+msgstr "Akcje"
+
+msgid "Add new"
+msgstr "Dodaj nowe"
+
+msgid "Add new redirect"
+msgstr "Dodaj nowe przekierowanie"
+
+msgid "Add redirect"
+msgstr "Dodaj przekierowanie"
+
+msgid "Alignment"
+msgstr "Wyrównanie"
+
+msgid "Archive: %s"
+msgstr "Archiwum: %s"
+
+msgid "Are you sure you want to delete this redirect?"
+msgstr "Czy na pewno chcesz usunąć to przekierowanie?"
+
+msgid "Atela SEO"
+msgstr "Atela SEO"
+
+msgid "Atela SEO - Main Settings"
+msgstr "Atela SEO - Ustawienia Główne"
+
+msgid "Author username on Twitter/X (without @). Optional."
+msgstr "Nazwa użytkownika autora na Twitter/X (bez @). Opcjonalnie."
+
+msgid "Automatic margins:"
+msgstr "Automatyczne marginesy:"
+
+msgid "Available variables as above."
+msgstr "Dostępne zmienne jak wyżej."
+
+msgid "Available variables: %title%, %site_name%, %site_desc%, %sep%, %page%"
+msgstr "Dostępne zmienne: %title%, %site_name%, %site_desc%, %sep%, %page%"
+
+msgid "Back to list"
+msgstr "Wróc do listy"
+
+msgid "Blog"
+msgstr "Blog"
+
+msgid "Breadcrumbs"
+msgstr "Okruszki (Breadcrumbs)"
+
+msgid "Breadcrumbs Settings"
+msgstr "Ustawienia Okruszków"
+
+msgid "Breadcrumbs Style"
+msgstr "Styl Okruszków"
+
+msgid "CSV Format: <code>source_url,target_url,redirect_type</code> (default type: 301)"
+msgstr "Format CSV: <code>source_url,target_url,redirect_type</code> (domyślnie: 301)"
+
+msgid "Canonical URL"
+msgstr "Adres Kanoniczny"
+
+msgid "Categories and Tags"
+msgstr "Kategorie i Tagi"
+
+msgid "Categories:"
+msgstr "Kategorie:"
+
+msgid "Center"
+msgstr "Środek"
+
+msgid "Change Frequency"
+msgstr "Częstotliwość zmian"
+
+msgid "Character separating path elements (e.g. ›, », -)"
+msgstr "Znak oddzielający elementy ścieżki (np. ›, », -)"
+
+msgid "Choose the symbol that separates the title from the site name (e.g. in the %sep% variable)."
+msgstr "Wybierz znak oddzielający tytuł od nazwy witryny (np. w zmiennej %sep%)."
+
+msgid "Contact e-mail"
+msgstr "Adres e-mail"
+
+msgid "Current Page Color"
+msgstr "Kolor aktywnej strony"
+
+msgid "Custom Post Types (CPT)"
+msgstr "Własne typy wpisów (CPT)"
+
+msgid "Default OG Image"
+msgstr "Domyślny obrazek OG"
+
+msgid "Default Twitter Card Type"
+msgstr "Domyślny typ Twitter Card"
+
+msgid "Delete"
+msgstr "Usuń"
+
+msgid "Desc:"
+msgstr "Opis:"
+
+msgid "Description used when shared. Defaults to Meta Description."
+msgstr "Opis przy udostępnianiu. Domyślnie używa Opisu Meta."
+
+msgid "Desktop"
+msgstr "Komputery"
+
+msgid "Discourage indexing (noindex)"
+msgstr "Zablokuj indeksowanie (noindex)"
+
+msgid "Discourage search engines from indexing this post (noindex)"
+msgstr "Nie pozwalaj wyszukiwarkom na indeksowanie tego wpisu (noindex)"
+
+msgid "Discourage search engines from indexing this site (Noindex) - useful during site development."
+msgstr "Nie pozwalaj wyszukiwarkom na indeksowanie tej witryny (Noindex) - przydatne podczas budowy."
+
+msgid "Display details"
+msgstr "Pokaż szczegóły"
+
+msgid "Edit"
+msgstr "Edytuj"
+
+msgid "Edit redirect"
+msgstr "Edytuj przekierowanie"
+
+msgid "Enable Breadcrumbs"
+msgstr "Włącz Okruszki"
+
+msgid "Enable XML Sitemap"
+msgstr "Włącz Sitemapy XML"
+
+msgid "Enable breadcrumbs generation for the site"
+msgstr "Włącz generowanie okruszków dla witryny"
+
+msgid "Example post"
+msgstr "Przykładowy wpis"
+
+msgid "Exclude pages with noindex"
+msgstr "Wyklucz strony z noindex"
+
+msgid "Facebook"
+msgstr "Facebook"
+
+msgid "Facebook / LinkedIn"
+msgstr "Facebook / LinkedIn"
+
+msgid "Fallback OG image (1200×630px) if the page has no featured image or custom OG image."
+msgstr "Zapasowy obrazek OG (1200×630px) w przypadku braku własnego."
+
+msgid "Focus Keyword"
+msgstr "Słowo kluczowe"
+
+msgid "Full name of your company or organization."
+msgstr "Pełna nazwa firmy lub organizacji."
+
+msgid "Gap"
+msgstr "Odstęp"
+
+msgid "General"
+msgstr "Ogólne"
+
+msgid "Generate automatic XML sitemap"
+msgstr "Generuj automatyczną mapę witryny XML"
+
+msgid "Global SEO Settings"
+msgstr "Globalne Ustawienia SEO"
+
+msgid "Google"
+msgstr "Google"
+
+msgid "Google Search Preview"
+msgstr "Podgląd w Google"
+
+msgid "Google and Bing have been notified! (%s)"
+msgstr "Google i Bing zostały powiadomione! (%s)"
+
+msgid "Hits"
+msgstr "Trafienia"
+
+msgid "Home"
+msgstr "Strona Główna"
+
+msgid "Homepage:"
+msgstr "Strona główna:"
+
+msgid "How to embed breadcrumbs on the page?"
+msgstr "Jak osadzić okruszki na stronie?"
+
+msgid "Image URL (1200x630px). Leave empty to use featured image."
+msgstr "URL obrazka (1200x630px). Zostaw puste, by użyć wyróżniającego."
+
+msgid "Image URL (1200x630px). Leave empty to use the page featured image."
+msgstr "URL obrazka (1200x630px). Zostaw puste, by użyć wyróżniającego."
+
+msgid "Import"
+msgstr "Importuj"
+
+msgid "Import from CSV"
+msgstr "Import z CSV"
+
+msgid "In Elementor:"
+msgstr "W Elementorze:"
+
+msgid "In the theme file (PHP):"
+msgstr "W pliku motywu (PHP):"
+
+msgid "Include images (<image:image> tags)"
+msgstr "Dołącz obrazki (tagi <image:image>)"
+
+msgid "Indexing Settings"
+msgstr "Ustawienia Indeksowania"
+
+msgid "International format, e.g. +48123456789"
+msgstr "Format międzynarodowy, np. +48123456789"
+
+msgid "Invalid post_id."
+msgstr "Nieprawidłowe post_id."
+
+msgid "Last ping: %s"
+msgstr "Ostatni ping: %s"
+
+msgid "Leave empty for default"
+msgstr "Zostaw puste dla domyślnego"
+
+msgid "Leave empty for default. Change if this content is a copy of another page."
+msgstr "Zostaw puste dla domyślnego. Zmień jeśli treść jest kopią."
+
+msgid "Left"
+msgstr "Do lewej"
+
+msgid "Link Color"
+msgstr "Kolor linków"
+
+msgid "Link Hover Color"
+msgstr "Kolor po najechaniu"
+
+msgid "Live Preview"
+msgstr "Podgląd na żywo"
+
+msgid "Meta Description"
+msgstr "Opis Meta (Meta Description)"
+
+msgid "Meta Description (Homepage)"
+msgstr "Opis Meta (Strona główna)"
+
+msgid "Meta Description Length (optimal: 120-160 chars)"
+msgstr "Długość Opisu (optymalnie: 120-160 znaków)"
+
+msgid "Mobile"
+msgstr "Smartfony"
+
+msgid "No"
+msgstr "Nie"
+
+msgid "No OG Image"
+msgstr "Brak obrazka OG"
+
+msgid "No OG image (1200×630px)"
+msgstr "Brak obrazka OG (1200×630px)"
+
+msgid "No permissions."
+msgstr "Brak uprawnień."
+
+msgid "No redirects found. Click <strong>\"+ Add new\"</strong> to start."
+msgstr "Nie znaleziono przekierowań. Kliknij <strong>\"+ Dodaj nowe\"</strong> by zacząć."
+
+msgid "Not found"
+msgstr "Nie znaleziono"
+
+msgid "OG Description"
+msgstr "Opis OG"
+
+msgid "OG Image"
+msgstr "Obrazek OG"
+
+msgid "OG Image URL"
+msgstr "URL obrazka OG"
+
+msgid "OG Title"
+msgstr "Tytuł OG"
+
+msgid "Organization Logo (URL)"
+msgstr "Logo organizacji (URL)"
+
+msgid "Organization Name"
+msgstr "Nazwa organizacji"
+
+msgid "Organization URL"
+msgstr "Adres URL organizacji"
+
+msgid "Page %d"
+msgstr "Strona %d"
+
+msgid "Pages"
+msgstr "Strony"
+
+msgid "Pages:"
+msgstr "Strony:"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Ping Google & Bing"
+msgstr "Pinguj Google i Bing"
+
+msgid "Ping search engines"
+msgstr "Powiadom wyszukiwarki"
+
+msgid "Posts"
+msgstr "Wpisy"
+
+msgid "Posts:"
+msgstr "Wpisy:"
+
+msgid "Priorities"
+msgstr "Priorytety"
+
+msgid "Recommended length: 120-160 characters."
+msgstr "Zalecana długość: 120-160 znaków."
+
+msgid "Recommended length: 40-60 characters."
+msgstr "Zalecana długość: 40-60 znaków."
+
+msgid "Recommended: rectangle or square, min. 112px height."
+msgstr "Zalecane: prostokąt lub kwadrat, min. 112px."
+
+msgid "Redirect not found."
+msgstr "Przekierowanie nie zostało znalezione."
+
+msgid "Redirect type"
+msgstr "Typ przekierowania"
+
+msgid "Redirects Manager"
+msgstr "Zarządzanie Przekierowaniami"
+
+msgid "Relative path or full target URL."
+msgstr "Względna ścieżka lub pełny URL docelowy."
+
+msgid "Relative path, e.g. <code>/old-page/</code> or full URL."
+msgstr "Względna ścieżka np. <code>/stara-strona/</code> lub pełny URL."
+
+msgid "Remove"
+msgstr "Usuń"
+
+msgid "Right"
+msgstr "Do prawej"
+
+msgid "SEO Metadata"
+msgstr "Metadane SEO"
+
+msgid "SEO Title"
+msgstr "Tytuł SEO"
+
+msgid "SEO Title Length (optimal: 40-60 chars)"
+msgstr "Długość Tytułu (optymalnie: 40-60 znaków)"
+
+msgid "SEO data saved."
+msgstr "Zapisano dane SEO."
+
+msgid "Save changes"
+msgstr "Zapisz zmiany"
+
+msgid "Schema.org"
+msgstr "Schema.org"
+
+msgid "Search Appearance"
+msgstr "Wygląd w Wyszukiwarce"
+
+msgid "Search: %s"
+msgstr "Szukaj: %s"
+
+msgid "Security error."
+msgstr "Błąd bezpieczeństwa."
+
+msgid "Select OG image"
+msgstr "Wybierz obrazek OG"
+
+msgid "Select image"
+msgstr "Wybierz obraz"
+
+msgid "Select logo"
+msgstr "Wybierz logo"
+
+msgid "Send a notification to Google and Bing that your sitemap has been updated."
+msgstr "Wyślij powiadomienie do wyszukiwarek o aktualizacji sitemapy."
+
+msgid "Separator"
+msgstr "Separator"
+
+msgid "Separator Color"
+msgstr "Kolor separatora"
+
+msgid "Share Preview"
+msgstr "Podgląd Udostępniania"
+
+msgid "Show \"Home\" element"
+msgstr "Pokaż element \"Strona główna\""
+
+msgid "Show blog page before categories"
+msgstr "Pokaż stronę bloga przed kategoriami"
+
+msgid "Show current page (last element)"
+msgstr "Pokaż aktywną stronę (ostatni element)"
+
+msgid "Single file"
+msgstr "Pojedynczy plik"
+
+msgid "Sitemap Content"
+msgstr "Zawartość Sitemapy"
+
+msgid "Sitemap Mode"
+msgstr "Tryb Sitemapy"
+
+msgid "Sitemap index"
+msgstr "Indeks sitemap"
+
+msgid "Social Media"
+msgstr "Media społecznościowe"
+
+msgid "Social Media (Open Graph / Twitter)"
+msgstr "Media społecznościowe (OG/Twitter)"
+
+msgid "Social Profiles (sameAs)"
+msgstr "Profile społecznościowe (sameAs)"
+
+msgid "Source URL"
+msgstr "Adres źródłowy"
+
+msgid "Source URL (old)"
+msgstr "Adres źródłowy (stary)"
+
+msgid "Summary"
+msgstr "Podsumowanie"
+
+msgid "Summary Large Image (recommended)"
+msgstr "Duży obrazek (zalecane)"
+
+msgid "Target URL"
+msgstr "Adres docelowy"
+
+msgid "Target URL (new)"
+msgstr "Adres docelowy (nowy)"
+
+msgid "The configuration of separators and texts is located in the main settings panel <b>Atela SEO &rarr; Breadcrumbs</b>."
+msgstr "Konfiguracja tekstów znajduje się w panelu głównym <b>Atela SEO &rarr; Breadcrumbs</b>."
+
+msgid "The main keyword you are optimizing this page for."
+msgstr "Główna fraza na którą pozycjonujesz ten wpis."
+
+msgid "The system automatically letterboxes non-matching images, ensuring no elements (like logos or text) are cropped when shared on FB/Twitter."
+msgstr "System automatycznie tworzy marginesy dla zdjęć, zapobiegając ucinaniu logo przy udostępnianiu na FB/Twitter."
+
+msgid "This is how breadcrumbs might look on your site (the exact look depends on your theme)."
+msgstr "Tak będą wyglądać okruszki (dokładny styl zależy od motywu)."
+
+msgid "Title (Homepage)"
+msgstr "Tytuł (Strona główna)"
+
+msgid "Title Separator"
+msgstr "Separator tytułu"
+
+msgid "Title used when shared on FB/LinkedIn. Defaults to SEO Title."
+msgstr "Tytuł przy udostępnianiu na FB/LinkedIn. Domyślnie Tytuł SEO."
+
+msgid "Title:"
+msgstr "Tytuł:"
+
+msgid "Total:"
+msgstr "Razem:"
+
+msgid "Turn on to stop search engines from indexing this page."
+msgstr "Włącz, by zablokować indeksowanie w Google (noindex)."
+
+msgid "Twitter / X"
+msgstr "Twitter / X"
+
+msgid "Twitter / X Site @username"
+msgstr "Twitter / X Witryny (@użytkownik)"
+
+msgid "Twitter/X @author (creator)"
+msgstr "Autor na Twitter/X (twórca)"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Use our dedicated widget <b>Atela SEO Breadcrumbs</b> in the widgets tab."
+msgstr "Użyj dedykowanego widżetu <b>Atela SEO Breadcrumbs</b> w panelu widżetów."
+
+msgid "Used if the site has a separate posts page."
+msgstr "Wykorzystywane jeśli strona ma oddzielną stronę dla wpisów."
+
+msgid "XML Sitemap"
+msgstr "Mapa witryny (XML)"
+
+msgid "Yes"
+msgstr "Tak"
+
+msgid "Your Twitter/X account username (without @)."
+msgstr "Nazwa konta na Twitter/X (bez @)."
+
+msgid "Your sitemap:"
+msgstr "Twoja sitemapa:"
+
+msgid "redirects"
+msgstr "przekierowań"
+
+msgid "separate files per content type (recommended for large sites)"
+msgstr "oddzielne pliki dla typów treści (zalecane dla dużych stron)"
+
+msgid "structured data automatically injected into the <code>&lt;head&gt;</code> of each page. Helps Google display <em>rich snippets</em> (e.g. author, article date, organization logo)."
+msgstr "dane strukturalne wstrzykiwane w <code>&lt;head&gt;</code> strony. Pomagają Google generować Rich Snippets."
+
+msgid "with all URLs (recommended for small sites)"
+msgstr "wszystkie adresy URL (zalecane dla małych stron)"
+
+msgid "✓ CSV import completed."
+msgstr "✓ Import CSV zakończony."
+
+msgid "✓ Redirect has been deleted."
+msgstr "✓ Przekierowanie zostało usunięte."
+
+msgid "✓ Redirect has been saved."
+msgstr "✓ Przekierowanie zostało zapisane."
+
+msgid "✗ A redirect with this source URL already exists."
+msgstr "✗ Przekierowanie z takim adresem źródłowym już istnieje."
+
+msgid "🌟 Atela SEO - Settings"
+msgstr "🌟 Atela SEO - Ustawienia"
+
+msgid "📣 Social Media (Open Graph / Twitter)"
+msgstr "📣 Media Społecznościowe (OG / Twitter)"
+
+msgid "🔀 Redirects"
+msgstr "🔀 Przekierowania"
+

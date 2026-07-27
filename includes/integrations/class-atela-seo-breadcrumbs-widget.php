@@ -14,7 +14,7 @@ class Atela_SEO_Breadcrumbs_Widget extends \Elementor\Widget_Base {
 	}
 
 	public function get_title() {
-		return 'Atela SEO Okruszki';
+		return 'Atela SEO Breadcrumbs';
 	}
 
 	public function get_icon() {
@@ -34,7 +34,7 @@ class Atela_SEO_Breadcrumbs_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'content_section',
 			[
-				'label' => 'Ustawienia Okruszków',
+				'label' => __( 'Breadcrumbs Settings', 'atela-seo' ),
 				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -43,7 +43,7 @@ class Atela_SEO_Breadcrumbs_Widget extends \Elementor\Widget_Base {
 			'notice',
 			[
 				'type' => \Elementor\Controls_Manager::RAW_HTML,
-				'raw' => 'Konfiguracja separatorów i tekstów znajduje się w głównym panelu ustawień <b>Atela SEO &rarr; Okruszki</b>.',
+				'raw' => __( 'The configuration of separators and texts is located in the main settings panel <b>Atela SEO &rarr; Breadcrumbs</b>.', 'atela-seo' ),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 			]
 		);
@@ -51,19 +51,19 @@ class Atela_SEO_Breadcrumbs_Widget extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'align',
 			[
-				'label' => 'Wyrównanie',
+				'label' => __( 'Alignment', 'atela-seo' ),
 				'type' => \Elementor\Controls_Manager::CHOOSE,
 				'options' => [
 					'flex-start' => [
-						'title' => 'Do lewej',
+						'title' => __( 'Left', 'atela-seo' ),
 						'icon' => 'eicon-text-align-left',
 					],
 					'center' => [
-						'title' => 'Do środka',
+						'title' => __( 'Center', 'atela-seo' ),
 						'icon' => 'eicon-text-align-center',
 					],
 					'flex-end' => [
-						'title' => 'Do prawej',
+						'title' => __( 'Right', 'atela-seo' ),
 						'icon' => 'eicon-text-align-right',
 					],
 				],
@@ -79,7 +79,7 @@ class Atela_SEO_Breadcrumbs_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'style_section',
 			[
-				'label' => 'Styl Okruszków',
+				'label' => __( 'Breadcrumbs Style', 'atela-seo' ),
 				'tab' => \Elementor\Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -95,7 +95,7 @@ class Atela_SEO_Breadcrumbs_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'link_color',
 			[
-				'label' => 'Kolor linków',
+				'label' => __( 'Link Color', 'atela-seo' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .aseo-breadcrumbs__link' => 'color: {{VALUE}};',
@@ -106,7 +106,7 @@ class Atela_SEO_Breadcrumbs_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'link_hover_color',
 			[
-				'label' => 'Kolor linków (Hover)',
+				'label' => __( 'Link Hover Color', 'atela-seo' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .aseo-breadcrumbs__link:hover' => 'color: {{VALUE}};',
@@ -117,7 +117,7 @@ class Atela_SEO_Breadcrumbs_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'current_color',
 			[
-				'label' => 'Kolor aktywnej strony',
+				'label' => __( 'Current Page Color', 'atela-seo' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .aseo-breadcrumbs__current' => 'color: {{VALUE}};',
@@ -128,7 +128,7 @@ class Atela_SEO_Breadcrumbs_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'separator_color',
 			[
-				'label' => 'Kolor separatora',
+				'label' => __( 'Separator Color', 'atela-seo' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .aseo-breadcrumbs__separator' => 'color: {{VALUE}};',
@@ -139,7 +139,7 @@ class Atela_SEO_Breadcrumbs_Widget extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'gap',
 			[
-				'label' => 'Odstępy (Gap)',
+				'label' => __( 'Gap', 'atela-seo' ),
 				'type' => \Elementor\Controls_Manager::SLIDER,
 				'range' => [
 					'px' => [

@@ -56,7 +56,7 @@ class Atela_SEO_Frontend {
 		$current_page = max( 1, get_query_var( 'paged' ), get_query_var( 'page' ) );
 		$replacements['%page%'] = $current_page > 1 ? sprintf( 
 			/* translators: %d: page number */
-			__( 'Strona %d', 'atela-seo' ), 
+			__( 'Page %d', 'atela-seo' ), 
 			$current_page 
 		) : '';
 

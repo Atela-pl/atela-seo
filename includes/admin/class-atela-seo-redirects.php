@@ -66,8 +66,8 @@ class Atela_SEO_Redirects {
 	public function add_submenu() {
 		add_submenu_page(
 			'atela-seo',
-			'Przekierowania 301',
-			'🔀 Przekierowania',
+			__( '301 Redirects', 'atela-seo' ),
+			__( '🔀 Redirects', 'atela-seo' ),
 			'manage_options',
 			'atela-seo-redirects',
 			array( $this, 'render_admin_page' )
@@ -90,10 +90,10 @@ class Atela_SEO_Redirects {
 		// Pokaż komunikat
 		if ( $notice ) {
 			$messages = array(
-				'saved'   => array( 'updated', '✓ Przekierowanie zostało zapisane.' ),
-				'deleted' => array( 'updated', '✓ Przekierowanie zostało usunięte.' ),
-				'imported'=> array( 'updated', '✓ Import CSV zakończony.' ),
-				'exists'  => array( 'error',   '✗ Przekierowanie z tym URL źródłowym już istnieje.' ),
+				'saved'   => array( 'updated', __( '✓ Redirect has been saved.', 'atela-seo' ) ),
+				'deleted' => array( 'updated', __( '✓ Redirect has been deleted.', 'atela-seo' ) ),
+				'imported'=> array( 'updated', __( '✓ CSV import completed.', 'atela-seo' ) ),
+				'exists'  => array( 'error',   __( '✗ A redirect with this source URL already exists.', 'atela-seo' ) ),
 			);
 			if ( isset( $messages[ $notice ] ) ) {
 				[ $type, $text ] = $messages[ $notice ];
@@ -102,7 +102,7 @@ class Atela_SEO_Redirects {
 		}
 
 		echo '<div class="wrap">';
-		echo '<h1 class="wp-heading-inline">🔀 Menedżer Przekierowań</h1>';
+		echo '<h1 class="wp-heading-inline">🔀 ' . esc_html__( 'Redirects Manager', 'atela-seo' ) . '</h1>';
 
 		if ( $action === 'edit' && $edit_id ) {
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -110,13 +110,13 @@ class Atela_SEO_Redirects {
 			if ( $redirect ) {
 				$this->render_form( $redirect );
 			} else {
-				echo '<p>Nie znaleziono przekierowania.</p>';
+				echo '<p>' . esc_html__( 'Redirect not found.', 'atela-seo' ) . '</p>';
 			}
 		} elseif ( $action === 'add' ) {
-			echo ' <a href="' . esc_url( admin_url( 'admin.php?page=atela-seo-redirects' ) ) . '" class="page-title-action">← Wróć do listy</a>';
+			echo ' <a href="' . esc_url( admin_url( 'admin.php?page=atela-seo-redirects' ) ) . '" class="page-title-action">← ' . esc_html__( 'Back to list', 'atela-seo' ) . '</a>';
 			$this->render_form( null );
 		} else {
-			echo ' <a href="' . esc_url( admin_url( 'admin.php?page=atela-seo-redirects&action=add' ) ) . '" class="page-title-action">+ Dodaj nowe</a>';
+			echo ' <a href="' . esc_url( admin_url( 'admin.php?page=atela-seo-redirects&action=add' ) ) . '" class="page-title-action">+ ' . esc_html__( 'Add new', 'atela-seo' ) . '</a>';
 			$this->render_list();
 			$this->render_import_form();
 		}
@@ -129,7 +129,7 @@ class Atela_SEO_Redirects {
 	 * ---------------------------------------------------------------------- */
 	private function render_form( $redirect = null ) {
 		$is_edit = ! is_null( $redirect );
-		$action  = $is_edit ? 'Edytuj przekierowanie' : 'Dodaj nowe przekierowanie';
+		$action  = $is_edit ? __( 'Edit redirect', 'atela-seo' ) : __( 'Add new redirect', 'atela-seo' );
 		?>
 		<h2><?php echo esc_html( $action ); ?></h2>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
@@ -140,7 +140,7 @@ class Atela_SEO_Redirects {
 			<?php endif; ?>
 			<table class="form-table">
 				<tr>
-					<th><label for="source_url">URL źródłowy (stary)</label></th>
+					<th><label for="source_url"><?php esc_html_e( 'Source URL (old)', 'atela-seo' ); ?></label></th>
 					<td>
 						<input
 							type="text"
@@ -148,14 +148,14 @@ class Atela_SEO_Redirects {
 							name="source_url"
 							value="<?php echo esc_attr( $redirect->source_url ?? '' ); ?>"
 							class="large-text"
-							placeholder="/stary-artykul/"
+							placeholder="/old-article/"
 							required
 						/>
-						<p class="description">Ścieżka względna, np. <code>/stara-strona/</code> lub pełny URL.</p>
+						<p class="description"><?php echo wp_kses_post( __( 'Relative path, e.g. <code>/old-page/</code> or full URL.', 'atela-seo' ) ); ?></p>
 					</td>
 				</tr>
 				<tr>
-					<th><label for="target_url">URL docelowy (nowy)</label></th>
+					<th><label for="target_url"><?php esc_html_e( 'Target URL (new)', 'atela-seo' ); ?></label></th>
 					<td>
 						<input
 							type="text"
@@ -163,27 +163,27 @@ class Atela_SEO_Redirects {
 							name="target_url"
 							value="<?php echo esc_attr( $redirect->target_url ?? '' ); ?>"
 							class="large-text"
-							placeholder="/nowy-artykul/ lub https://..."
+							placeholder="/new-article/ or https://..."
 							required
 						/>
-						<p class="description">Ścieżka względna lub pełny URL docelowy.</p>
+						<p class="description"><?php esc_html_e( 'Relative path or full target URL.', 'atela-seo' ); ?></p>
 					</td>
 				</tr>
 				<tr>
-					<th><label for="redirect_type">Typ przekierowania</label></th>
+					<th><label for="redirect_type"><?php esc_html_e( 'Redirect type', 'atela-seo' ); ?></label></th>
 					<td>
 						<select id="redirect_type" name="redirect_type">
 							<option value="301" <?php selected( $redirect->redirect_type ?? 301, 301 ); ?>>
-								301 – Przekierowanie stałe (zalecane dla SEO)
+								<?php esc_html_e( '301 - Permanent redirect (recommended for SEO)', 'atela-seo' ); ?>
 							</option>
 							<option value="302" <?php selected( $redirect->redirect_type ?? 301, 302 ); ?>>
-								302 – Przekierowanie tymczasowe
+								<?php esc_html_e( '302 - Temporary redirect', 'atela-seo' ); ?>
 							</option>
 						</select>
 					</td>
 				</tr>
 			</table>
-			<?php submit_button( $is_edit ? 'Zapisz zmiany' : 'Dodaj przekierowanie' ); ?>
+			<?php submit_button( $is_edit ? __( 'Save changes', 'atela-seo' ) : __( 'Add redirect', 'atela-seo' ) ); ?>
 		</form>
 		<?php
 	}
@@ -198,20 +198,20 @@ class Atela_SEO_Redirects {
 		$redirects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}atela_seo_redirects ORDER BY id DESC" );
 		$count     = count( $redirects );
 		?>
-		<p style="color:#666;margin-top:12px;">Łącznie: <strong><?php echo esc_html( $count ); ?></strong> przekierowań</p>
+		<p style="color:#666;margin-top:12px;"><?php esc_html_e( 'Total:', 'atela-seo' ); ?> <strong><?php echo esc_html( $count ); ?></strong> <?php esc_html_e( 'redirects', 'atela-seo' ); ?></p>
 		<?php if ( empty( $redirects ) ) : ?>
 			<div style="background:#fff;border:1px solid #e0e0e0;padding:40px;text-align:center;margin-top:16px;border-radius:4px;">
-				<p style="font-size:16px;color:#666;">Brak przekierowań. Kliknij <strong>"+ Dodaj nowe"</strong>, aby zacząć.</p>
+				<p style="font-size:16px;color:#666;"><?php echo wp_kses_post( __( 'No redirects found. Click <strong>"+ Add new"</strong> to start.', 'atela-seo' ) ); ?></p>
 			</div>
 		<?php else : ?>
 		<table class="wp-list-table widefat fixed striped" style="margin-top:12px;">
 			<thead>
 				<tr>
-					<th style="width:40%">URL źródłowy</th>
-					<th style="width:35%">URL docelowy</th>
-					<th style="width:8%;text-align:center">Typ</th>
-					<th style="width:8%;text-align:center">Trafień</th>
-					<th style="width:9%">Akcje</th>
+					<th style="width:40%"><?php esc_html_e( 'Source URL', 'atela-seo' ); ?></th>
+					<th style="width:35%"><?php esc_html_e( 'Target URL', 'atela-seo' ); ?></th>
+					<th style="width:8%;text-align:center"><?php esc_html_e( 'Type', 'atela-seo' ); ?></th>
+					<th style="width:8%;text-align:center"><?php esc_html_e( 'Hits', 'atela-seo' ); ?></th>
+					<th style="width:9%"><?php esc_html_e( 'Actions', 'atela-seo' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -232,10 +232,10 @@ class Atela_SEO_Redirects {
 					</td>
 					<td style="text-align:center;font-weight:600;"><?php echo (int) $r->hits; ?></td>
 					<td>
-						<a href="<?php echo esc_url( $edit_url ); ?>">Edytuj</a> |
+						<a href="<?php echo esc_url( $edit_url ); ?>"><?php esc_html_e( 'Edit', 'atela-seo' ); ?></a> |
 						<a href="<?php echo esc_url( $delete_url ); ?>"
-						   onclick="return confirm('Czy na pewno chcesz usunąć to przekierowanie?')"
-						   style="color:#c00;">Usuń</a>
+						   onclick="return confirm('<?php esc_attr_e( 'Are you sure you want to delete this redirect?', 'atela-seo' ); ?>')"
+						   style="color:#c00;"><?php esc_html_e( 'Delete', 'atela-seo' ); ?></a>
 					</td>
 				</tr>
 			<?php endforeach; ?>
@@ -250,13 +250,13 @@ class Atela_SEO_Redirects {
 	private function render_import_form() {
 		?>
 		<div style="margin-top:30px; padding:16px 20px; background:#f9f9f9; border:1px solid #ddd; max-width:600px;">
-			<h3 style="margin-top:0; font-size:14px;">📥 Import z CSV</h3>
-			<p class="description" style="margin-bottom:12px;">Format CSV: <code>source_url,target_url,redirect_type</code> (typ domyślny: 301)</p>
+			<h3 style="margin-top:0; font-size:14px;">📥 <?php esc_html_e( 'Import from CSV', 'atela-seo' ); ?></h3>
+			<p class="description" style="margin-bottom:12px;"><?php echo wp_kses_post( __( 'CSV Format: <code>source_url,target_url,redirect_type</code> (default type: 301)', 'atela-seo' ) ); ?></p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data">
 				<?php wp_nonce_field( 'atela_seo_import_csv', 'atela_seo_csv_nonce' ); ?>
 				<input type="hidden" name="action" value="atela_seo_import_csv" />
 				<input type="file" name="csv_file" accept=".csv" style="margin-right:10px;" />
-				<input type="submit" class="button" value="Importuj" />
+				<input type="submit" class="button" value="<?php esc_attr_e( 'Import', 'atela-seo' ); ?>" />
 			</form>
 		</div>
 		<?php
@@ -267,10 +267,10 @@ class Atela_SEO_Redirects {
 	 * ---------------------------------------------------------------------- */
 	public function handle_save_redirect() {
 		if ( ! check_admin_referer( 'atela_seo_save_redirect', 'atela_seo_redirect_nonce' ) ) {
-			wp_die( 'Błąd bezpieczeństwa.' );
+			wp_die( esc_html__( 'Security error.', 'atela-seo' ) );
 		}
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'Brak uprawnień.' );
+			wp_die( esc_html__( 'No permissions.', 'atela-seo' ) );
 		}
 
 		global $wpdb;
@@ -325,10 +325,10 @@ class Atela_SEO_Redirects {
 	public function handle_delete_redirect() {
 		$id = isset( $_GET['id'] ) ? (int) $_GET['id'] : 0;
 		if ( ! $id || ! check_admin_referer( 'atela_seo_delete_' . $id ) ) {
-			wp_die( 'Błąd bezpieczeństwa.' );
+			wp_die( esc_html__( 'Security error.', 'atela-seo' ) );
 		}
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'Brak uprawnień.' );
+			wp_die( esc_html__( 'No permissions.', 'atela-seo' ) );
 		}
 
 		global $wpdb;
@@ -344,10 +344,10 @@ class Atela_SEO_Redirects {
 	 * ---------------------------------------------------------------------- */
 	public function handle_import_csv() {
 		if ( ! check_admin_referer( 'atela_seo_import_csv', 'atela_seo_csv_nonce' ) ) {
-			wp_die( 'Błąd bezpieczeństwa.' );
+			wp_die( esc_html__( 'Security error.', 'atela-seo' ) );
 		}
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'Brak uprawnień.' );
+			wp_die( esc_html__( 'No permissions.', 'atela-seo' ) );
 		}
 
 		if ( empty( $_FILES['csv_file']['tmp_name'] ) ) {

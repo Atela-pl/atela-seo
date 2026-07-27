@@ -73,8 +73,8 @@ class Atela_SEO_Admin {
 
     public function add_admin_menu() {
         add_menu_page(
-            'Atela SEO - Ustawienia Główne',
-            'Atela SEO', // Nazwa w lewym menu WP
+            __( 'Atela SEO - Main Settings', 'atela-seo' ),
+            __( 'Atela SEO', 'atela-seo' ), // Nazwa w lewym menu WP
             'manage_options',
             'atela-seo',
             array( $this, 'render_admin_page' ),
@@ -180,14 +180,14 @@ class Atela_SEO_Admin {
         $active_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'general';
         ?>
         <div class="wrap">
-            <h1>🌟 Atela SEO - Ustawienia</h1>
+            <h1><?php esc_html_e( '🌟 Atela SEO - Settings', 'atela-seo' ); ?></h1>
             <h2 class="nav-tab-wrapper">
-                <a href="?page=atela-seo&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>">Ogólne</a>
-                <a href="?page=atela-seo&tab=search_appearance" class="nav-tab <?php echo $active_tab == 'search_appearance' ? 'nav-tab-active' : ''; ?>">Wygląd w Wyszukiwarce</a>
-                <a href="?page=atela-seo&tab=social" class="nav-tab <?php echo $active_tab == 'social' ? 'nav-tab-active' : ''; ?>">Social Media</a>
-                <a href="?page=atela-seo&tab=breadcrumbs" class="nav-tab <?php echo $active_tab == 'breadcrumbs' ? 'nav-tab-active' : ''; ?>">Okruszki</a>
-                <a href="?page=atela-seo&tab=sitemap" class="nav-tab <?php echo $active_tab == 'sitemap' ? 'nav-tab-active' : ''; ?>">XML Sitemap</a>
-                <a href="?page=atela-seo&tab=schema" class="nav-tab <?php echo $active_tab == 'schema' ? 'nav-tab-active' : ''; ?>">Schema.org</a>
+                <a href="?page=atela-seo&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'General', 'atela-seo' ); ?></a>
+                <a href="?page=atela-seo&tab=search_appearance" class="nav-tab <?php echo $active_tab == 'search_appearance' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Search Appearance', 'atela-seo' ); ?></a>
+                <a href="?page=atela-seo&tab=social" class="nav-tab <?php echo $active_tab == 'social' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Social Media', 'atela-seo' ); ?></a>
+                <a href="?page=atela-seo&tab=breadcrumbs" class="nav-tab <?php echo $active_tab == 'breadcrumbs' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Breadcrumbs', 'atela-seo' ); ?></a>
+                <a href="?page=atela-seo&tab=sitemap" class="nav-tab <?php echo $active_tab == 'sitemap' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'XML Sitemap', 'atela-seo' ); ?></a>
+                <a href="?page=atela-seo&tab=schema" class="nav-tab <?php echo $active_tab == 'schema' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Schema.org', 'atela-seo' ); ?></a>
             </h2>
             
             <form method="post" action="options.php">
@@ -196,11 +196,11 @@ class Atela_SEO_Admin {
                 <?php if ( $active_tab == 'general' ) : ?>
                 <table class="form-table">
                     <tr valign="top">
-                        <th scope="row">Ustawienia Indeksowania</th>
+                        <th scope="row"><?php esc_html_e( 'Indexing Settings', 'atela-seo' ); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="atela_seo_options[noindex]" value="1" <?php checked( 0, (int) get_option( 'blog_public', 1 ), true ); ?> />
-                                Zablokuj indeksowanie całej witryny (Noindex) - przydatne podczas budowy strony.
+                                <?php esc_html_e( 'Discourage search engines from indexing this site (Noindex) - useful during site development.', 'atela-seo' ); ?>
                             </label>
                         </td>
                     </tr>
@@ -210,7 +210,7 @@ class Atela_SEO_Admin {
                 <?php if ( $active_tab == 'search_appearance' ) : ?>
                 <table class="form-table">
                     <tr valign="top">
-                        <th scope="row">Separator Tytułu</th>
+                        <th scope="row"><?php esc_html_e( 'Title Separator', 'atela-seo' ); ?></th>
                         <td>
                             <select name="atela_seo_options[separator]">
                                 <?php
@@ -221,28 +221,36 @@ class Atela_SEO_Admin {
                                 }
                                 ?>
                             </select>
-                            <p class="description">Wybierz znak oddzielający tytuł od nazwy witryny (np. w zmiennej %sep%).</p>
+                            <?php 
+                            // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment
+                            esc_html_e( 'Choose the symbol that separates the title from the site name (e.g. in the %sep% variable).', 'atela-seo' ); 
+                            ?>
+                            </p>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Title (Strona Główna)</th>
+                        <th scope="row"><?php esc_html_e( 'Title (Homepage)', 'atela-seo' ); ?></th>
                         <td>
                             <input type="text" name="atela_seo_options[home_title]" value="<?php echo esc_attr( isset($options['home_title']) ? $options['home_title'] : '%site_name% %sep% %site_desc%' ); ?>" style="width: 100%; max-width: 500px;" />
-                            <p class="description">Dostępne zmienne: %title%, %site_name%, %site_desc%, %sep%, %page%</p>
+                            <?php 
+                            // phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
+                            esc_html_e( 'Available variables: %title%, %site_name%, %site_desc%, %sep%, %page%', 'atela-seo' ); 
+                            ?>
+                            </p>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Meta Description (Strona Główna)</th>
+                        <th scope="row"><?php esc_html_e( 'Meta Description (Homepage)', 'atela-seo' ); ?></th>
                         <td>
                             <textarea name="atela_seo_options[home_description]" style="width: 100%; max-width: 500px; height: 100px;"><?php echo esc_textarea( isset($options['home_description']) ? $options['home_description'] : '' ); ?></textarea>
-                            <p class="description">Dostępne zmienne j.w.</p>
+                            <p class="description"><?php esc_html_e( 'Available variables as above.', 'atela-seo' ); ?></p>
                         </td>
                     </tr>
                 </table>
 
                 <!-- SERP Preview -->
                 <div class="aseo-preview-wrap" style="max-width:660px;">
-                    <h3>👁️ Podgląd w wynikach Google</h3>
+                    <h3>👁️ <?php esc_html_e( 'Google Search Preview', 'atela-seo' ); ?></h3>
                     <div id="atela-seo-serp-preview" class="aseo-serp">
                         <div class="aseo-serp__url">
                             <span class="aseo-serp__url-favicon"><?php echo esc_html( substr( get_bloginfo('name'), 0, 1 ) ); ?></span>
@@ -252,8 +260,8 @@ class Atela_SEO_Admin {
                         <div class="aseo-serp__meta"><?php echo esc_html( date_i18n( 'd M Y' ) ); ?></div>
                         <div class="aseo-serp__description"><?php echo esc_html( $options['home_description'] ?? '' ); ?></div>
                         <div class="aseo-serp__counts">
-                            <span title="Długość Tytułu SEO (optymalnie 40-60 znaków)" style="display:inline-flex;align-items:center;cursor:help;"><span style="font-size:11px;color:#666;margin-right:4px;">Tytuł:</span><span class="aseo-serp__title-count"></span></span>
-                            <span title="Długość Meta Description (optymalnie 120-160 znaków)" style="display:inline-flex;align-items:center;cursor:help;"><span style="font-size:11px;color:#666;margin-right:4px;">Opis:</span><span class="aseo-serp__desc-count"></span></span>
+                            <span title="<?php esc_attr_e( 'SEO Title Length (optimal: 40-60 chars)', 'atela-seo' ); ?>" style="display:inline-flex;align-items:center;cursor:help;"><span style="font-size:11px;color:#666;margin-right:4px;"><?php esc_html_e( 'Title:', 'atela-seo' ); ?></span><span class="aseo-serp__title-count"></span></span>
+                            <span title="<?php esc_attr_e( 'Meta Description Length (optimal: 120-160 chars)', 'atela-seo' ); ?>" style="display:inline-flex;align-items:center;cursor:help;"><span style="font-size:11px;color:#666;margin-right:4px;"><?php esc_html_e( 'Desc:', 'atela-seo' ); ?></span><span class="aseo-serp__desc-count"></span></span>
                         </div>
                     </div>
                 </div>
@@ -263,7 +271,7 @@ class Atela_SEO_Admin {
                 <?php if ( $active_tab == 'social' ) : ?>
                 <table class="form-table">
                     <tr valign="top">
-                        <th scope="row">Domyślny obraz OG</th>
+                        <th scope="row"><?php esc_html_e( 'Default OG Image', 'atela-seo' ); ?></th>
                         <td>
                             <?php
                             $default_img_id = $options['og_default_image_id'] ?? 0;
@@ -275,26 +283,26 @@ class Atela_SEO_Admin {
                                 <img src="<?php echo esc_url( $default_img_url ); ?>" style="max-width:200px;display:block;margin-bottom:8px;" />
                                 <?php endif; ?>
                             </div>
-                            <button type="button" class="button" id="atela_seo_og_image_btn">Wybierz obraz</button>
+                            <button type="button" class="button" id="atela_seo_og_image_btn"><?php esc_html_e( 'Select image', 'atela-seo' ); ?></button>
                             <?php if ( $default_img_id ) : ?>
-                            <button type="button" class="button" id="atela_seo_og_image_clear">Usuń</button>
+                            <button type="button" class="button" id="atela_seo_og_image_clear"><?php esc_html_e( 'Remove', 'atela-seo' ); ?></button>
                             <?php endif; ?>
-                            <p class="description">Obraz fallback OG (1200×630px) jeśli strona nie ma featured image ani własnego OG image.</p>
+                            <p class="description"><?php esc_html_e( 'Fallback OG image (1200×630px) if the page has no featured image or custom OG image.', 'atela-seo' ); ?></p>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Twitter / X @username witryny</th>
+                        <th scope="row"><?php esc_html_e( 'Twitter / X Site @username', 'atela-seo' ); ?></th>
                         <td>
-                            <input type="text" name="atela_seo_options[twitter_site]" value="<?php echo esc_attr( $options['twitter_site'] ?? '' ); ?>" placeholder="np. atela_pl" style="width:200px;" />
-                            <p class="description">Nazwa użytkownika Twojego konta Twitter/X (bez @).</p>
+                            <input type="text" name="atela_seo_options[twitter_site]" value="<?php echo esc_attr( $options['twitter_site'] ?? '' ); ?>" placeholder="e.g. atela_pl" style="width:200px;" />
+                            <p class="description"><?php esc_html_e( 'Your Twitter/X account username (without @).', 'atela-seo' ); ?></p>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Domyślny typ Twitter Card</th>
+                        <th scope="row"><?php esc_html_e( 'Default Twitter Card Type', 'atela-seo' ); ?></th>
                         <td>
                             <select name="atela_seo_options[twitter_card_type]">
-                                <option value="summary_large_image" <?php selected( $options['twitter_card_type'] ?? 'summary_large_image', 'summary_large_image' ); ?>>Summary Large Image (zalecany)</option>
-                                <option value="summary" <?php selected( $options['twitter_card_type'] ?? '', 'summary' ); ?>>Summary</option>
+                                <option value="summary_large_image" <?php selected( $options['twitter_card_type'] ?? 'summary_large_image', 'summary_large_image' ); ?>><?php esc_html_e( 'Summary Large Image (recommended)', 'atela-seo' ); ?></option>
+                                <option value="summary" <?php selected( $options['twitter_card_type'] ?? '', 'summary' ); ?>><?php esc_html_e( 'Summary', 'atela-seo' ); ?></option>
                             </select>
                         </td>
                     </tr>
@@ -303,10 +311,10 @@ class Atela_SEO_Admin {
 
                 <!-- FB + Twitter Preview -->
                 <div class="aseo-preview-wrap" style="max-width:540px;">
-                    <h3>👁️ Podgląd udostępnienia</h3>
+                    <h3>👁️ <?php esc_html_e( 'Share Preview', 'atela-seo' ); ?></h3>
                     <div class="aseo-preview-tabs">
-                        <span class="aseo-preview-tabs__tab active" data-target="atela-seo-fb-preview">Facebook / LinkedIn</span>
-                        <span class="aseo-preview-tabs__tab" data-target="atela-seo-twitter-preview">Twitter / X</span>
+                        <span class="aseo-preview-tabs__tab active" data-target="atela-seo-fb-preview"><?php esc_html_e( 'Facebook / LinkedIn', 'atela-seo' ); ?></span>
+                        <span class="aseo-preview-tabs__tab" data-target="atela-seo-twitter-preview"><?php esc_html_e( 'Twitter / X', 'atela-seo' ); ?></span>
                     </div>
 
                     <div id="atela-seo-fb-preview" class="aseo-preview-panel active aseo-fb">
@@ -320,7 +328,7 @@ class Atela_SEO_Admin {
                             <?php else : ?>
                             <div class="aseo-fb__image-placeholder">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-                                Brak obrazu OG (1200×630px)
+                                <?php esc_html_e( 'No OG image (1200×630px)', 'atela-seo' ); ?>
                             </div>
                             <?php endif; ?>
                         </div>
@@ -338,7 +346,7 @@ class Atela_SEO_Admin {
                             <?php else : ?>
                             <div class="aseo-tw__image-placeholder">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-                                Brak obrazu OG (1200×630px)
+                                <?php esc_html_e( 'No OG image (1200×630px)', 'atela-seo' ); ?>
                             </div>
                             <?php endif; ?>
                         </div>
@@ -355,142 +363,143 @@ class Atela_SEO_Admin {
                 <?php if ( $active_tab == 'breadcrumbs' ) : ?>
                 <table class="form-table">
                     <tr valign="top">
-                        <th scope="row">Włącz okruszki (Breadcrumbs)</th>
+                        <th scope="row"><?php esc_html_e( 'Enable Breadcrumbs', 'atela-seo' ); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="atela_seo_options[breadcrumbs_enabled]" value="1" <?php checked( 1, $options['breadcrumbs_enabled'] ?? 0, true ); ?> />
-                                Włącz generowanie okruszków dla witryny
+                                <?php esc_html_e( 'Enable breadcrumbs generation for the site', 'atela-seo' ); ?>
                             </label>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Separator</th>
+                        <th scope="row"><?php esc_html_e( 'Separator', 'atela-seo' ); ?></th>
                         <td>
                             <input type="text" name="atela_seo_options[breadcrumbs_separator]" value="<?php echo esc_attr( $options['breadcrumbs_separator'] ?? '›' ); ?>" style="width: 50px;" />
-                            <p class="description">Znak oddzielający elementy ścieżki (np. ›, », -)</p>
+                            <p class="description"><?php esc_html_e( 'Character separating path elements (e.g. ›, », -)', 'atela-seo' ); ?></p>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Tekst "Strona Główna"</th>
+                        <th scope="row"><?php esc_html_e( '"Home" text', 'atela-seo' ); ?></th>
                         <td>
-                            <input type="text" name="atela_seo_options[breadcrumbs_home_text]" value="<?php echo esc_attr( $options['breadcrumbs_home_text'] ?? 'Strona Główna' ); ?>" />
+                            <input type="text" name="atela_seo_options[breadcrumbs_home_text]" value="<?php echo esc_attr( $options['breadcrumbs_home_text'] ?? __( 'Home', 'atela-seo' ) ); ?>" />
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Tekst "Blog"</th>
+                        <th scope="row"><?php esc_html_e( '"Blog" text', 'atela-seo' ); ?></th>
                         <td>
-                            <input type="text" name="atela_seo_options[breadcrumbs_blog_text]" value="<?php echo esc_attr( $options['breadcrumbs_blog_text'] ?? 'Blog' ); ?>" />
-                            <p class="description">Używane, jeśli strona posiada osobną stronę z wpisami.</p>
+                            <input type="text" name="atela_seo_options[breadcrumbs_blog_text]" value="<?php echo esc_attr( $options['breadcrumbs_blog_text'] ?? __( 'Blog', 'atela-seo' ) ); ?>" />
+                            <p class="description"><?php esc_html_e( 'Used if the site has a separate posts page.', 'atela-seo' ); ?></p>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Tekst dla 404</th>
+                        <th scope="row"><?php esc_html_e( '404 text', 'atela-seo' ); ?></th>
                         <td>
-                            <input type="text" name="atela_seo_options[breadcrumbs_404_text]" value="<?php echo esc_attr( $options['breadcrumbs_404_text'] ?? 'Nie znaleziono' ); ?>" />
+                            <input type="text" name="atela_seo_options[breadcrumbs_404_text]" value="<?php echo esc_attr( $options['breadcrumbs_404_text'] ?? __( 'Not found', 'atela-seo' ) ); ?>" />
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Szczegóły wyświetlania</th>
+                        <th scope="row"><?php esc_html_e( 'Display details', 'atela-seo' ); ?></th>
                         <td>
                             <label style="display:block;margin-bottom:8px;">
                                 <input type="checkbox" name="atela_seo_options[breadcrumbs_show_home]" value="1" <?php checked( 1, $options['breadcrumbs_show_home'] ?? 1, true ); ?> />
-                                Pokaż element "Strona Główna"
+                                <?php esc_html_e( 'Show "Home" element', 'atela-seo' ); ?>
                             </label>
                             <label style="display:block;margin-bottom:8px;">
                                 <input type="checkbox" name="atela_seo_options[breadcrumbs_show_current]" value="1" <?php checked( 1, $options['breadcrumbs_show_current'] ?? 1, true ); ?> />
-                                Pokaż bieżącą stronę (ostatni element)
+                                <?php esc_html_e( 'Show current page (last element)', 'atela-seo' ); ?>
                             </label>
                             <label style="display:block;margin-bottom:8px;">
                                 <input type="checkbox" name="atela_seo_options[breadcrumbs_show_blog]" value="1" <?php checked( 1, $options['breadcrumbs_show_blog'] ?? 1, true ); ?> />
-                                Pokaż stronę bloga przed kategoriami
+                                <?php esc_html_e( 'Show blog page before categories', 'atela-seo' ); ?>
                             </label>
                         </td>
                     </tr>
                 </table>
 
                 <div style="max-width:800px; padding:15px 20px; background:#fff; border-left:4px solid #0073aa; box-shadow:0 1px 1px rgba(0,0,0,0.04); margin-top:20px;">
-                    <h3 style="margin-top:0; font-size:14px;">🛠 Jak osadzić okruszki na stronie?</h3>
+                    <h3 style="margin-top:0; font-size:14px;">🛠 <?php esc_html_e( 'How to embed breadcrumbs on the page?', 'atela-seo' ); ?></h3>
                     <ul style="margin-bottom:0; padding-left:20px;">
-                        <li style="margin-bottom:5px;"><strong>W Elementorze:</strong> Użyj naszego dedykowanego widgetu <b>Atela SEO Okruszki</b> w zakładce widgetów.</li>
-                        <li style="margin-bottom:5px;"><strong>Shortcode:</strong> <code>[atela_seo_breadcrumbs]</code> (do wstawienia w Gutenbergu lub klasycznym edytorze).</li>
-                        <li><strong>W pliku motywu (PHP):</strong> <code>&lt;?php if ( function_exists('atela_seo_breadcrumbs') ) atela_seo_breadcrumbs(); ?&gt;</code></li>
+                        <li style="margin-bottom:5px;"><strong><?php esc_html_e( 'In Elementor:', 'atela-seo' ); ?></strong> <?php echo wp_kses_post( __( 'Use our dedicated widget <b>Atela SEO Breadcrumbs</b> in the widgets tab.', 'atela-seo' ) ); ?></li>
+                        <li style="margin-bottom:5px;"><strong>Shortcode:</strong> <code>[atela_seo_breadcrumbs]</code> <?php esc_html_e( '(to be inserted in Gutenberg or classic editor).', 'atela-seo' ); ?></li>
+                        <li><strong><?php esc_html_e( 'In the theme file (PHP):', 'atela-seo' ); ?></strong> <code>&lt;?php if ( function_exists('atela_seo_breadcrumbs') ) atela_seo_breadcrumbs(); ?&gt;</code></li>
                     </ul>
                 </div>
 
                 <div class="aseo-preview-wrap" style="max-width:800px; padding:20px; background:#f9f9f9; border:1px solid #ddd; margin-top:30px;">
-                    <h3 style="margin-top:0;">👁️ Podgląd Live</h3>
-                    <p class="description" style="margin-bottom:15px;">Tak mogą wyglądać okruszki na Twojej stronie (wygląd zależy też od Twojego motywu).</p>
+                    <h3 style="margin-top:0;">👁️ <?php esc_html_e( 'Live Preview', 'atela-seo' ); ?></h3>
+                    <p class="description" style="margin-bottom:15px;"><?php esc_html_e( 'This is how breadcrumbs might look on your site (the exact look depends on your theme).', 'atela-seo' ); ?></p>
                     <nav class="atela-seo-breadcrumbs-preview" style="font-size:14px; color:#555;">
-                        <span><a href="#" style="color:#0073aa;text-decoration:none;" id="aseo_bc_home_preview">Strona Główna</a></span>
+                        <span><a href="#" style="color:#0073aa;text-decoration:none;" id="aseo_bc_home_preview"><?php esc_html_e( 'Home', 'atela-seo' ); ?></a></span>
                         <span class="aseo-bc-sep" style="margin:0 8px;opacity:0.6;">›</span>
-                        <span><a href="#" style="color:#0073aa;text-decoration:none;" id="aseo_bc_blog_preview">Blog</a></span>
+                        <span><a href="#" style="color:#0073aa;text-decoration:none;" id="aseo_bc_blog_preview"><?php esc_html_e( 'Blog', 'atela-seo' ); ?></a></span>
                         <span class="aseo-bc-sep" style="margin:0 8px;opacity:0.6;">›</span>
-                        <span style="font-weight:bold;color:#111;" id="aseo_bc_current_preview">Przykładowy wpis</span>
+                        <span style="font-weight:bold;color:#111;" id="aseo_bc_current_preview"><?php esc_html_e( 'Example post', 'atela-seo' ); ?></span>
                     </nav>
                 </div>
                 <?php endif; ?>
 
                 <?php if ( $active_tab == 'sitemap' ) : ?>
                 <?php
-                $sitemap_url = home_url( '/sitemap.xml' );
+                $sitemap_mode = $options['sitemap_mode'] ?? 'single';
+                $sitemap_url = home_url( $sitemap_mode === 'index' ? '/sitemap_index.xml' : '/sitemap.xml' );
                 $last_ping   = get_option( 'atela_seo_last_ping', '' );
                 $post_types  = get_post_types( array( 'public' => true, '_builtin' => false ), 'objects' );
                 ?>
                 <div style="max-width:800px; padding:14px 20px; background:#fff; border-left:4px solid #2271b1; box-shadow:0 1px 1px rgba(0,0,0,.04); margin-bottom:20px;">
-                    <strong>🗺️ Twoja mapa witryny:</strong>
-                    <a href="<?php echo esc_url( $sitemap_url ); ?>" target="_blank" style="margin-left:8px;"><?php echo esc_html( $sitemap_url ); ?></a>
+                    <strong>🗺️ <?php esc_html_e( 'Your sitemap:', 'atela-seo' ); ?></strong>
+                    <a href="<?php echo esc_url( $sitemap_url ); ?>" id="aseo_sitemap_url_link" target="_blank" style="margin-left:8px;"><?php echo esc_html( $sitemap_url ); ?></a>
                 </div>
                 <table class="form-table">
                     <tr valign="top">
-                        <th scope="row">Włącz XML Sitemap</th>
+                        <th scope="row"><?php esc_html_e( 'Enable XML Sitemap', 'atela-seo' ); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="atela_seo_options[sitemap_enabled]" value="1" <?php checked( 1, $options['sitemap_enabled'] ?? 1, true ); ?> />
-                                Generuj automatyczną mapę witryny `sitemap.xml`
+                                <?php esc_html_e( 'Generate automatic XML sitemap', 'atela-seo' ); ?>
                             </label>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Tryb sitemapy</th>
+                        <th scope="row"><?php esc_html_e( 'Sitemap Mode', 'atela-seo' ); ?></th>
                         <td>
                             <label style="display:block;margin-bottom:8px;">
                                 <input type="radio" name="atela_seo_options[sitemap_mode]" value="single" <?php checked( 'single', $options['sitemap_mode'] ?? 'single' ); ?> />
-                                <strong>Pojedynczy plik</strong> &ndash; <code>sitemap.xml</code> ze wszystkimi URL-ami (polecany dla małych witryn)
+                                <strong><?php esc_html_e( 'Single file', 'atela-seo' ); ?></strong> &ndash; <code>sitemap.xml</code> <?php esc_html_e( 'with all URLs (recommended for small sites)', 'atela-seo' ); ?>
                             </label>
                             <label style="display:block;">
                                 <input type="radio" name="atela_seo_options[sitemap_mode]" value="index" <?php checked( 'index', $options['sitemap_mode'] ?? 'single' ); ?> />
-                                <strong>Indeks sitemap</strong> &ndash; <code>sitemap_index.xml</code> + osobne pliki per typ treści (polecany dla dużych witryn)
+                                <strong><?php esc_html_e( 'Sitemap index', 'atela-seo' ); ?></strong> &ndash; <code>sitemap_index.xml</code> + <?php esc_html_e( 'separate files per content type (recommended for large sites)', 'atela-seo' ); ?>
                             </label>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Zawartość sitemapy</th>
+                        <th scope="row"><?php esc_html_e( 'Sitemap Content', 'atela-seo' ); ?></th>
                         <td>
                             <label style="display:block;margin-bottom:6px;">
                                 <input type="checkbox" name="atela_seo_options[sitemap_include_posts]" value="1" <?php checked( 1, $options['sitemap_include_posts'] ?? 1, true ); ?> />
-                                Wpisy (Posts)
+                                <?php esc_html_e( 'Posts', 'atela-seo' ); ?>
                             </label>
                             <label style="display:block;margin-bottom:6px;">
                                 <input type="checkbox" name="atela_seo_options[sitemap_include_pages]" value="1" <?php checked( 1, $options['sitemap_include_pages'] ?? 1, true ); ?> />
-                                Strony (Pages)
+                                <?php esc_html_e( 'Pages', 'atela-seo' ); ?>
                             </label>
                             <label style="display:block;margin-bottom:6px;">
                                 <input type="checkbox" name="atela_seo_options[sitemap_include_categories]" value="1" <?php checked( 1, $options['sitemap_include_categories'] ?? 1, true ); ?> />
-                                Kategorie i tagi
+                                <?php esc_html_e( 'Categories and Tags', 'atela-seo' ); ?>
                             </label>
                             <label style="display:block;margin-bottom:6px;">
                                 <input type="checkbox" name="atela_seo_options[sitemap_include_images]" value="1" <?php checked( 1, $options['sitemap_include_images'] ?? 1, true ); ?> />
-                                Dodaj obrazy (tagi &lt;image:image&gt;)
+                                <?php esc_html_e( 'Include images (<image:image> tags)', 'atela-seo' ); ?>
                             </label>
                             <label style="display:block;">
                                 <input type="checkbox" name="atela_seo_options[sitemap_exclude_noindex]" value="1" <?php checked( 1, $options['sitemap_exclude_noindex'] ?? 1, true ); ?> />
-                                Pomiń strony z noindex
+                                <?php esc_html_e( 'Exclude pages with noindex', 'atela-seo' ); ?>
                             </label>
                         </td>
                     </tr>
                     <?php if ( ! empty( $post_types ) ) : ?>
                     <tr valign="top">
-                        <th scope="row">Typy wpisów (CPT)</th>
+                        <th scope="row"><?php esc_html_e( 'Custom Post Types (CPT)', 'atela-seo' ); ?></th>
                         <td>
                             <?php foreach ( $post_types as $pt ) : ?>
                             <label style="display:block;margin-bottom:6px;">
@@ -503,7 +512,7 @@ class Atela_SEO_Admin {
                     </tr>
                     <?php endif; ?>
                     <tr valign="top">
-                        <th scope="row">Częstotliwość zmian</th>
+                        <th scope="row"><?php esc_html_e( 'Change Frequency', 'atela-seo' ); ?></th>
                         <td>
                             <select name="atela_seo_options[sitemap_changefreq]">
                                 <?php
@@ -517,75 +526,80 @@ class Atela_SEO_Admin {
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Priorytety</th>
+                        <th scope="row"><?php esc_html_e( 'Priorities', 'atela-seo' ); ?></th>
                         <td>
                             <table style="border-spacing:8px 4px;">
-                                <tr><td style="color:#666;font-size:13px;">Strona główna:</td><td><input type="number" step="0.1" min="0" max="1" name="atela_seo_options[sitemap_priority_home]" value="<?php echo esc_attr( $options['sitemap_priority_home'] ?? '1.0' ); ?>" style="width:65px;"></td></tr>
-                                <tr><td style="color:#666;font-size:13px;">Wpisy:</td><td><input type="number" step="0.1" min="0" max="1" name="atela_seo_options[sitemap_priority_posts]" value="<?php echo esc_attr( $options['sitemap_priority_posts'] ?? '0.8' ); ?>" style="width:65px;"></td></tr>
-                                <tr><td style="color:#666;font-size:13px;">Strony:</td><td><input type="number" step="0.1" min="0" max="1" name="atela_seo_options[sitemap_priority_pages]" value="<?php echo esc_attr( $options['sitemap_priority_pages'] ?? '0.7' ); ?>" style="width:65px;"></td></tr>
-                                <tr><td style="color:#666;font-size:13px;">Kategorie:</td><td><input type="number" step="0.1" min="0" max="1" name="atela_seo_options[sitemap_priority_tax]" value="<?php echo esc_attr( $options['sitemap_priority_tax'] ?? '0.5' ); ?>" style="width:65px;"></td></tr>
+                                <tr><td style="color:#666;font-size:13px;"><?php esc_html_e( 'Homepage:', 'atela-seo' ); ?></td><td><input type="number" step="0.1" min="0" max="1" name="atela_seo_options[sitemap_priority_home]" value="<?php echo esc_attr( $options['sitemap_priority_home'] ?? '1.0' ); ?>" style="width:65px;"></td></tr>
+                                <tr><td style="color:#666;font-size:13px;"><?php esc_html_e( 'Posts:', 'atela-seo' ); ?></td><td><input type="number" step="0.1" min="0" max="1" name="atela_seo_options[sitemap_priority_posts]" value="<?php echo esc_attr( $options['sitemap_priority_posts'] ?? '0.8' ); ?>" style="width:65px;"></td></tr>
+                                <tr><td style="color:#666;font-size:13px;"><?php esc_html_e( 'Pages:', 'atela-seo' ); ?></td><td><input type="number" step="0.1" min="0" max="1" name="atela_seo_options[sitemap_priority_pages]" value="<?php echo esc_attr( $options['sitemap_priority_pages'] ?? '0.7' ); ?>" style="width:65px;"></td></tr>
+                                <tr><td style="color:#666;font-size:13px;"><?php esc_html_e( 'Categories:', 'atela-seo' ); ?></td><td><input type="number" step="0.1" min="0" max="1" name="atela_seo_options[sitemap_priority_tax]" value="<?php echo esc_attr( $options['sitemap_priority_tax'] ?? '0.5' ); ?>" style="width:65px;"></td></tr>
                             </table>
                         </td>
                     </tr>
                 </table>
 
                 <div style="max-width:800px; padding:16px 20px; background:#f9f9f9; border:1px solid #ddd; margin-top:20px;">
-                    <h3 style="margin-top:0; font-size:14px;">🔔 Pinguj wyszukiwarki</h3>
-                    <p class="description" style="margin-bottom:12px;">Wyślij powiadomienie do Google i Bing, że Twoja mapa witryny została zaktualizowana.</p>
+                    <h3 style="margin-top:0; font-size:14px;">🔔 <?php esc_html_e( 'Ping search engines', 'atela-seo' ); ?></h3>
+                    <p class="description" style="margin-bottom:12px;"><?php esc_html_e( 'Send a notification to Google and Bing that your sitemap has been updated.', 'atela-seo' ); ?></p>
                     <?php if ( $last_ping ) : ?>
-                    <p style="margin-bottom:10px; font-size:12px; color:#666;">Ostatni ping: <?php echo esc_html( $last_ping ); ?></p>
+                    <p style="margin-bottom:10px; font-size:12px; color:#666;">
+                    <?php 
+                        /* translators: %s: date and time of last ping */
+                        printf( esc_html__( 'Last ping: %s', 'atela-seo' ), esc_html( $last_ping ) ); 
+                    ?>
+                    </p>
                     <?php endif; ?>
-                    <button type="button" id="aseo_ping_btn" class="button button-secondary">🔔 Pinguj Google i Bing</button>
+                    <button type="button" id="aseo_ping_btn" class="button button-secondary">🔔 <?php esc_html_e( 'Ping Google & Bing', 'atela-seo' ); ?></button>
                     <span id="aseo_ping_result" style="margin-left:10px; font-size:13px;"></span>
                 </div>
                 <?php endif; ?>
 
                 <?php if ( $active_tab == 'schema' ) : ?>
                 <div style="max-width:800px; padding:14px 20px; background:#fff; border-left:4px solid #2271b1; box-shadow:0 1px 1px rgba(0,0,0,.04); margin-bottom:20px;">
-                    <strong>🧠 Schema.org JSON-LD</strong> &ndash; dane strukturalne wstrzykiwane automatycznie do <code>&lt;head&gt;</code> każdej strony. Pomagają Google wyświetlać <em>rich snippets</em> (np. autora, datę artykułu, logo organizacji).
+                    <strong>🧠 Schema.org JSON-LD</strong> &ndash; <?php echo wp_kses_post( __( 'structured data automatically injected into the <code>&lt;head&gt;</code> of each page. Helps Google display <em>rich snippets</em> (e.g. author, article date, organization logo).', 'atela-seo' ) ); ?>
                 </div>
                 <table class="form-table">
                     <tr valign="top">
-                        <th scope="row">Nazwa organizacji</th>
+                        <th scope="row"><?php esc_html_e( 'Organization Name', 'atela-seo' ); ?></th>
                         <td>
                             <input type="text" name="atela_seo_options[schema_org_name]" value="<?php echo esc_attr( $options['schema_org_name'] ?? get_bloginfo('name') ); ?>" class="regular-text" />
-                            <p class="description">Pełna nazwa Twojej firmy lub organizacji.</p>
+                            <p class="description"><?php esc_html_e( 'Full name of your company or organization.', 'atela-seo' ); ?></p>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">URL organizacji</th>
+                        <th scope="row"><?php esc_html_e( 'Organization URL', 'atela-seo' ); ?></th>
                         <td>
                             <input type="url" name="atela_seo_options[schema_org_url]" value="<?php echo esc_attr( $options['schema_org_url'] ?? home_url('/') ); ?>" class="regular-text" />
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Logo organizacji (URL)</th>
+                        <th scope="row"><?php esc_html_e( 'Organization Logo (URL)', 'atela-seo' ); ?></th>
                         <td>
                             <div style="display:flex;gap:10px;align-items:center;">
                                 <input type="url" id="aseo_schema_logo" name="atela_seo_options[schema_org_logo]" value="<?php echo esc_attr( $options['schema_org_logo'] ?? '' ); ?>" class="regular-text" />
-                                <button type="button" class="button" id="aseo_schema_logo_btn">Wybierz logo</button>
+                                <button type="button" class="button" id="aseo_schema_logo_btn"><?php esc_html_e( 'Select logo', 'atela-seo' ); ?></button>
                             </div>
                             <?php if ( ! empty( $options['schema_org_logo'] ) ) : ?>
                             <img src="<?php echo esc_url( $options['schema_org_logo'] ); ?>" style="max-height:60px;margin-top:8px;display:block;border:1px solid #ddd;padding:4px;background:#fff;" />
                             <?php endif; ?>
-                            <p class="description">Zalecane: prostokąt lub kwadrat, min. 112px wysokości.</p>
+                            <p class="description"><?php esc_html_e( 'Recommended: rectangle or square, min. 112px height.', 'atela-seo' ); ?></p>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">E-mail kontaktowy</th>
+                        <th scope="row"><?php esc_html_e( 'Contact e-mail', 'atela-seo' ); ?></th>
                         <td>
                             <input type="email" name="atela_seo_options[schema_org_email]" value="<?php echo esc_attr( $options['schema_org_email'] ?? '' ); ?>" class="regular-text" />
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Telefon</th>
+                        <th scope="row"><?php esc_html_e( 'Phone', 'atela-seo' ); ?></th>
                         <td>
                             <input type="text" name="atela_seo_options[schema_org_phone]" value="<?php echo esc_attr( $options['schema_org_phone'] ?? '' ); ?>" class="regular-text" />
-                            <p class="description">Format międzynarodowy, np. +48123456789</p>
+                            <p class="description"><?php esc_html_e( 'International format, e.g. +48123456789', 'atela-seo' ); ?></p>
                         </td>
                     </tr>
                     <tr valign="top">
-                        <th scope="row">Profile społecznościowe (sameAs)</th>
+                        <th scope="row"><?php esc_html_e( 'Social Profiles (sameAs)', 'atela-seo' ); ?></th>
                         <td>
                             <?php
                             $social_schema = array(
@@ -608,7 +622,7 @@ class Atela_SEO_Admin {
                 </table>
                 <?php endif; ?>
 
-                <?php submit_button(); ?>
+                <?php submit_button( __( 'Save changes', 'atela-seo' ), 'primary', 'submit', true, array( 'style' => 'background:#2563eb; border-color:#1d4ed8;' ) ); ?>
             </form>
         </div>
         <?php
@@ -647,56 +661,59 @@ class Atela_SEO_Admin {
 		echo '<div style="border-bottom:1px solid #eee;margin-bottom:14px;padding-bottom:4px;"><strong>🔍 SEO</strong></div>';
 
 		echo '<div style="margin-bottom:10px;">';
-		echo '<label for="atela_seo_title" style="display:block;font-weight:bold;margin-bottom:5px;">SEO Title</label>';
+		echo '<label for="atela_seo_title" style="display:block;font-weight:bold;margin-bottom:5px;">' . esc_html__( 'SEO Title', 'atela-seo' ) . '</label>';
 		echo '<input type="text" id="atela_seo_title" name="atela_seo_title" value="' . esc_attr( $title ) . '" style="width:100%;" />';
-		echo '<p class="description" style="margin-top:4px;">Dostępne zmienne: %title%, %site_name%, %site_desc%, %sep%, %page%</p>';
+		echo '<p class="description" style="margin-top:4px;">';
+		// phpcs:ignore WordPress.WP.I18n.MissingTranslatorsComment, WordPress.WP.I18n.UnorderedPlaceholdersText
+		echo esc_html__( 'Available variables: %title%, %site_name%, %site_desc%, %sep%, %page%', 'atela-seo' );
+		echo '</p>';
 		echo '</div>';
 
 		echo '<div style="margin-bottom:10px;">';
-		echo '<label for="atela_seo_description" style="display:block;font-weight:bold;margin-bottom:5px;">Meta Description</label>';
+		echo '<label for="atela_seo_description" style="display:block;font-weight:bold;margin-bottom:5px;">' . esc_html__( 'Meta Description', 'atela-seo' ) . '</label>';
 		echo '<textarea id="atela_seo_description" name="atela_seo_description" style="width:100%;height:70px;">' . esc_textarea( $description ) . '</textarea>';
-		echo '<p class="description" style="margin-top:4px;">Dostępne zmienne j.w.</p>';
+		echo '<p class="description" style="margin-top:4px;">' . esc_html__( 'Available variables as above.', 'atela-seo' ) . '</p>';
 		echo '</div>';
 
 		echo '<div style="margin-bottom:10px;">';
-		echo '<label for="atela_seo_focus_keyword" style="display:block;font-weight:bold;margin-bottom:5px;">Fraza kluczowa</label>';
+		echo '<label for="atela_seo_focus_keyword" style="display:block;font-weight:bold;margin-bottom:5px;">' . esc_html__( 'Focus Keyword', 'atela-seo' ) . '</label>';
 		echo '<input type="text" id="atela_seo_focus_keyword" name="atela_seo_focus_keyword" value="' . esc_attr( $focus_keyword ) . '" style="width:100%;" />';
 		echo '</div>';
 
 		echo '<div style="margin-bottom:10px;">';
-		echo '<label for="atela_seo_canonical" style="display:block;font-weight:bold;margin-bottom:5px;">Canonical URL <span style="font-weight:normal;color:#666;">(opcjonalnie)</span></label>';
-		echo '<input type="text" id="atela_seo_canonical" name="atela_seo_canonical" value="' . esc_attr( $canonical ) . '" style="width:100%;" placeholder="Pozostaw puste dla domyślnego" />';
+		echo '<label for="atela_seo_canonical" style="display:block;font-weight:bold;margin-bottom:5px;">' . esc_html__( 'Canonical URL', 'atela-seo' ) . ' <span style="font-weight:normal;color:#666;">' . esc_html__( '(optional)', 'atela-seo' ) . '</span></label>';
+		echo '<input type="text" id="atela_seo_canonical" name="atela_seo_canonical" value="' . esc_attr( $canonical ) . '" style="width:100%;" placeholder="' . esc_attr__( 'Leave empty for default', 'atela-seo' ) . '" />';
 		echo '</div>';
 
 		echo '<div style="margin-bottom:14px;">';
-		echo '<label><input type="checkbox" name="atela_seo_noindex" value="1" ' . checked( 1, $noindex, false ) . ' /> Blokuj indeksowanie (noindex)</label>';
+		echo '<label><input type="checkbox" name="atela_seo_noindex" value="1" ' . checked( 1, $noindex, false ) . ' /> ' . esc_html__( 'Discourage search engines from indexing this post (noindex)', 'atela-seo' ) . '</label>';
 		echo '</div>';
 
 		// ---- SOCIAL ----
-		echo '<div style="border-bottom:1px solid #eee;margin-bottom:14px;padding-bottom:4px;"><strong>📣 Social Media (Open Graph / Twitter)</strong></div>';
+		echo '<div style="border-bottom:1px solid #eee;margin-bottom:14px;padding-bottom:4px;"><strong>📣 ' . esc_html__( 'Social Media (Open Graph / Twitter)', 'atela-seo' ) . '</strong></div>';
 
 		echo '<div style="margin-bottom:10px;">';
-		echo '<label for="atela_seo_og_title" style="display:block;font-weight:bold;margin-bottom:5px;">OG Title <span style="font-weight:normal;color:#666;">(domyślnie: SEO Title)</span></label>';
+		echo '<label for="atela_seo_og_title" style="display:block;font-weight:bold;margin-bottom:5px;">' . esc_html__( 'OG Title', 'atela-seo' ) . ' <span style="font-weight:normal;color:#666;">' . esc_html__( '(default: SEO Title)', 'atela-seo' ) . '</span></label>';
 		echo '<input type="text" id="atela_seo_og_title" name="atela_seo_og_title" value="' . esc_attr( $og_title ) . '" style="width:100%;" />';
 		echo '</div>';
 
 		echo '<div style="margin-bottom:10px;">';
-		echo '<label for="atela_seo_og_description" style="display:block;font-weight:bold;margin-bottom:5px;">OG Description <span style="font-weight:normal;color:#666;">(domyślnie: Meta Description)</span></label>';
+		echo '<label for="atela_seo_og_description" style="display:block;font-weight:bold;margin-bottom:5px;">' . esc_html__( 'OG Description', 'atela-seo' ) . ' <span style="font-weight:normal;color:#666;">' . esc_html__( '(default: Meta Description)', 'atela-seo' ) . '</span></label>';
 		echo '<textarea id="atela_seo_og_description" name="atela_seo_og_description" style="width:100%;height:70px;">' . esc_textarea( $og_description ) . '</textarea>';
 		echo '</div>';
 
 		echo '<div style="margin-bottom:10px;">';
-		echo '<label style="display:block;font-weight:bold;margin-bottom:5px;">OG Image <span style="font-weight:normal;color:#666;">(1200×630px, domyślnie: featured image)</span></label>';
+		echo '<label style="display:block;font-weight:bold;margin-bottom:5px;">' . esc_html__( 'OG Image', 'atela-seo' ) . ' <span style="font-weight:normal;color:#666;">' . esc_html__( '(1200×630px, default: featured image)', 'atela-seo' ) . '</span></label>';
 		echo '<input type="hidden" id="atela_seo_og_image_id" name="atela_seo_og_image_id" value="' . esc_attr( $og_image_id ) . '" />';
 		if ( $og_image_url ) {
 			echo '<div id="atela_seo_og_image_preview"><img src="' . esc_url( $og_image_url ) . '" style="max-width:200px;display:block;margin-bottom:8px;border:1px solid #ddd;padding:2px;" /></div>';
 		} else {
 			echo '<div id="atela_seo_og_image_preview"></div>';
 		}
-		echo '<button type="button" class="button" id="atela_seo_og_image_btn">Wybierz obraz OG</button> ';
-		echo '<button type="button" class="button button-link-delete" id="atela_seo_og_image_clear" style="' . ( $og_image_id ? '' : 'display:none;' ) . '">Usuń</button>';
-		echo '<p class="description">Adres URL obrazu (1200x630px). Zostaw puste – użyje featured image strony.</p>';
-		echo '<p class="description" style="color:#0071a1;">💡 <strong>Automatyczne marginesy:</strong> System automatycznie utworzy tło dla niepasujących obrazków, dzięki czemu żadne elementy (np. logo czy napisy) nie zostaną ucięte po udostępnieniu na FB/Twitterze.</p>';
+		echo '<button type="button" class="button" id="atela_seo_og_image_btn">' . esc_html__( 'Select OG image', 'atela-seo' ) . '</button> ';
+		echo '<button type="button" class="button button-link-delete" id="atela_seo_og_image_clear" style="' . ( $og_image_id ? '' : 'display:none;' ) . '">' . esc_html__( 'Remove', 'atela-seo' ) . '</button>';
+		echo '<p class="description">' . esc_html__( 'Image URL (1200x630px). Leave empty to use the page featured image.', 'atela-seo' ) . '</p>';
+		echo '<p class="description" style="color:#0071a1;">💡 <strong>' . esc_html__( 'Automatic margins:', 'atela-seo' ) . '</strong> ' . esc_html__( 'The system automatically letterboxes non-matching images, ensuring no elements (like logos or text) are cropped when shared on FB/Twitter.', 'atela-seo' ) . '</p>';
 		echo '</div>';
 
 		// ---- LIVE PREVIEW ----
@@ -711,21 +728,21 @@ class Atela_SEO_Admin {
 		?>
 		<div id="atela-seo-metabox-preview" class="is-mobile">
 			<div style="display:flex; justify-content:flex-start; align-items:center; gap: 24px; border-bottom:1px solid #eee; margin-bottom:14px; padding-bottom:8px;">
-				<strong>👁️ Podgląd Live</strong>
+				<strong>👁️ <?php esc_html_e( 'Live Preview', 'atela-seo' ); ?></strong>
 				<label class="aseo-device-toggle" style="display:flex;align-items:center;cursor:pointer;font-size:12px;color:#555;">
-					<span class="aseo-toggle-label aseo-toggle-mobile" style="margin-right:6px;font-weight:600;color:#1d2327;">Mobile</span>
+					<span class="aseo-toggle-label aseo-toggle-mobile" style="margin-right:6px;font-weight:600;color:#1d2327;"><?php esc_html_e( 'Mobile', 'atela-seo' ); ?></span>
 					<div style="position:relative;width:36px;height:20px;background:#b5bbc3;border-radius:20px;margin:0 4px;transition:0.3s;" id="aseo_toggle_track">
 						<div style="position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:0.3s;" id="aseo_toggle_knob"></div>
 					</div>
-					<span class="aseo-toggle-label aseo-toggle-desktop" style="margin-left:6px;">Wersja dla komputera</span>
+					<span class="aseo-toggle-label aseo-toggle-desktop" style="margin-left:6px;"><?php esc_html_e( 'Desktop', 'atela-seo' ); ?></span>
 				</label>
 			</div>
 
 			<div class="aseo-preview-wrap">
 				<div class="aseo-preview-tabs">
-					<span class="aseo-preview-tabs__tab active" data-target="atela-seo-metabox-serp">Google</span>
-					<span class="aseo-preview-tabs__tab" data-target="atela-seo-metabox-fb">Facebook</span>
-					<span class="aseo-preview-tabs__tab" data-target="atela-seo-metabox-tw">Twitter / X</span>
+					<span class="aseo-preview-tabs__tab active" data-target="atela-seo-metabox-serp"><?php esc_html_e( 'Google', 'atela-seo' ); ?></span>
+					<span class="aseo-preview-tabs__tab" data-target="atela-seo-metabox-fb"><?php esc_html_e( 'Facebook', 'atela-seo' ); ?></span>
+					<span class="aseo-preview-tabs__tab" data-target="atela-seo-metabox-tw"><?php esc_html_e( 'Twitter / X', 'atela-seo' ); ?></span>
 				</div>
 
 				<div id="atela-seo-metabox-serp" class="aseo-preview-panel active aseo-serp">
@@ -755,8 +772,8 @@ class Atela_SEO_Admin {
 						</div>
 					</div>
 					<div class="aseo-serp__counts">
-						<span title="Długość Tytułu SEO (optymalnie 40-60 znaków)" style="display:inline-flex;align-items:center;cursor:help;"><span style="font-size:11px;color:#666;margin-right:4px;">Tytuł:</span><span class="aseo-serp__title-count"></span></span>
-						<span title="Długość Meta Description (optymalnie 120-160 znaków)" style="display:inline-flex;align-items:center;cursor:help;"><span style="font-size:11px;color:#666;margin-right:4px;">Opis:</span><span class="aseo-serp__desc-count"></span></span>
+						<span title="<?php esc_attr_e( 'SEO Title Length (optimal: 40-60 chars)', 'atela-seo' ); ?>" style="display:inline-flex;align-items:center;cursor:help;"><span style="font-size:11px;color:#666;margin-right:4px;"><?php esc_html_e( 'Title:', 'atela-seo' ); ?></span><span class="aseo-serp__title-count"></span></span>
+						<span title="<?php esc_attr_e( 'Meta Description Length (optimal: 120-160 chars)', 'atela-seo' ); ?>" style="display:inline-flex;align-items:center;cursor:help;"><span style="font-size:11px;color:#666;margin-right:4px;"><?php esc_html_e( 'Desc:', 'atela-seo' ); ?></span><span class="aseo-serp__desc-count"></span></span>
 					</div>
 				</div>
 
@@ -767,7 +784,7 @@ class Atela_SEO_Admin {
 						<?php else : ?>
 						<div class="aseo-fb__image-placeholder">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-							Brak obrazu OG
+							<?php esc_html_e( 'No OG Image', 'atela-seo' ); ?>
 						</div>
 						<?php endif; ?>
 					</div>
@@ -785,7 +802,7 @@ class Atela_SEO_Admin {
 						<?php else : ?>
 						<div class="aseo-tw__image-placeholder">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-							Brak obrazu OG
+							<?php esc_html_e( 'No OG Image', 'atela-seo' ); ?>
 						</div>
 						<?php endif; ?>
 					</div>

@@ -60,8 +60,8 @@
 			var titleLen = rawTitle.length;
 			var descLen  = rawDesc.length;
 
-			$titleIn.text( displayTitle || '(brak tytułu)' );
-			$descIn.text( displayDesc || '(brak opisu)' );
+			$titleIn.text( displayTitle || '(no title)' );
+			$descIn.text( displayDesc || '(no description)' );
 
 			// Kolorowanie licznika
 			$container.find( '.aseo-serp__title-count' )
@@ -104,7 +104,7 @@
 			var t = truncate( rawTitle || siteName, 88 );
 			var d = truncate( rawDesc, 110 );
 
-			$container.find( '.aseo-fb__title' ).text( t || '(brak tytułu)' );
+			$container.find( '.aseo-fb__title' ).text( t || '(no title)' );
 			$container.find( '.aseo-fb__desc' ).text( d );
 			$container.find( '.aseo-fb__domain' ).text( siteUrl.toUpperCase() );
 		}
@@ -138,7 +138,7 @@
 			var t = truncate( rawTitle || siteName, 70 );
 			var d = truncate( rawDesc, 125 );
 
-			$container.find( '.aseo-tw__title' ).text( t || '(brak tytułu)' );
+			$container.find( '.aseo-tw__title' ).text( t || '(no title)' );
 			$container.find( '.aseo-tw__desc' ).text( d );
 			$container.find( '.aseo-tw__domain' ).text( siteUrl );
 		}
@@ -192,7 +192,7 @@
 			var parsedOgDesc  = replaceVars( ogDesc, dynamicTitle, siteName, sep );
 
 			// SERP
-			$( '#atela-seo-metabox-serp .aseo-serp__title' ).text( truncate( parsedTitle, 60 ) || '(brak)' );
+			$( '#atela-seo-metabox-serp .aseo-serp__title' ).text( truncate( parsedTitle, 60 ) || '(no title)' );
 			$( '#atela-seo-metabox-serp .aseo-serp__description' ).text( truncate( parsedDesc, 160 ) );
 			var tl = parsedTitle.length;
 			var dl = parsedDesc.length;
@@ -206,12 +206,12 @@
 				.addClass( dl > 160 ? 'bad' : dl >= 120 ? 'ok' : dl > 0 ? 'warn' : '' );
 
 			// OG / FB
-			$( '#atela-seo-metabox-fb .aseo-fb__title' ).text( truncate( parsedOgTitle, 88 ) || '(brak)' );
+			$( '#atela-seo-metabox-fb .aseo-fb__title' ).text( truncate( parsedOgTitle, 88 ) || '(no title)' );
 			$( '#atela-seo-metabox-fb .aseo-fb__desc' ).text( truncate( parsedOgDesc, 110 ) );
 			$( '#atela-seo-metabox-fb .aseo-fb__domain' ).text( siteUrl.toUpperCase() );
 
 			// Twitter
-			$( '#atela-seo-metabox-tw .aseo-tw__title' ).text( truncate( parsedOgTitle, 70 ) || '(brak)' );
+			$( '#atela-seo-metabox-tw .aseo-tw__title' ).text( truncate( parsedOgTitle, 70 ) || '(no title)' );
 			$( '#atela-seo-metabox-tw .aseo-tw__desc' ).text( truncate( parsedOgDesc, 125 ) );
 			$( '#atela-seo-metabox-tw .aseo-tw__domain' ).text( siteUrl );
 		}
@@ -246,8 +246,8 @@
 				$serpImg.html( '<img src="' + url + '" />' ).css('display', '');
 			} else {
 				var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>';
-				$fbImg.html( '<div class="aseo-fb__image-placeholder">' + svg + '<br>Brak obrazu OG</div>' );
-				$twImg.html( '<div class="aseo-tw__image-placeholder">' + svg + '<br>Brak obrazu OG</div>' );
+				$fbImg.html( '<div class="aseo-fb__image-placeholder">' + svg + '<br>No OG Image</div>' );
+				$twImg.html( '<div class="aseo-tw__image-placeholder">' + svg + '<br>No OG Image</div>' );
 				$serpImg.html( '' ).css('display', 'none');
 			}
 			updateMetaBox();
@@ -313,8 +313,8 @@
 				$twImg.html( '<img src="' + url + '" />' );
 			} else {
 				var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>';
-				$fbImg.html( '<div class="aseo-fb__image-placeholder">' + svg + '<br>Brak obrazu OG</div>' );
-				$twImg.html( '<div class="aseo-tw__image-placeholder">' + svg + '<br>Brak obrazu OG</div>' );
+				$fbImg.html( '<div class="aseo-fb__image-placeholder">' + svg + '<br>No OG Image</div>' );
+				$twImg.html( '<div class="aseo-tw__image-placeholder">' + svg + '<br>No OG Image</div>' );
 			}
 		} );
 	}

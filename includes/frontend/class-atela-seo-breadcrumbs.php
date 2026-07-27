@@ -125,9 +125,9 @@ class Atela_SEO_Breadcrumbs {
 		$show_current = isset( $options['breadcrumbs_show_current'] ) ? (bool) $options['breadcrumbs_show_current'] : true;
 		$show_blog    = isset( $options['breadcrumbs_show_blog'] ) ? (bool) $options['breadcrumbs_show_blog'] : true;
 
-		$home_text    = $options['breadcrumbs_home_text'] ?? 'Strona Główna';
-		$blog_text    = $options['breadcrumbs_blog_text'] ?? 'Blog';
-		$text_404     = $options['breadcrumbs_404_text'] ?? 'Nie znaleziono';
+		$home_text    = $options['breadcrumbs_home_text'] ?? __( 'Home', 'atela-seo' );
+		$blog_text    = $options['breadcrumbs_blog_text'] ?? __( 'Blog', 'atela-seo' );
+		$text_404     = $options['breadcrumbs_404_text'] ?? __( 'Not found', 'atela-seo' );
 
 		if ( is_front_page() ) {
 			if ( $show_home && $show_current ) {
@@ -217,7 +217,8 @@ class Atela_SEO_Breadcrumbs {
 			}
 		} elseif ( is_search() ) {
 			if ( $show_current ) {
-				$search_text = $options['breadcrumbs_search_text'] ?? 'Szukaj: %s';
+				/* translators: %s: search query */
+				$search_text = $options['breadcrumbs_search_text'] ?? __( 'Search: %s', 'atela-seo' );
 				$items[] = array( 'name' => sprintf( $search_text, get_search_query() ), 'url' => '' );
 			}
 		} elseif ( is_404() ) {
@@ -229,7 +230,8 @@ class Atela_SEO_Breadcrumbs {
 				$items[] = array( 'name' => $blog_text, 'url'  => get_permalink( get_option( 'page_for_posts' ) ) );
 			}
 			if ( $show_current ) {
-				$archive_text = $options['breadcrumbs_archive_text'] ?? 'Archiwum: %s';
+				/* translators: %s: archive title */
+				$archive_text = $options['breadcrumbs_archive_text'] ?? __( 'Archive: %s', 'atela-seo' );
 				$items[] = array( 'name' => sprintf( $archive_text, get_the_archive_title() ), 'url' => '' );
 			}
 		}

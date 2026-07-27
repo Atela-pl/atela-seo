@@ -1,11 +1,11 @@
 === Atela SEO ===
 Contributors: atelapl
-Donate link: https://atela.pl
+Donate link: https://suppi.pl/atela
 Tags: seo, sitemap, meta, redirects, breadcrumbs
 Requires at least: 5.9
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,11 +30,10 @@ Atela SEO is a custom SEO plugin designed for full control over WordPress websit
 
 == Installation ==
 
-1. Download the plugin ZIP file.
-2. Log in to your WordPress admin panel and navigate to **Plugins > Add New**.
-3. Click on the **Upload Plugin** button and choose the downloaded ZIP file.
-4. Click **Install Now**, and once installed successfully, click **Activate Plugin**.
-5. A new configuration menu item, **Atela SEO**, will appear in your WordPress main menu.
+1. Log in to your WordPress admin panel and navigate to **Plugins > Add New**.
+2. Search for **Atela SEO**.
+3. Click **Install Now**, and once installed successfully, click **Activate**.
+4. A new configuration menu item, **Atela SEO**, will appear in your WordPress main menu.
 
 == External services ==
 
@@ -49,6 +48,11 @@ This plugin connects to external APIs to ping search engines about sitemap updat
 No. Elementor is not required. The plugin fully supports the Classic Editor, the default block editor (Gutenberg), as well as the Elementor page builder.
 
 == Changelog ==
+
+= 1.0.1 =
+* I18n: Complete localization support (English base with Polish translation included).
+* Feature: Added beautiful XSL styling to XML Sitemap.
+* Fix: Resolved WPCS issues and improved output escaping.
 
 = 1.0.0 =
 * Initial release.

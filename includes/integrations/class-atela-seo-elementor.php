@@ -93,13 +93,13 @@ class Atela_SEO_Elementor {
 		check_ajax_referer( 'atela_seo_editor_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_send_json_error( 'Brak uprawnień.' );
+			wp_send_json_error( __( 'No permissions.', 'atela-seo' ) );
 		}
 
 		$post_id = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
 
 		if ( ! $post_id ) {
-			wp_send_json_error( 'Nieprawidłowy post_id.' );
+			wp_send_json_error( __( 'Invalid post_id.', 'atela-seo' ) );
 		}
 
 		wp_send_json_success( array(
@@ -118,7 +118,7 @@ class Atela_SEO_Elementor {
 		check_ajax_referer( 'atela_seo_editor_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_send_json_error( 'Brak uprawnień.' );
+			wp_send_json_error( __( 'No permissions.', 'atela-seo' ) );
 		}
 
 		$post_id = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
@@ -138,7 +138,7 @@ class Atela_SEO_Elementor {
 		update_post_meta( $post_id, '_atela_seo_canonical',     $canonical );
 		update_post_meta( $post_id, '_atela_seo_focus_keyword', $focus_keyword );
 
-		wp_send_json_success( array( 'message' => 'Dane SEO zapisane.' ) );
+		wp_send_json_success( array( 'message' => __( 'SEO data saved.', 'atela-seo' ) ) );
 	}
 
 	/* -------------------------------------------------------------------------
@@ -167,7 +167,7 @@ class Atela_SEO_Elementor {
 		$document->start_controls_section(
 			'atela_seo_section',
 			array(
-				'label' => 'Metadane SEO',
+				'label' => __( 'SEO Metadata', 'atela-seo' ),
 				'tab'   => 'atela_seo',
 			)
 		);
@@ -175,57 +175,57 @@ class Atela_SEO_Elementor {
 		$document->add_control(
 			'_atela_seo_title',
 			array(
-				'label'       => 'SEO Title',
+				'label'       => __( 'SEO Title', 'atela-seo' ),
 				'type'        => \Elementor\Controls_Manager::TEXT,
 				'default'     => get_post_meta( $post_id, '_atela_seo_title', true ),
 				'label_block' => true,
-				'description' => 'Zalecana długość: 40–60 znaków.',
+				'description' => __( 'Recommended length: 40-60 characters.', 'atela-seo' ),
 			)
 		);
 
 		$document->add_control(
 			'_atela_seo_description',
 			array(
-				'label'       => 'Meta Description',
+				'label'       => __( 'Meta Description', 'atela-seo' ),
 				'type'        => \Elementor\Controls_Manager::TEXTAREA,
 				'default'     => get_post_meta( $post_id, '_atela_seo_description', true ),
 				'rows'        => 5,
-				'description' => 'Zalecana długość: 120–160 znaków.',
+				'description' => __( 'Recommended length: 120-160 characters.', 'atela-seo' ),
 			)
 		);
 
 		$document->add_control(
 			'_atela_seo_noindex',
 			array(
-				'label'        => 'Blokuj indeksowanie (noindex)',
+				'label'        => __( 'Discourage indexing (noindex)', 'atela-seo' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				'label_on'     => 'Tak',
-				'label_off'    => 'Nie',
+				'label_on'     => __( 'Yes', 'atela-seo' ),
+				'label_off'    => __( 'No', 'atela-seo' ),
 				'return_value' => 'yes',
 				'default'      => get_post_meta( $post_id, '_atela_seo_noindex', true ) ? 'yes' : '',
-				'description'  => 'Włącz, aby wyszukiwarki nie indeksowały tej strony.',
+				'description'  => __( 'Turn on to stop search engines from indexing this page.', 'atela-seo' ),
 			)
 		);
 
 		$document->add_control(
 			'_atela_seo_canonical',
 			array(
-				'label'       => 'Adres kanoniczny (Canonical URL)',
+				'label'       => __( 'Canonical URL', 'atela-seo' ),
 				'type'        => \Elementor\Controls_Manager::TEXT,
 				'default'     => get_post_meta( $post_id, '_atela_seo_canonical', true ),
 				'label_block' => true,
-				'description' => 'Pozostaw puste, aby użyć domyślnego. Zmień, jeśli ta treść to kopia innej strony.',
+				'description' => __( 'Leave empty for default. Change if this content is a copy of another page.', 'atela-seo' ),
 			)
 		);
 
 		$document->add_control(
 			'_atela_seo_focus_keyword',
 			array(
-				'label'       => 'Fraza kluczowa (Focus Keyword)',
+				'label'       => __( 'Focus Keyword', 'atela-seo' ),
 				'type'        => \Elementor\Controls_Manager::TEXT,
 				'default'     => get_post_meta( $post_id, '_atela_seo_focus_keyword', true ),
 				'label_block' => true,
-				'description' => 'Główna fraza, na którą optymalizujesz tę stronę (na potrzeby analizy).',
+				'description' => __( 'The main keyword you are optimizing this page for.', 'atela-seo' ),
 			)
 		);
 
@@ -235,7 +235,7 @@ class Atela_SEO_Elementor {
 		$document->start_controls_section(
 			'atela_seo_social_section',
 			array(
-				'label' => '📣 Social Media (Open Graph / Twitter)',
+				'label' => __( '📣 Social Media (Open Graph / Twitter)', 'atela-seo' ),
 				'tab'   => 'atela_seo',
 			)
 		);
@@ -243,44 +243,44 @@ class Atela_SEO_Elementor {
 		$document->add_control(
 			'_atela_seo_og_title',
 			array(
-				'label'       => 'OG Title',
+				'label'       => __( 'OG Title', 'atela-seo' ),
 				'type'        => \Elementor\Controls_Manager::TEXT,
 				'default'     => get_post_meta( $post_id, '_atela_seo_og_title', true ),
 				'label_block' => true,
-				'description' => 'Tytuł wyświetlany przy udostępnieniu na Facebooku/LinkedIn. Domyślnie używa SEO Title.',
+				'description' => __( 'Title used when shared on FB/LinkedIn. Defaults to SEO Title.', 'atela-seo' ),
 			)
 		);
 
 		$document->add_control(
 			'_atela_seo_og_description',
 			array(
-				'label'       => 'OG Description',
+				'label'       => __( 'OG Description', 'atela-seo' ),
 				'type'        => \Elementor\Controls_Manager::TEXTAREA,
 				'default'     => get_post_meta( $post_id, '_atela_seo_og_description', true ),
 				'rows'        => 3,
-				'description' => 'Opis wyświetlany przy udostępnieniu. Domyślnie używa Meta Description.',
+				'description' => __( 'Description used when shared. Defaults to Meta Description.', 'atela-seo' ),
 			)
 		);
 
 		$document->add_control(
 			'_atela_seo_og_image_url',
 			array(
-				'label'       => 'OG Image URL',
+				'label'       => __( 'OG Image URL', 'atela-seo' ),
 				'type'        => \Elementor\Controls_Manager::TEXT,
 				'default'     => get_post_meta( $post_id, '_atela_seo_og_image_url', true ),
 				'label_block' => true,
-				'description' => 'Adres URL obrazu (1200×630px). Zostaw puste – użyje featured image strony.',
+				'description' => __( 'Image URL (1200x630px). Leave empty to use featured image.', 'atela-seo' ),
 			)
 		);
 
 		$document->add_control(
 			'_atela_seo_twitter_creator',
 			array(
-				'label'       => 'Twitter/X @autor (creator)',
+				'label'       => __( 'Twitter/X @author (creator)', 'atela-seo' ),
 				'type'        => \Elementor\Controls_Manager::TEXT,
 				'default'     => get_post_meta( $post_id, '_atela_seo_twitter_creator', true ),
 				'label_block' => true,
-				'description' => 'Nick autora na Twitter/X (bez @). Opcjonalne.',
+				'description' => __( 'Author username on Twitter/X (without @). Optional.', 'atela-seo' ),
 			)
 		);
 
@@ -385,7 +385,7 @@ if ( class_exists( '\Elementor\Core\Kits\Documents\Tabs\Tab_Base' ) ) {
 			$this->start_controls_section(
 				'atela_seo_global_section',
 				array(
-					'label' => 'Globalne Ustawienia SEO',
+					'label' => __( 'Global SEO Settings', 'atela-seo' ),
 					'tab'   => $this->get_id(),
 				)
 			);
@@ -393,7 +393,7 @@ if ( class_exists( '\Elementor\Core\Kits\Documents\Tabs\Tab_Base' ) ) {
 			$this->add_control(
 				'_atela_seo_global_title',
 				array(
-					'label'       => 'Title (Strona Główna)',
+					'label'       => __( 'Title (Homepage)', 'atela-seo' ),
 					'type'        => \Elementor\Controls_Manager::TEXT,
 					'default'     => $options['home_title'] ?? '',
 					'label_block' => true,
@@ -403,7 +403,7 @@ if ( class_exists( '\Elementor\Core\Kits\Documents\Tabs\Tab_Base' ) ) {
 			$this->add_control(
 				'_atela_seo_global_desc',
 				array(
-					'label'   => 'Meta Description (Strona Główna)',
+					'label'   => __( 'Meta Description (Homepage)', 'atela-seo' ),
 					'type'    => \Elementor\Controls_Manager::TEXTAREA,
 					'default' => $options['home_description'] ?? '',
 					'rows'    => 4,
@@ -413,10 +413,10 @@ if ( class_exists( '\Elementor\Core\Kits\Documents\Tabs\Tab_Base' ) ) {
 			$this->add_control(
 				'_atela_seo_global_noindex',
 				array(
-					'label'        => 'Zablokuj indeksowanie (Noindex)',
+					'label'        => __( 'Discourage indexing (noindex)', 'atela-seo' ),
 					'type'         => \Elementor\Controls_Manager::SWITCHER,
-					'label_on'     => 'Tak',
-					'label_off'    => 'Nie',
+					'label_on'     => __( 'Yes', 'atela-seo' ),
+					'label_off'    => __( 'No', 'atela-seo' ),
 					'return_value' => 'yes',
 					'default'      => ( ! empty( $options['noindex'] ) ) ? 'yes' : '',
 				)

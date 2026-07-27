@@ -121,19 +121,16 @@ Donate link: https://atela.pl
 ---
 
 ## 🚀 Instalacja
+### Metoda 1: Z katalogu WordPress
+1. W panelu WordPress przejdź do **Wtyczki → Dodaj nową**
+2. Wyszukaj **Atela SEO**
+3. Kliknij **Zainstaluj teraz**, a następnie **Włącz**
 
-### Metoda 1: Ręczna (z pliku ZIP)
-1. Pobierz repozytorium jako ZIP (`Code → Download ZIP`)
+### Metoda 2: Ręczna instalacja
+1. Pobierz plik ZIP z [oficjalnego repozytorium WordPress.org](https://wordpress.org/plugins/atela-seo/)
 2. W panelu WordPress przejdź do **Wtyczki → Dodaj nową → Wyślij wtyczkę**
 3. Wybierz pobrany plik ZIP i kliknij **Zainstaluj teraz**
 4. Aktywuj wtyczkę
-
-### Metoda 2: Przez FTP/SSH
-```bash
-cd /wp-content/plugins/
-git clone https://github.com/BasiaNiedbal/atela-seo.git
-```
-Następnie aktywuj wtyczkę w panelu WordPress.
 
 ---
 
@@ -214,3 +211,15 @@ atela-seo/
 This plugin connects to external APIs to ping search engines about sitemap updates.
 - **Google:** Pings `https://www.google.com/ping?sitemap=...` to notify Google of new or updated sitemaps. [Google Terms of Service](https://policies.google.com/terms) | [Google Privacy Policy](https://policies.google.com/privacy)
 - **Bing:** Pings `https://www.bing.com/ping?sitemap=...` to notify Bing. [Microsoft Terms of Use](https://www.microsoft.com/en-us/legal/terms-of-use) | [Microsoft Privacy Statement](https://privacy.microsoft.com/en-us/privacystatement)
+
+---
+
+## 📜 Changelog
+
+### v1.0.1
+- **I18n:** Pełne wsparcie lokalizacji (dodano polskie tłumaczenia).
+- **Funkcja:** Dodano piękną, stylowaną mapę witryny (Sitemap) opartą na XSL.
+- **Poprawki:** Naprawiono krytyczny błąd przekierowań (biały ekran) i ostrzeżenia z Plugin Check (WPCS).
+
+### v1.0.0
+- Pierwsze wydanie.
