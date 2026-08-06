@@ -79,6 +79,16 @@ Donate link: https://atela.pl
 - Pola SEO Title, Meta Description, Noindex, OG Image bezpośrednio w edytorze wizualnym
 - Zapis przez natywny mechanizm Elementora (opublikuj/aktualizuj)
 
+### 📊 SEO Dashboard & Google Search Console
+- Ogólny widok stanu SEO witryny (donut chart: dobre / OK / do poprawy / nieprzeanalizowane)
+- Statystyki kliknięć, zapytań i CTR z Google Search Console bezpośrednio przy edycji wpisu — wymaga aktywnej wtyczki **Google Site Kit**
+- Filtrowanie listy wpisów wg statusu SEO
+
+### ⚡ Core Web Vitals Analyzer
+- Audyt wydajności na żądanie (mobile i desktop) przez **Google PageSpeed Insights API**
+- Metryki LCP, CLS, FCP wraz z czytelną oceną i rekomendacjami
+- Wymaga własnego (darmowego) klucza API do PageSpeed Insights
+
 ### 🧠 Integracja z Gutenberg / Classic Editor
 - **Meta Box "Atela SEO Premium"** pod edytorem z pełnym zestawem pól SEO i Social
 - Podglądy aktualizowane na żywo podczas wpisywania (nasłuch na `wp.data.subscribe`)
@@ -95,15 +105,9 @@ Donate link: https://atela.pl
 
 ---
 
-## 🚧 Roadmap (planowany rozwój)
+## ⭐ Atela SEO Premium
 
-| Moduł | Status |
-|---|---|
-| Integracja z Google Search Console i Indexing API | 🔜 Następny |
-| Analiza treści w czasie rzeczywistym (system 🔴🟡🟢) | 🔜 W kolejce |
-| Analiza czytelności (długość zdań, akapitów, nagłówki) | 🔜 W kolejce |
-| Edytor robots.txt | 🔜 W kolejce |
-| Auto 301 (automatyczne przekierowania po zmianie slug'a) | 🔜 W kolejce |
+Szukasz więcej? **Atela SEO Premium** rozszerza tę darmową wersję o analizę treści w czasie rzeczywistym, analizę czytelności, asystenta AI, zaawansowany menedżer przekierowań, role i uprawnienia zespołowe oraz integrację z Elementorem na poziomie edytora. Więcej informacji: [atela.pl](https://atela.pl).
 
 ---
 
