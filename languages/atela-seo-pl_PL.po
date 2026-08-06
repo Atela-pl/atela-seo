@@ -1,10 +1,11 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Atela SEO\n"
+"Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pl_PL\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 
 msgid "\"Blog\" text"
@@ -94,8 +95,12 @@ msgstr "Ustawienia Okruszków"
 msgid "Breadcrumbs Style"
 msgstr "Styl Okruszków"
 
-msgid "CSV Format: <code>source_url,target_url,redirect_type</code> (default type: 301)"
-msgstr "Format CSV: <code>source_url,target_url,redirect_type</code> (domyślnie: 301)"
+msgid ""
+"CSV Format: <code>source_url,target_url,redirect_type</code> (default type: "
+"301)"
+msgstr ""
+"Format CSV: <code>source_url,target_url,redirect_type</code> (domyślnie: "
+"301)"
 
 msgid "Canonical URL"
 msgstr "Adres Kanoniczny"
@@ -115,8 +120,11 @@ msgstr "Częstotliwość zmian"
 msgid "Character separating path elements (e.g. ›, », -)"
 msgstr "Znak oddzielający elementy ścieżki (np. ›, », -)"
 
-msgid "Choose the symbol that separates the title from the site name (e.g. in the %sep% variable)."
-msgstr "Wybierz znak oddzielający tytuł od nazwy witryny (np. w zmiennej %sep%)."
+msgid ""
+"Choose the symbol that separates the title from the site name (e.g. in the "
+"%sep% variable)."
+msgstr ""
+"Wybierz znak oddzielający tytuł od nazwy witryny (np. w zmiennej %sep%)."
 
 msgid "Contact e-mail"
 msgstr "Adres e-mail"
@@ -151,8 +159,12 @@ msgstr "Zablokuj indeksowanie (noindex)"
 msgid "Discourage search engines from indexing this post (noindex)"
 msgstr "Nie pozwalaj wyszukiwarkom na indeksowanie tego wpisu (noindex)"
 
-msgid "Discourage search engines from indexing this site (Noindex) - useful during site development."
-msgstr "Nie pozwalaj wyszukiwarkom na indeksowanie tej witryny (Noindex) - przydatne podczas budowy."
+msgid ""
+"Discourage search engines from indexing this site (Noindex) - useful during "
+"site development."
+msgstr ""
+"Nie pozwalaj wyszukiwarkom na indeksowanie tej witryny (Noindex) - przydatne"
+" podczas budowy."
 
 msgid "Display details"
 msgstr "Pokaż szczegóły"
@@ -184,7 +196,9 @@ msgstr "Facebook"
 msgid "Facebook / LinkedIn"
 msgstr "Facebook / LinkedIn"
 
-msgid "Fallback OG image (1200×630px) if the page has no featured image or custom OG image."
+msgid ""
+"Fallback OG image (1200×630px) if the page has no featured image or custom "
+"OG image."
 msgstr "Zapasowy obrazek OG (1200×630px) w przypadku braku własnego."
 
 msgid "Focus Keyword"
@@ -262,7 +276,8 @@ msgstr "Ostatni ping: %s"
 msgid "Leave empty for default"
 msgstr "Zostaw puste dla domyślnego"
 
-msgid "Leave empty for default. Change if this content is a copy of another page."
+msgid ""
+"Leave empty for default. Change if this content is a copy of another page."
 msgstr "Zostaw puste dla domyślnego. Zmień jeśli treść jest kopią."
 
 msgid "Left"
@@ -302,7 +317,9 @@ msgid "No permissions."
 msgstr "Brak uprawnień."
 
 msgid "No redirects found. Click <strong>\"+ Add new\"</strong> to start."
-msgstr "Nie znaleziono przekierowań. Kliknij <strong>\"+ Dodaj nowe\"</strong> by zacząć."
+msgstr ""
+"Nie znaleziono przekierowań. Kliknij <strong>\"+ Dodaj nowe\"</strong> by "
+"zacząć."
 
 msgid "Not found"
 msgstr "Nie znaleziono"
@@ -421,7 +438,8 @@ msgstr "Wybierz obraz"
 msgid "Select logo"
 msgstr "Wybierz logo"
 
-msgid "Send a notification to Google and Bing that your sitemap has been updated."
+msgid ""
+"Send a notification to Google and Bing that your sitemap has been updated."
 msgstr "Wyślij powiadomienie do wyszukiwarek o aktualizacji sitemapy."
 
 msgid "Separator"
@@ -481,16 +499,26 @@ msgstr "Adres docelowy"
 msgid "Target URL (new)"
 msgstr "Adres docelowy (nowy)"
 
-msgid "The configuration of separators and texts is located in the main settings panel <b>Atela SEO &rarr; Breadcrumbs</b>."
-msgstr "Konfiguracja tekstów znajduje się w panelu głównym <b>Atela SEO &rarr; Breadcrumbs</b>."
+msgid ""
+"The configuration of separators and texts is located in the main settings "
+"panel <b>Atela SEO &rarr; Breadcrumbs</b>."
+msgstr ""
+"Konfiguracja tekstów znajduje się w panelu głównym <b>Atela SEO &rarr; "
+"Breadcrumbs</b>."
 
 msgid "The main keyword you are optimizing this page for."
 msgstr "Główna fraza na którą pozycjonujesz ten wpis."
 
-msgid "The system automatically letterboxes non-matching images, ensuring no elements (like logos or text) are cropped when shared on FB/Twitter."
-msgstr "System automatycznie tworzy marginesy dla zdjęć, zapobiegając ucinaniu logo przy udostępnianiu na FB/Twitter."
+msgid ""
+"The system automatically letterboxes non-matching images, ensuring no "
+"elements (like logos or text) are cropped when shared on FB/Twitter."
+msgstr ""
+"System automatycznie tworzy marginesy dla zdjęć, zapobiegając ucinaniu logo "
+"przy udostępnianiu na FB/Twitter."
 
-msgid "This is how breadcrumbs might look on your site (the exact look depends on your theme)."
+msgid ""
+"This is how breadcrumbs might look on your site (the exact look depends on "
+"your theme)."
 msgstr "Tak będą wyglądać okruszki (dokładny styl zależy od motywu)."
 
 msgid "Title (Homepage)"
@@ -523,8 +551,10 @@ msgstr "Autor na Twitter/X (twórca)"
 msgid "Type"
 msgstr "Typ"
 
-msgid "Use our dedicated widget <b>Atela SEO Breadcrumbs</b> in the widgets tab."
-msgstr "Użyj dedykowanego widżetu <b>Atela SEO Breadcrumbs</b> w panelu widżetów."
+msgid ""
+"Use our dedicated widget <b>Atela SEO Breadcrumbs</b> in the widgets tab."
+msgstr ""
+"Użyj dedykowanego widżetu <b>Atela SEO Breadcrumbs</b> w panelu widżetów."
 
 msgid "Used if the site has a separate posts page."
 msgstr "Wykorzystywane jeśli strona ma oddzielną stronę dla wpisów."
@@ -547,8 +577,13 @@ msgstr "przekierowań"
 msgid "separate files per content type (recommended for large sites)"
 msgstr "oddzielne pliki dla typów treści (zalecane dla dużych stron)"
 
-msgid "structured data automatically injected into the <code>&lt;head&gt;</code> of each page. Helps Google display <em>rich snippets</em> (e.g. author, article date, organization logo)."
-msgstr "dane strukturalne wstrzykiwane w <code>&lt;head&gt;</code> strony. Pomagają Google generować Rich Snippets."
+msgid ""
+"structured data automatically injected into the <code>&lt;head&gt;</code> of"
+" each page. Helps Google display <em>rich snippets</em> (e.g. author, "
+"article date, organization logo)."
+msgstr ""
+"dane strukturalne wstrzykiwane w <code>&lt;head&gt;</code> strony. Pomagają "
+"Google generować Rich Snippets."
 
 msgid "with all URLs (recommended for small sites)"
 msgstr "wszystkie adresy URL (zalecane dla małych stron)"
@@ -574,3 +609,157 @@ msgstr "📣 Media Społecznościowe (OG / Twitter)"
 msgid "🔀 Redirects"
 msgstr "🔀 Przekierowania"
 
+msgid "An error occurred while fetching data."
+msgstr "Wystąpił błąd podczas pobierania danych."
+
+msgid "Error: "
+msgstr "Błąd: "
+
+msgid "Dashboard"
+msgstr "Kokpit"
+
+msgid "📊 Dashboard"
+msgstr "📊 Kokpit"
+
+msgid "SEO Dashboard"
+msgstr "Kokpit SEO"
+
+msgid ""
+"This module fetches data from your Google Search Console account, using "
+"authorization from the"
+msgstr ""
+"Ten moduł pobiera dane z Twojego konta Google Search Console, korzystając z "
+"autoryzacji wtyczki"
+
+msgid "plugin."
+msgstr "."
+
+msgid "Note:"
+msgstr "Uwaga:"
+
+msgid ""
+"The Google Site Kit by Google plugin must be installed and active for this "
+"module to work correctly."
+msgstr ""
+"Aby ten moduł działał poprawnie, wtyczka Google Site Kit by Google musi być "
+"zainstalowana i aktywna."
+
+msgid "Install Google Site Kit"
+msgstr "Zainstaluj Google Site Kit"
+
+msgid ""
+"Successfully connected with the Google Site Kit plugin. Displaying "
+"statistics from the last 28 days for the entire domain."
+msgstr ""
+"Połączono z wtyczką Google Site Kit. Wyświetlane są statystyki z ostatnich "
+"28 dni dla całej domeny."
+
+msgid "SEO Score"
+msgstr "Ocena SEO"
+
+msgid ""
+"Some content has not been analyzed yet. Open them in the editor, ensure the "
+"focus keyword is entered, and save it so we can start the analysis."
+msgstr ""
+"Niektóre treści nie zostały jeszcze przeanalizowane. Otwórz je w edytorze, "
+"upewnij się, że wpisana jest fraza kluczowa, i zapisz, aby rozpocząć "
+"analizę."
+
+msgid "Good"
+msgstr "Dobry"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Needs improvement"
+msgstr "Wymaga poprawy"
+
+msgid "Not analyzed"
+msgstr "Nie analizowano"
+
+msgid "📈 Atela SEO - Google Stats (Live)"
+msgstr "📈 Atela SEO - Statystyki Google (na żywo)"
+
+msgid "Save or publish the post to see GSC stats."
+msgstr "Zapisz lub opublikuj wpis, aby zobaczyć statystyki GSC."
+
+msgid "Fetching detailed statistics for this URL from GSC..."
+msgstr "Pobieranie szczegółowych statystyk tego adresu URL z GSC..."
+
+msgid "Performance (Core Web Vitals)"
+msgstr "Wydajność (Core Web Vitals)"
+
+msgid "Performance (CWV)"
+msgstr "Wydajność (CWV)"
+
+msgid "Performance: Core Web Vitals"
+msgstr "Wydajność: Core Web Vitals"
+
+msgid "Google PageSpeed Insights API Key"
+msgstr "Klucz API Google PageSpeed Insights"
+
+msgid "Save key"
+msgstr "Zapisz klucz"
+
+msgid ""
+"To fetch the latest performance audit data from Google, generate a free key "
+"in Google Cloud Console."
+msgstr ""
+"Aby pobierać najnowsze dane audytu wydajności od Google, wygeneruj bezpłatny"
+" klucz w Google Cloud Console."
+
+msgid "Analysis for:"
+msgstr "Analiza dla:"
+
+msgid "Start Audit (Mobile & Desktop)"
+msgstr "Rozpocznij audyt (Mobile i Desktop)"
+
+msgid "Querying Google servers (this may take a few seconds)..."
+msgstr "Odpytywanie serwerów Google (może to potrwać kilka sekund)..."
+
+msgid "Enter your PageSpeed Insights API key to unlock the analysis panel."
+msgstr ""
+"Wprowadź swój klucz API PageSpeed Insights, aby odblokować panel analizy."
+
+msgid "No API key"
+msgstr "Brak klucza API"
+
+msgid "Mobile (Smartphones)"
+msgstr "Mobile (Smartfony)"
+
+msgid "Desktop (Computers)"
+msgstr "Desktop (Komputery)"
+
+msgid "N/A"
+msgstr "Brak danych"
+
+msgid ""
+"<span style=\"color:#15803d; font-weight:600;\">Great score!</span> Your "
+"site is fully optimized, loads instantly, and meets Google Core Web Vitals "
+"strict standards."
+msgstr ""
+"<span style=\"color:#15803d; font-weight:600;\">Świetny wynik!</span> Twoja "
+"strona jest w pełni zoptymalizowana, ładuje się błyskawicznie i spełnia "
+"rygorystyczne standardy Google Core Web Vitals."
+
+msgid ""
+"<span style=\"color:#a16207; font-weight:600;\">Needs improvement.</span> "
+"The site works fine but loses precious seconds. Consider image optimization "
+"(WebP), caching, and CSS/JS minification."
+msgstr ""
+"<span style=\"color:#a16207; font-weight:600;\">Wymaga poprawy.</span> "
+"Strona działa poprawnie, ale traci cenne sekundy. Rozważ optymalizację "
+"obrazów (WebP), cache oraz minifikację CSS/JS."
+
+msgid ""
+"<span style=\"color:#b91c1c; font-weight:600;\">Critical performance "
+"issue!</span> Google may drastically drop rankings for this page. Focus on "
+"hosting upgrade, removing heavy plugins, and LCP optimization."
+msgstr ""
+"<span style=\"color:#b91c1c; font-weight:600;\">Krytyczny problem z "
+"wydajnością!</span> Google może drastycznie obniżyć pozycję tej strony w "
+"wynikach. Skup się na aktualizacji hostingu, usunięciu ciężkich wtyczek i "
+"optymalizacji LCP."
+
+msgid "Performance Score"
+msgstr "Wynik wydajności"

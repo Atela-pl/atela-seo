@@ -17,6 +17,8 @@ class Atela_SEO_Core {
 		// Logika dla panelu admina (meta boxy w standardowym edytorze)
 		if ( is_admin() ) {
 			new Atela_SEO_Admin();
+			new Atela_SEO_GSC();
+			new Atela_SEO_CWV();
 		}
 
 		// Moduł SEO dla taksonomii (admin + frontend)

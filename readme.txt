@@ -5,7 +5,7 @@ Tags: seo, sitemap, meta, redirects, breadcrumbs
 Requires at least: 5.9
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,8 @@ Atela SEO is a custom SEO plugin designed for full control over WordPress websit
 * **Automatic Image Letterboxing:** Automatically generates white borders for non-fitting social media images to avoid cropping.
 * **Elementor Integration:** Dedicated "Atela SEO" tab directly in the page builder panel.
 * **Gutenberg / Classic Editor Integration:** Meta box with live-updating previews.
+* **SEO Dashboard & Google Search Console:** Site-wide SEO score overview plus click/query/CTR stats per post, pulled from your Google Site Kit connection.
+* **Core Web Vitals Analyzer:** On-demand mobile/desktop performance audit (LCP, CLS, FCP) via the free Google PageSpeed Insights API.
 
 == Installation ==
 
@@ -40,6 +42,8 @@ Atela SEO is a custom SEO plugin designed for full control over WordPress websit
 This plugin connects to external APIs to ping search engines about sitemap updates.
 * **Google:** Pings `https://www.google.com/ping?sitemap=...` to notify Google of new or updated sitemaps. [Google Terms of Service](https://policies.google.com/terms) | [Google Privacy Policy](https://policies.google.com/privacy)
 * **Bing:** Pings `https://www.bing.com/ping?sitemap=...` to notify Bing. [Microsoft Terms of Use](https://www.microsoft.com/en-us/legal/terms-of-use) | [Microsoft Privacy Statement](https://privacy.microsoft.com/en-us/privacystatement)
+* **Google Search Console data:** The SEO Dashboard reads Search Console statistics through your own active Google Site Kit connection; no credentials are handled by this plugin directly.
+* **Google PageSpeed Insights:** The Core Web Vitals Analyzer sends your homepage URL to the public `https://www.googleapis.com/pagespeedonline/v5/runPagespeed` endpoint, using an API key you provide yourself. [Google Terms of Service](https://policies.google.com/terms) | [Google Privacy Policy](https://policies.google.com/privacy)
 
 == Frequently Asked Questions ==
 
@@ -48,6 +52,16 @@ This plugin connects to external APIs to ping search engines about sitemap updat
 No. Elementor is not required. The plugin fully supports the Classic Editor, the default block editor (Gutenberg), as well as the Elementor page builder.
 
 == Changelog ==
+
+= 1.1.2 =
+* I18n: Added missing Polish translations for the SEO Dashboard and Core Web Vitals modules (36 strings) — Google Site Kit connection notices, PageSpeed Insights API key panel, mobile/desktop audit labels, and performance verdict messages.
+
+= 1.1.1 =
+* Fix: the Core Web Vitals and GSC error messages ("Error: ...", "An error occurred while fetching data.") were never actually translatable — no generated JS translation catalog exists for this plugin, so `wp.i18n` silently returned the English source regardless of site language (the GSC one also used the wrong text domain, which wouldn't have matched even with a catalog). Both now pass through pre-translated from PHP instead.
+
+= 1.1.0 =
+* Feature: Added SEO Dashboard with Google Search Console stats (via Google Site Kit).
+* Feature: Added Core Web Vitals Analyzer (Google PageSpeed Insights).
 
 = 1.0.1 =
 * I18n: Complete localization support (English base with Polish translation included).
