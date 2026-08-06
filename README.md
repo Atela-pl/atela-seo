@@ -1,7 +1,7 @@
 # 🌟 Atela SEO
 
 Contributors: atelapl
-Donate link: https://atela.pl
+Donate link: https://suppi.pl/atela
 
 > Profesjonalna, zaawansowana wtyczka SEO dla WordPress ze zintegrowanym wsparciem dla Elementora, dynamicznymi podglądami na żywo i automatycznym letterboxingiem obrazów social media.
 
@@ -107,7 +107,7 @@ Donate link: https://atela.pl
 
 ## ⭐ Atela SEO Premium
 
-Szukasz więcej? **Atela SEO Premium** rozszerza tę darmową wersję o analizę treści w czasie rzeczywistym, analizę czytelności, asystenta AI, zaawansowany menedżer przekierowań, role i uprawnienia zespołowe oraz integrację z Elementorem na poziomie edytora. Więcej informacji: [atela.pl](https://atela.pl).
+Szukasz więcej? **Atela SEO Premium** rozszerza tę darmową wersję o analizę treści w czasie rzeczywistym, analizę czytelności, asystenta AI, zaawansowany menedżer przekierowań, role i uprawnienia zespołowe oraz integrację z Elementorem na poziomie edytora. Więcej informacji: [atela.pl/atela-seo](https://atela.pl/atela-seo).
 
 ---
 
