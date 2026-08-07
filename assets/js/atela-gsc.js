@@ -2,12 +2,12 @@
  * Atela SEO Premium - GSC Integration via Google Site Kit
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+function atelaGscInit() {
     const gscGlobalContainer = document.getElementById('atela-gsc-global-dashboard');
     const gscPostContainer = document.getElementById('atela-gsc-post-dashboard');
 
     if (!gscGlobalContainer && !gscPostContainer) {
-        return; // Nie jesteśmy na stronie of widgetami GSC
+        return false; // Nie jesteśmy na stronie of widgetami GSC (jeszcze)
     }
 
     // Funkcja do formatowania dat na YYYY-MM-DD
@@ -229,4 +229,34 @@ document.addEventListener('DOMContentLoaded', function() {
             gscPostContainer.innerHTML = '<p>No URL to analyze. Make sure the post is published.</p>';
         }
     }
-});
+
+    return true;
+}
+
+// W Elementorze kontener GSC (jak wszystkie sekcje wstrzykiwane do panelu "Atela SEO") pojawia
+// się w DOM dopiero gdy użytkownik rozwinie tę konkretną sekcję - a więc długo PO tym, jak
+// zdarzenie DOMContentLoaded już minęło. Pierwsza wersja tej poprawki wciąż miała błąd: gdy
+// DOMContentLoaded odpalał się zanim kontener istniał (typowy przypadek w Elementorze, bo ten
+// hook ładuje skrypty bardzo wcześnie), gałąź "document.readyState === 'loading'" wołała
+// atelaGscInit() dokładnie raz i na tym poprzestawała - bez żadnego fallbacku. Teraz obie ścieżki
+// (DOMContentLoaded i "już po readyState") przechodzą przez wspólny fallback z MutationObserver,
+// który dogląda drzewa aż kontener faktycznie się pojawi.
+function atelaGscInitWithFallback() {
+    if (atelaGscInit()) {
+        return;
+    }
+    // Kontener wciąż nie istnieje (np. DOMContentLoaded odpalił się, zanim Elementor w ogóle
+    // dodał go do drzewa) - obserwujemy dalej, zamiast poprzestać na jednej próbie.
+    const gscObserver = new MutationObserver(function() {
+        if (atelaGscInit()) {
+            gscObserver.disconnect();
+        }
+    });
+    gscObserver.observe(document.body, { childList: true, subtree: true });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', atelaGscInitWithFallback);
+} else {
+    atelaGscInitWithFallback();
+}

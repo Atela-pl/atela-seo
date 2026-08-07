@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Atela SEO
  * Description:       Profesjonalna wtyczka SEO dla WordPress z zaawansowaną integracją z edytorami i analizą treści.
- * Version:           1.1.2
+ * Version:           1.1.3
  * Author:            Atela
  * Author URI:        https://atela.pl
  * Text Domain:       atela-seo
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'ALPHA_SEO_VERSION', '1.1.2' );
+define( 'ALPHA_SEO_VERSION', '1.1.3' );
 define( 'ALPHA_SEO_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ALPHA_SEO_URL', plugin_dir_url( __FILE__ ) );
 
