@@ -5,7 +5,7 @@ Tags: seo, sitemap, meta, redirects, breadcrumbs
 Requires at least: 5.9
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.1.3
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ This plugin connects to external APIs to ping search engines about sitemap updat
 No. Elementor is not required. The plugin fully supports the Classic Editor, the default block editor (Gutenberg), as well as the Elementor page builder.
 
 == Changelog ==
+
+= 1.2.0 =
+* Feature: Integrated Freemius licensing, so the free plugin can now register add-ons (like Atela SEO Premium) and manage upgrades/trials directly from within WordPress.
 
 = 1.1.3 =
 * Fix: the Google Search Console dashboard (both the global report and the per-post meta box) got permanently stuck on "Fetching detailed statistics..." inside the Elementor editor. Root cause: the script's entire logic ran once on `DOMContentLoaded`, checking for GSC containers that don't exist in the DOM yet at that point in Elementor - they're only injected later, when the user expands that specific accordion section. The script now watches for the container to appear (via `MutationObserver`) on both code paths (already-loaded and DOMContentLoaded) instead of relying solely on the one-time page-load event. Confirmed live: the dashboard now renders real Search Console data automatically once the section is expanded.
