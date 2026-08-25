@@ -18,7 +18,7 @@ class Atela_SEO_Breadcrumbs_Widget extends \Elementor\Widget_Base {
 	}
 
 	public function get_icon() {
-		return 'eicon-yoast'; // Pasująca ikonka z puli Elementora
+		return 'eicon-nav-menu';
 	}
 
 	public function get_categories() {

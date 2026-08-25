@@ -3,9 +3,9 @@ Contributors: atelapl
 Donate link: https://suppi.pl/atela
 Tags: seo, sitemap, meta, redirects, breadcrumbs
 Requires at least: 5.9
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,12 @@ This plugin connects to external APIs to ping search engines about sitemap updat
 No. Elementor is not required. The plugin fully supports the Classic Editor, the default block editor (Gutenberg), as well as the Elementor page builder.
 
 == Changelog ==
+
+= 1.2.1 =
+* Fix: the plugin header's Description field was still in Polish, not English — it is the source string WordPress.org translation tools read, so it showed up as "needing translation" even in English. Now matches the readme.txt description.
+* Fix: the "Upgrade" pricing tab was blank. It was built by Freemius from this plugin's own paid plans, but this product only has a Free plan — the paid Premium/Master plans live on the separate Atela SEO Premium add-on product. Disabled the direct pricing tab (`has_premium_version`, `has_paid_plans`) so upgrades go through the working "Add-Ons" tab instead.
+* Fix: deactivating this plugin while Atela SEO Premium was still active crashed the site with a critical error — Premium's Freemius SDK assumes this plugin's parent module is already registered for the request, which never happens once this file stops loading. "Wyłącz" is now grayed out on the Plugins list (mirroring the equivalent guard already on Premium's "Włącz") and the deactivation request itself is blocked with a clear message, for both the single-plugin link and the bulk "Deactivate" action.
+* Fix: a site that had previously been put into Freemius's anonymous ("Skip") mode by an earlier install attempt never showed the connect prompt again, even after a fresh reinstall — that state lives in the database, not in the plugin files. Added a notice with a "Połącz z Freemius" button on the plugin's own admin pages that explicitly resets it.
 
 = 1.2.0 =
 * Feature: Integrated Freemius licensing, so the free plugin can now register add-ons (like Atela SEO Premium) and manage upgrades/trials directly from within WordPress.
