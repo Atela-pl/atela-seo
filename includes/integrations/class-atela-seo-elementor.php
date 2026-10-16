@@ -13,6 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Atela_SEO_Elementor {
 
+	/** Wartość 'default' przełącznika noindex - patrz komentarz w register_document_controls(). */
+	const NOINDEX_SENTINEL = 'atela-unset';
+
 	public function __construct() {
 		// Ładowanie skryptów/styli tylko w edytorze Elementora
 		add_action( 'elementor/editor/after_enqueue_scripts', array( $this, 'enqueue_editor_assets' ) );
@@ -26,6 +29,10 @@ class Atela_SEO_Elementor {
 
 		// Zapisywanie danych z Elementora
 		add_action( 'elementor/document/after_save', array( $this, 'save_elementor_seo_data' ), 10, 2 );
+
+		// Stara kopia pól SEO w ustawieniach strony (patrz purge_settings_shadow) czyścimy przy
+		// otwarciu edytora, zanim Elementor zbuduje z niej model, i podajemy stan noindex z bazy.
+		add_action( 'elementor/editor/init', array( $this, 'prepare_settings_on_editor_open' ) );
 
 		// Rejestracja zakładki w Ustawieniach Witryny (Site Settings)
 		add_action( 'elementor/kit/register_tabs', array( $this, 'register_kit_tabs' ) );
@@ -202,7 +209,14 @@ class Atela_SEO_Elementor {
 				'label_on'     => __( 'Yes', 'atela-seo' ),
 				'label_off'    => __( 'No', 'atela-seo' ),
 				'return_value' => 'yes',
-				'default'      => get_post_meta( $post_id, '_atela_seo_noindex', true ) ? 'yes' : '',
+				// 'default' celowo NIE jest stanem z bazy. Elementor wycina z żądania zapisu
+				// wartości równe 'default', a ten 'default' jest stały przez całą sesję edytora -
+				// więc po "wyłącz -> zapisz -> włącz" w jednej sesji ponowne włączenie równało się
+				// 'default' i w ogóle nie trafiało do zapisu (baza zostawała na 0 przy włączonym
+				// przełączniku w UI). Wartownik różni się od każdego realnego stanu ('yes' / ''),
+				// więc klucz jest wysyłany ZAWSZE. Faktyczny stan podajemy przy otwarciu edytora
+				// jako wartość zapisaną (patrz sync_noindex_into_settings).
+				'default'      => self::NOINDEX_SENTINEL,
 				'description'  => __( 'Turn on to stop search engines from indexing this page.', 'atela-seo' ),
 			)
 		);
@@ -324,11 +338,18 @@ class Atela_SEO_Elementor {
 			update_post_meta( $post_id, '_atela_seo_description', sanitize_textarea_field( $data['settings']['_atela_seo_description'] ) );
 		}
 		if ( isset( $data['settings']['_atela_seo_noindex'] ) ) {
-			update_post_meta( $post_id, '_atela_seo_noindex', $data['settings']['_atela_seo_noindex'] === 'yes' ? 1 : 0 );
-		} else {
-			// Switcher nie wysyła wartości gdy jest wyłączony, więc ustawiamy 0
-			update_post_meta( $post_id, '_atela_seo_noindex', 0 );
+			$noindex = $data['settings']['_atela_seo_noindex'];
+			// Tylko 'yes' (włączone) i '' (wyłączone) to realne stany przełącznika. Wartownik
+			// (stan sprzed zsynchronizowania z bazą) ani nic innego nie może po cichu zmienić noindex.
+			if ( 'yes' === $noindex ) {
+				update_post_meta( $post_id, '_atela_seo_noindex', 1 );
+			} elseif ( '' === $noindex ) {
+				update_post_meta( $post_id, '_atela_seo_noindex', 0 );
+			}
 		}
+		// Brak klucza = "bez zmian". Dawniej brak klucza był traktowany jako "wyłączone"
+		// (else => 0), przez co KAŻDY Update strony z włączonym noindex po cichu go wyłączał,
+		// nawet gdy edytowano zupełnie coś innego - Elementor nie wysyła ustawień równych 'default'.
 		if ( isset( $data['settings']['_atela_seo_canonical'] ) ) {
 			update_post_meta( $post_id, '_atela_seo_canonical', esc_url_raw( $data['settings']['_atela_seo_canonical'] ) );
 		}
@@ -348,6 +369,74 @@ class Atela_SEO_Elementor {
 		}
 		if ( isset( $data['settings']['_atela_seo_twitter_creator'] ) ) {
 			update_post_meta( $post_id, '_atela_seo_twitter_creator', sanitize_text_field( $data['settings']['_atela_seo_twitter_creator'] ) );
+		}
+
+		$this->purge_settings_shadow( $post_id );
+	}
+
+	/**
+	 * Otwarcie edytora: czyścimy starą kopię pól SEO i podajemy przełącznikowi noindex
+	 * stan z bazy (jego 'default' to wartownik). Dotyczy tylko stron i wpisów - tak jak
+	 * sama zakładka (register_document_controls).
+	 */
+	public function prepare_settings_on_editor_open() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$post_id = isset( $_GET['post'] ) ? absint( $_GET['post'] ) : 0;
+		if ( ! $post_id || ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+
+		if ( ! $this->is_page_or_post_document( $post_id ) ) {
+			return;
+		}
+
+		$this->purge_settings_shadow( $post_id );
+		$this->sync_noindex_into_settings( $post_id );
+	}
+
+	private function is_page_or_post_document( $post_id ) {
+		try {
+			$document = \Elementor\Plugin::$instance->documents->get( $post_id );
+		} catch ( \Throwable $e ) {
+			return false;
+		}
+
+		return $document instanceof \Elementor\Core\DocumentTypes\PageBase
+			|| $document instanceof \Elementor\Core\DocumentTypes\Post;
+	}
+
+	private function sync_noindex_into_settings( $post_id ) {
+		$settings = get_post_meta( $post_id, '_elementor_page_settings', true );
+		if ( ! is_array( $settings ) ) {
+			$settings = array();
+		}
+
+		$settings['_atela_seo_noindex'] = get_post_meta( $post_id, '_atela_seo_noindex', true ) ? 'yes' : '';
+		update_post_meta( $post_id, '_elementor_page_settings', $settings );
+	}
+
+	/**
+	 * Elementor zapisuje ustawienia strony (też nasze klucze _atela_seo_*) w
+	 * _elementor_page_settings jako kopię. Źródłem prawdy są metadane posta, więc
+	 * kopię usuwamy po każdym zapisie i przy otwarciu edytora - inaczej przy następnym
+	 * Update stara wartość mogłaby nadpisać nowszą zmienioną poza Elementorem (np. noindex).
+	 */
+	private function purge_settings_shadow( $post_id ) {
+		$settings = get_post_meta( $post_id, '_elementor_page_settings', true );
+		if ( ! is_array( $settings ) ) {
+			return;
+		}
+
+		$changed = false;
+		foreach ( array_keys( $settings ) as $key ) {
+			if ( 0 === strpos( (string) $key, '_atela_seo_' ) ) {
+				unset( $settings[ $key ] );
+				$changed = true;
+			}
+		}
+
+		if ( $changed ) {
+			update_post_meta( $post_id, '_elementor_page_settings', $settings );
 		}
 	}
 }

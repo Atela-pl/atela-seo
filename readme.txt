@@ -5,7 +5,7 @@ Tags: seo, sitemap, meta, redirects, breadcrumbs
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,11 +53,18 @@ No. Elementor is not required. The plugin fully supports the Classic Editor, the
 
 == Changelog ==
 
+= 1.2.2 =
+* Fix: saving a page in the Elementor editor could silently switch the "noindex" setting off, even when you had only edited something else on the page. noindex is now left untouched unless you change it yourself.
+* Fix: an older copy of the SEO fields that Elementor keeps in the page settings could overwrite a newer value changed outside Elementor (for example noindex) the next time the page was updated. That copy is now cleared when the editor opens and after every save.
+* Fix: turning noindex off, saving, and turning it back on within the same editing session was not saved, leaving the page indexable while the switch showed "on". It is now saved correctly.
+* Updated Freemius SDK to the latest version.
+
 = 1.2.1 =
 * Fix: the plugin header's Description field was still in Polish, not English — it is the source string WordPress.org translation tools read, so it showed up as "needing translation" even in English. Now matches the readme.txt description.
 * Fix: the "Upgrade" pricing tab was blank. It was built by Freemius from this plugin's own paid plans, but this product only has a Free plan — the paid Premium/Master plans live on the separate Atela SEO Premium add-on product. Disabled the direct pricing tab (`has_premium_version`, `has_paid_plans`) so upgrades go through the working "Add-Ons" tab instead.
 * Fix: deactivating this plugin while Atela SEO Premium was still active crashed the site with a critical error — Premium's Freemius SDK assumes this plugin's parent module is already registered for the request, which never happens once this file stops loading. "Wyłącz" is now grayed out on the Plugins list (mirroring the equivalent guard already on Premium's "Włącz") and the deactivation request itself is blocked with a clear message, for both the single-plugin link and the bulk "Deactivate" action.
 * Fix: a site that had previously been put into Freemius's anonymous ("Skip") mode by an earlier install attempt never showed the connect prompt again, even after a fresh reinstall — that state lives in the database, not in the plugin files. Added a notice with a "Połącz z Freemius" button on the plugin's own admin pages that explicitly resets it.
+* Fix: the Elementor "Atela SEO Breadcrumbs" widget used Elementor's built-in `eicon-yoast` icon (a competitor's logo) as its widget icon. Replaced with a neutral navigation icon.
 
 = 1.2.0 =
 * Feature: Integrated Freemius licensing, so the free plugin can now register add-ons (like Atela SEO Premium) and manage upgrades/trials directly from within WordPress.

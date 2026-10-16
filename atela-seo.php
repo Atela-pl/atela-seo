@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Atela SEO
  * Description:       Professional SEO plugin with Elementor support, live previews, XML sitemaps, redirects, Schema.org, and automatic social media image letterboxing.
- * Version:           1.2.1
+ * Version:           1.2.2
  * Author:            Atela
  * Author URI:        https://atela.pl
  * Text Domain:       atela-seo
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'ALPHA_SEO_VERSION', '1.2.1' );
+define( 'ALPHA_SEO_VERSION', '1.2.2' );
 define( 'ALPHA_SEO_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ALPHA_SEO_URL', plugin_dir_url( __FILE__ ) );
 
