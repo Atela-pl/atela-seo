@@ -5,7 +5,7 @@ Tags: seo, sitemap, meta, redirects, breadcrumbs
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,12 @@ This plugin connects to external APIs to ping search engines about sitemap updat
 No. Elementor is not required. The plugin fully supports the Classic Editor, the default block editor (Gutenberg), as well as the Elementor page builder.
 
 == Changelog ==
+
+= 1.2.3 =
+* Fix: saving one tab of the Atela SEO settings page reset the settings of all the other tabs. Their text fields were deleted and their switches (XML sitemap, breadcrumbs, noindex and so on) were turned off. Each tab now changes only its own fields.
+* Fix: saving any tab other than "General" also turned off the site-wide "Discourage search engines" setting, which could make a site that should stay hidden from search engines indexable again.
+* Fix: saving Elementor Site Settings (for example after changing a global colour) could switch the site-wide "Discourage search engines" setting on, or turn other Atela SEO switches back on. Site Settings now change it only when you change that switch yourself.
+* Fix: the site-wide noindex setting is now always kept in line with WordPress's own Settings > Reading option, so the two can no longer show different states.
 
 = 1.2.2 =
 * Fix: saving a page in the Elementor editor could silently switch the "noindex" setting off, even when you had only edited something else on the page. noindex is now left untouched unless you change it yourself.

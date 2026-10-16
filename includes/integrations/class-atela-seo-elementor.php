@@ -311,6 +311,7 @@ class Atela_SEO_Elementor {
 			$document instanceof \Elementor\Core\Kits\Documents\Kit
 		) {
 			$options = get_option( 'atela_seo_options', array() );
+			$options = is_array( $options ) ? $options : array();
 
 			if ( isset( $data['settings']['_atela_seo_global_title'] ) ) {
 				$options['home_title'] = sanitize_text_field( $data['settings']['_atela_seo_global_title'] );
@@ -318,13 +319,24 @@ class Atela_SEO_Elementor {
 			if ( isset( $data['settings']['_atela_seo_global_desc'] ) ) {
 				$options['home_description'] = sanitize_textarea_field( $data['settings']['_atela_seo_global_desc'] );
 			}
-			if ( isset( $data['settings']['_atela_seo_global_noindex'] ) ) {
-				$options['noindex'] = $data['settings']['_atela_seo_global_noindex'] === 'yes' ? 1 : 0;
-			} else {
-				$options['noindex'] = 0;
+
+			// Noindex całej witryny zmieniamy TYLKO, gdy użytkownik przestawił przełącznik w tej sesji edytora.
+			// Przełącznik ma wartownika w 'default', więc Elementor wysyła go przy każdym zapisie Ustawień
+			// Witryny (także gdy zmieniono np. kolor) - porównujemy go ze stanem z chwili otwarcia edytora.
+			// Dawniej brak klucza oznaczał "wyłączone": każdy zapis Ustawień Witryny mógł przestawić indeksowanie.
+			$baseline = get_transient( $this->kit_noindex_baseline_key() );
+			if ( isset( $data['settings']['_atela_seo_global_noindex'] ) && false !== $baseline ) {
+				$requested = $data['settings']['_atela_seo_global_noindex'];
+				if ( in_array( $requested, array( 'yes', '' ), true ) && $requested !== $baseline ) {
+					update_option( 'blog_public', 'yes' === $requested ? 0 : 1 );
+					set_transient( $this->kit_noindex_baseline_key(), $requested, DAY_IN_SECONDS );
+				}
 			}
+			// Źródłem prawdy jest blog_public - kopia w opcji ma tylko za nim nadążać.
+			$options['noindex'] = 0 === (int) get_option( 'blog_public', 1 ) ? 1 : 0;
 
 			update_option( 'atela_seo_options', $options );
+			$this->purge_kit_shadow();
 			return;
 		}
 
@@ -380,6 +392,10 @@ class Atela_SEO_Elementor {
 	 * sama zakładka (register_document_controls).
 	 */
 	public function prepare_settings_on_editor_open() {
+		if ( current_user_can( 'manage_options' ) ) {
+			$this->prepare_kit_settings();
+		}
+
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$post_id = isset( $_GET['post'] ) ? absint( $_GET['post'] ) : 0;
 		if ( ! $post_id || ! current_user_can( 'edit_post', $post_id ) ) {
@@ -413,6 +429,54 @@ class Atela_SEO_Elementor {
 
 		$settings['_atela_seo_noindex'] = get_post_meta( $post_id, '_atela_seo_noindex', true ) ? 'yes' : '';
 		update_post_meta( $post_id, '_elementor_page_settings', $settings );
+	}
+
+	private function kit_noindex_baseline_key() {
+		return 'atela_seo_kit_noindex_' . get_current_user_id();
+	}
+
+	private function get_kit_id() {
+		try {
+			return (int) \Elementor\Plugin::$instance->kits_manager->get_active_id();
+		} catch ( \Throwable $e ) {
+			return 0;
+		}
+	}
+
+	/**
+	 * Otwarcie edytora: zakładka Atela w Ustawieniach Witryny dostaje aktualny stan noindex (z blog_public)
+	 * jako wartość zapisaną, a ten stan zapamiętujemy jako punkt odniesienia dla zapisu. Stara kopia tytułu
+	 * i opisu strony głównej z ustawień Kit jest usuwana - te wartości żyją w opcji wtyczki, a kopia pokazywałaby
+	 * (i przy zapisie przywracała) nieaktualne dane zmienione w międzyczasie np. przez konektor.
+	 */
+	private function prepare_kit_settings() {
+		$kit_id = $this->get_kit_id();
+		if ( ! $kit_id ) {
+			return;
+		}
+
+		$state    = 0 === (int) get_option( 'blog_public', 1 ) ? 'yes' : '';
+		$settings = get_post_meta( $kit_id, '_elementor_page_settings', true );
+		$settings = is_array( $settings ) ? $settings : array();
+
+		unset( $settings['_atela_seo_global_title'], $settings['_atela_seo_global_desc'] );
+		$settings['_atela_seo_global_noindex'] = $state;
+
+		update_post_meta( $kit_id, '_elementor_page_settings', $settings );
+		set_transient( $this->kit_noindex_baseline_key(), $state, DAY_IN_SECONDS );
+	}
+
+	private function purge_kit_shadow() {
+		$kit_id = $this->get_kit_id();
+		if ( ! $kit_id ) {
+			return;
+		}
+
+		$settings = get_post_meta( $kit_id, '_elementor_page_settings', true );
+		if ( is_array( $settings ) && ( isset( $settings['_atela_seo_global_title'] ) || isset( $settings['_atela_seo_global_desc'] ) ) ) {
+			unset( $settings['_atela_seo_global_title'], $settings['_atela_seo_global_desc'] );
+			update_post_meta( $kit_id, '_elementor_page_settings', $settings );
+		}
 	}
 
 	/**
@@ -507,7 +571,8 @@ if ( class_exists( '\Elementor\Core\Kits\Documents\Tabs\Tab_Base' ) ) {
 					'label_on'     => __( 'Yes', 'atela-seo' ),
 					'label_off'    => __( 'No', 'atela-seo' ),
 					'return_value' => 'yes',
-					'default'      => ( ! empty( $options['noindex'] ) ) ? 'yes' : '',
+					// Wartownik, nie stan z bazy: patrz komentarz w Atela_SEO_Elementor::save_elementor_seo_data().
+					'default'      => Atela_SEO_Elementor::NOINDEX_SENTINEL,
 				)
 			);
 

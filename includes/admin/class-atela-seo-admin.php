@@ -87,8 +87,15 @@ class Atela_SEO_Admin {
      * Oczyszczanie zapisywanych opcji głównych.
      */
     public function sanitize_options( $input ) {
-        $sanitized = array();
-        
+        $input = is_array( $input ) ? $input : array();
+
+        // Zaczynamy od tego, co już zapisane. WordPress ZASTĘPUJE całą opcję zwróconą wartością, a ekran
+        // ustawień wysyła pola tylko aktywnej zakładki (tak samo Elementor, konektor MCP i migrator wysyłają
+        // tylko to, co zmieniają). Bez scalenia zapis jednej zakładki kasował ustawienia wszystkich pozostałych.
+        $existing  = get_option( 'atela_seo_options', array() );
+        $existing  = is_array( $existing ) ? $existing : array();
+        $sanitized = $existing;
+
         // Zwykłe pola tekstowe
         $text_fields = array(
             'home_title', 'home_description', 'twitter_site', 'twitter_card_type',
@@ -117,21 +124,49 @@ class Atela_SEO_Admin {
             $sanitized['schema_org_email'] = sanitize_email( $input['schema_org_email'] );
         }
 
-        // Checkboxy / toggle
-        $sanitized['noindex'] = isset( $input['noindex'] ) ? 1 : 0;
-        update_option( 'blog_public', $sanitized['noindex'] ? 0 : 1 );
-        $sanitized['sitemap_enabled'] = isset( $input['sitemap_enabled'] ) ? 1 : 0;
-        $sanitized['breadcrumbs_enabled'] = isset( $input['breadcrumbs_enabled'] ) ? 1 : 0;
-        $sanitized['breadcrumbs_show_home'] = isset( $input['breadcrumbs_show_home'] ) ? 1 : 0;
-        $sanitized['breadcrumbs_show_current'] = isset( $input['breadcrumbs_show_current'] ) ? 1 : 0;
-        $sanitized['breadcrumbs_show_blog'] = isset( $input['breadcrumbs_show_blog'] ) ? 1 : 0;
+        // Checkboxy / toggle. Odznaczony checkbox nie jest wysyłany w formularzu, więc "brak w żądaniu" oznacza
+        // "wyłączone" WYŁĄCZNIE dla zakładki, która była zapisywana (formularz niesie jej nazwę w polu _tab).
+        // Przełączniki pozostałych zakładek w ogóle nie zostały wysłane i muszą zostać bez zmian. Wywołania
+        // programowe (bez _tab) zmieniają tylko te przełączniki, które faktycznie przekazały - i liczy się ich
+        // wartość, a nie sama obecność klucza (isset() jest prawdziwe także dla 0).
+        $tab_toggles    = self::get_tab_toggles();
+        $tab            = isset( $input['_tab'] ) ? sanitize_key( $input['_tab'] ) : '';
+        $from_form      = '' !== $tab;
+        $noindex_handled = false;
 
-        $sanitized['sitemap_include_posts'] = isset( $input['sitemap_include_posts'] ) ? 1 : 0;
-        $sanitized['sitemap_include_pages'] = isset( $input['sitemap_include_pages'] ) ? 1 : 0;
-        $sanitized['sitemap_include_categories'] = isset( $input['sitemap_include_categories'] ) ? 1 : 0;
-        $sanitized['sitemap_include_images'] = isset( $input['sitemap_include_images'] ) ? 1 : 0;
-        $sanitized['sitemap_exclude_noindex'] = isset( $input['sitemap_exclude_noindex'] ) ? 1 : 0;
-        
+        foreach ( $tab_toggles as $toggle_tab => $keys ) {
+            foreach ( $keys as $key ) {
+                if ( $from_form ) {
+                    if ( $tab !== $toggle_tab ) {
+                        continue;
+                    }
+                    $sanitized[ $key ] = isset( $input[ $key ] ) ? 1 : 0;
+                } elseif ( array_key_exists( $key, $input ) ) {
+                    $sanitized[ $key ] = empty( $input[ $key ] ) ? 0 : 1;
+                } else {
+                    continue;
+                }
+
+                if ( 'noindex' === $key ) {
+                    $noindex_handled = true;
+                }
+            }
+        }
+
+        // Źródłem prawdy o noindex całej witryny jest blog_public (tak czyta go ekran ustawień, front i sam
+        // WordPress). Zapis zmienia je tylko wtedy, gdy noindex faktycznie ustawiono: w formularzu zakładki
+        // Ogólne albo programowo na wartość inną niż dotychczasowa. W każdym innym zapisie kopia w opcji jest
+        // tylko dopasowywana do blog_public - dzięki temu zapis innej zakładki, Elementora czy migratora nie
+        // przestawia indeksowania całej strony, a rozjazd po zmianie w Ustawienia > Czytanie sam się goi.
+        $noindex_changed_by_code = ! $from_form && $noindex_handled
+            && ( ! empty( $sanitized['noindex'] ) !== ! empty( $existing['noindex'] ) );
+
+        if ( $noindex_handled && ( $from_form || $noindex_changed_by_code ) ) {
+            update_option( 'blog_public', ! empty( $sanitized['noindex'] ) ? 0 : 1 );
+        } else {
+            $sanitized['noindex'] = 0 === (int) get_option( 'blog_public', 1 ) ? 1 : 0;
+        }
+
         // Radio / select dla sitemapy
         if ( isset( $input['sitemap_mode'] ) ) {
             $sanitized['sitemap_mode'] = sanitize_text_field( $input['sitemap_mode'] );
@@ -148,6 +183,9 @@ class Atela_SEO_Admin {
         // Tablice (post types dla sitemap)
         if ( isset( $input['sitemap_post_types'] ) && is_array( $input['sitemap_post_types'] ) ) {
             $sanitized['sitemap_post_types'] = array_map( 'sanitize_text_field', $input['sitemap_post_types'] );
+        } elseif ( 'sitemap' === $tab ) {
+            // Wszystkie typy odznaczone w formularzu zakładki mapy witryny - checkboxy nie wysyłają wtedy nic.
+            $sanitized['sitemap_post_types'] = array();
         }
         if ( isset( $input['sitemap_taxonomies'] ) && is_array( $input['sitemap_taxonomies'] ) ) {
             $sanitized['sitemap_taxonomies'] = array_map( 'sanitize_text_field', $input['sitemap_taxonomies'] );
@@ -166,9 +204,21 @@ class Atela_SEO_Admin {
             $sanitized['separator'] = sanitize_text_field( $input['separator'] );
         }
 
+        unset( $sanitized['_tab'] );
+
         return $sanitized;
     }
 
+    /**
+     * Przełączniki (checkboxy) ekranu ustawień pogrupowane wg zakładek, na których występują.
+     */
+    private static function get_tab_toggles() {
+        return array(
+            'general'     => array( 'noindex' ),
+            'breadcrumbs' => array( 'breadcrumbs_enabled', 'breadcrumbs_show_home', 'breadcrumbs_show_current', 'breadcrumbs_show_blog' ),
+            'sitemap'     => array( 'sitemap_enabled', 'sitemap_include_posts', 'sitemap_include_pages', 'sitemap_include_categories', 'sitemap_include_images', 'sitemap_exclude_noindex' ),
+        );
+    }
 
     public function register_settings() {
         register_setting( 'atela_seo_options_group', 'atela_seo_options', array( $this, 'sanitize_options' ) );
@@ -192,6 +242,8 @@ class Atela_SEO_Admin {
             
             <form method="post" action="options.php">
                 <?php settings_fields( 'atela_seo_options_group' ); ?>
+                <?php // Nazwa zapisywanej zakładki: tylko jej przełączniki mogą być przez ten zapis wyłączone (patrz sanitize_options). ?>
+                <input type="hidden" name="atela_seo_options[_tab]" value="<?php echo esc_attr( $active_tab ); ?>" />
                 
                 <?php if ( $active_tab == 'general' ) : ?>
                 <table class="form-table">
